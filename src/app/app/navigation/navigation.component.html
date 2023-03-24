@@ -1,0 +1,27 @@
+
+<nav class="nav-style">
+  <span class="left-style">
+    <img class="logo-style" src="https://logos-world.net/wp-content/uploads/2021/04/Porsche-Logo.png" alt="Porsche Logo">
+    <div class="text-column">
+      <h1 class="text-style">
+        Porsche Club
+      </h1>
+      <p class="mini-text-style">
+        of the Niagara Region
+      </p>
+    </div>
+  </span>
+  <div class="hamburger" (click)="toggleDropdown()">
+    <div class="line"></div>
+    <div class="line"></div>
+    <div class="line"></div>
+  </div>
+  <ul class="dropdown" [ngClass]="{ 'show': dropdownOpen }" #dropdownMenu>
+    <li class="dropdown-text-style"><a href="#">Link 1</a></li>
+    <li class="dropdown-text-style"><a href="#">Link 2</a></li>
+    <li class="dropdown-text-style"><a href="#">Link 3</a></li>
+    <li class="dropdown-text-style"><a href="#">Link 1</a></li>
+    <li class="dropdown-text-style"><a href="#">Link 1</a></li>
+  </ul>
+</nav>
+<hr class="red-line">

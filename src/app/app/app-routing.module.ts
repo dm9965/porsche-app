@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from "@angular/router"
-import {HomePageComponent} from "./home/home-page.component";
-import {LoginComponent} from "./login/login.component";
-import {MerchandiseComponent} from "./shop/merchandise.component";
-import {InventoryComponent} from "./inventory/inventory.component";
-import {SignUpComponent} from "./login/sign-up/sign-up.component";
-import {CartComponent} from "./shop/cart/cart.component";
-import {CheckoutComponent} from "./shop/cart/checkout/checkout.component";
+import {HomePageComponent} from "../home/home-page.component";
+import {LoginComponent} from "../login/login.component";
+import {MerchandiseComponent} from "../shop/merchandise.component";
+import {InventoryComponent} from "../inventory/inventory.component";
+import {SignUpComponent} from "../login/sign-up/sign-up.component";
+import {CartComponent} from "../shop/cart/cart.component";
+import {CheckoutComponent} from "../shop/cart/checkout/checkout.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
