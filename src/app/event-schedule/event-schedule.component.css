@@ -1,0 +1,30 @@
+.header-container {
+    color:antiquewhite;
+    padding:4px;
+}
+  
+.mycontainer {
+  width: 90%;
+  margin:auto;
+  padding:4px;
+}
+
+#detail-popup {
+  display:none;
+  /* background-color:white; */
+  padding:4px 4px 12px 4px;
+  margin:0px;
+}
+
+.detail-div {
+  display:none;
+}
+
+table {
+  border-collapse: separate;
+  border-spacing: 0 15px;
+}
+
+td {
+  vertical-align: top;
+}

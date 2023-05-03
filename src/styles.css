@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+/* @import '@angular/material/prebuilt-themes/pink-bluegrey.css'; */
 
 html, body {
   height: 100%;
@@ -12,5 +13,40 @@ body {
 @font-face {
   font-family: PorscheFont;
   src: url('/assets/911porscha/911porschav3.ttf') format('truetype');
+}
+
+/* use for holding elements on every page */
+.app-container {
+  background-color: antiquewhite;
+  color:black;
+}
+.app-container-transparent {
+  background-color: transparent;
+  color:black;
+}
+.btn-pad {
+  padding:8px 14px;
+}
+
+/* My Palette: BlueGrey - Grey */
+.primary-color {
+  background-color: #607D8B;
+  color: white;
+}
+.primary-color-dark {
+  background-color: #455A64;
+  color: white;
+}  
+.primary-color-light {
+  background-color: #CFD8DC;
+  color: black;
+}  
+.accent-color {
+  background-color: #9E9E9E;
+  color: white;
+}  
+.divider-color {
+  background-color: #BDBDBD;
+  color: black;
 }
 

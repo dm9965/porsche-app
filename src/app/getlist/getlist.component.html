@@ -1,0 +1,10 @@
+
+<!-- <div id="getlist-tbl-div"></div> -->
+<table>
+    <tbody>
+       <tr *ngFor = 'let events of events'>
+        <td>{{ events.datetime }}</td>
+        <td><a id="{{ events.id }}">{{ events.descr }}</a></td>
+       </tr>
+    </tbody>
+</table>

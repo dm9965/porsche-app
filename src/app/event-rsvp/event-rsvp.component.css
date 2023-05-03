@@ -1,0 +1,38 @@
+.header-container {
+    color:antiquewhite;
+    padding:4px;
+  }
+  
+  .mycontainer {
+  width: 90%;
+  margin:auto;
+  padding:4px;
+}
+
+#popup-boxXXX {
+    display: none;
+    padding: 8px;
+    /* background-color:white; */
+    border: 1px solid black;
+    color:black;
+    top: 10px;
+    /* position:sticky; */
+}
+
+#numAttending {
+    padding:6px;
+}
+
+#dummy {
+    display: none;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+
+td {
+    vertical-align: top;
+}
+  

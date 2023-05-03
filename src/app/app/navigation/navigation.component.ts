@@ -1,4 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
+import { createPopper } from '@popperjs/core';
 
 @Component({
   selector: 'app-navigation',
@@ -15,4 +16,5 @@ export class NavigationComponent {
   closeDropdown() {
     this.dropdownOpen = false;
   }
+
 }

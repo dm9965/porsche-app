@@ -1,0 +1,14 @@
+.header-container {
+    width: 90%;
+    margin:auto;
+    color:antiquewhite;
+    padding:4px;
+    text-align:left;
+}
+
+.calendar_style {
+    background-color: antiquewhite;
+    margin:auto;
+    padding: 10px;
+    opacity: 1.0;
+}

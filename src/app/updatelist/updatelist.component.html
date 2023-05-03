@@ -1,0 +1,86 @@
+<div class="container">
+    <div class="header-container">
+    <h1>Event List Update/Delete</h1>
+    </div>
+</div>
+
+<form id="updateForm" name="updateForm">
+    <div class="modal fade" tabindex="-1" id="update-popup-box">
+      <div class="modal-dialog">  
+        <div class="modal-content">    
+          <div class="modal-body">
+            <p><strong>Event: </strong><textarea id="event-name"  name="event-name"></textarea></p>
+            <p><strong>Date: </strong><input id="event-date"  name="event-date" length="100" maxlength="100"></p>
+            <p><strong>Details: </strong><textarea id="event-details" name="event-details"></textarea></p>
+                <input type="hidden" value="" name="uid" id="uid">
+          </div>
+          <div class="modal-footer" style="text-align:center;">
+            <button mat-raised-button color="warn" type="submit">Update</button>
+            &nbsp;&nbsp;
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+    
+    <div class="modal fade" tabindex="-1" id="details-popup-box">
+        <div class="modal-dialog">  
+          <div class="modal-content">    
+            <div class="modal-body">
+                <p><strong>Details: </strong><textarea id="event-details-show" name="event-details"></textarea></p>
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+    
+            </div>
+        </div>
+    </div>      
+  
+
+    <div class="modal fade" tabindex="-1" id="delete-popup-box">
+        <div class="modal-dialog">  
+          <div class="modal-content">    
+            <div class="modal-body">
+                <p><strong>Event: </strong><textarea id="event-name-delete"  name="event-name"></textarea></p>
+                <p><strong>Date: </strong><input id="event-date-delete"  name="event-date" length="100" maxlength="100"></p>
+                    <input type="hidden" value="" name="uid" id="uid-delete">
+                <p>Are you sure you wish to delete this event?</p>    
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+                <button mat-raised-button color="warn" type="submit">Yes, Delete</button>
+                &nbsp;&nbsp;
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
+            </div>
+    
+          </div>
+        </div>
+    </div>      
+   
+
+<div class="container app-container">
+    <h2>Click button to update or delete an event</h2>
+
+<!-- <div [innerHTML]=listTableHtml>  </div> -->
+
+<div id="dummyNot">
+<table class="table table-striped table-hover">
+    <tbody>
+       <tr *ngFor = 'let events of events'>
+        <td>{{ events.datetime }}</td>
+        <td>{{ events.descr }}</td>
+        <td>
+            <div style="display:none;">{{ events.detail }}</div>
+            <button class="btn btn-secondary btn-sm" (click)="showDetailsPopup($event)"  id="d{{ events.id }}">Show Details</button>
+        </td>
+        <td><button class="btn btn-warning btn-sm" (click)="showUpdatePopup($event)" id="edit{{ events.id }}">Update</button></td>
+        <td><button class="btn btn-danger btn-sm" (click)="showDeletePopup($event)" id="delete{{ events.id }}">Delete</button></td>
+       </tr>
+    </tbody>
+</table>
+</div>
+
+</div>
+

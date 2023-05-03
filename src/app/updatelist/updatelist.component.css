@@ -1,4 +1,8 @@
 .header-container {
     color:antiquewhite;
     padding:4px;
-}
+  }
+  
+  textarea, input {
+    width:100%;
+  }

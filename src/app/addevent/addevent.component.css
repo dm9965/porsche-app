@@ -1,0 +1,30 @@
+.header-container {
+    width: 90%;
+    margin:auto;
+    color:antiquewhite;
+    padding:4px;
+    text-align:left;
+}
+
+.app-container {
+    padding:12px;
+}
+
+#btn-div {
+    padding:12px;
+}
+
+#picker-div {
+    width:100%;
+    background-color: white;
+    text-align: left;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 8px;
+}
+
+.flex-div {
+    display: flex;
+    flex-direction: row;
+    margin:0px 10px;
+}
