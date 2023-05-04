@@ -1,0 +1,14 @@
+.header-container {
+    color:antiquewhite;
+    padding:4px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 15px;
+}
+  
+td {
+    vertical-align: top
+}
+

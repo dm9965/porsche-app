@@ -4,62 +4,62 @@
         "datetime": "Apr 1 @ 8:00 am – 3:30 pm",
         "descr": "Annual Instructor Seminar @ Midvale Country Club",
         "detail": "",
-        "total_attending": "0"
+        "attending": "10"
     },
     {
         "id": "2",
         "datetime": "Apr 1 @ 6:00 pm – 9:30 pm",
         "descr": "Cars at the Movies @ The Screening Room Cinema",
         "detail": "",
-        "total_attending": "0"
+        "attending": "0"
     },
     {
         "id": "3",
         "datetime": "Apr 11 @ 6:00 pm – 8:00 pm",
         "descr": "Members Meeting @ Terry Hills Golf Course",
         "detail": "",
-        "total_attending": "0"
+        "attending": "5"
     },
     {
         "id": "4",
         "datetime": "Apr 16 @ 7:45 am – 9:30 am",
         "descr": "Cars and Doughnuts @ Ridge Donut Cafe",
         "detail": "",
-        "total_attending": "0"
+        "attending": "0"
     },
     {
         "id": "5",
         "datetime": "Apr 26 @ 4:00 pm – 8:00 pm",
         "descr": "Tech Inspection @ Eksten Autoworks",
         "detail": "Tech Inspections are mandatory for anyone attending our Driver Education events, and strongly recommended for anyone planning to Autocross. In addition, all Porsche owners are more than welcome to have their cars inspected. This is a terrific way to ensure your car is ready for the driving season. At a tech inspection your car will be put on a lift, wheels will be removed, and a general check-up of your cars road and/or track worthiness will be performed. Some of the items checked are suspension components, safety systems, belts and hoses, fluids, bearings, brakes, tires and wheels, and exhaust system. Links to the actual Tech Inspection form, and the Rules & Regulations, can be found on the Driver Education page of the Niagara PCA website. Tech Inspections are first come first served, so arrive early. Drivers are expected to assist in removing and replacing their own wheels, so please dress appropriately. Of course, there will be plenty of people on hand to assist. Anyone interested in helping at either of the Tech Inspections can contact Mike Zotter. Assistance is always greatly appreciated!",
-        "total_attending": "0"
+        "attending": "6"
     },
     {
         "id": "6",
         "datetime": "Apr 29 @ 8:00 am – 3:00 pm",
         "descr": "46th Annual Central PA PCA Porsche-only Swap Meet* @ Carlisle Fairgrounds",
         "detail": "",
-        "total_attending": "0"
+        "attending": "0"
     },
     {
         "id": "7",
         "datetime": "May 2 @ 6:00 pm – 8:00 pm",
         "descr": "Members’ Meeting @ Terry Hills Golf Course",
         "detail": "",
-        "total_attending": "0"
+        "attending": "20"
     },
     {
         "id": "8",
         "datetime": "May 2 @ 6:00 pm - 8:00 pm",
         "descr": "Members Meeting @ Terry Hills Golf Course",
         "detail": "",
-        "total_attending": "0"
+        "attending": "22"
     },
     {
         "id": "9",
         "datetime": "May 6 @ 8:30 am – 11:30 am",
         "descr": "Porsches & Coffee with The Dent Guy @ The Dent Guy",
         "detail": "Coffee at The Dent Guy. Dan is in a new, larger shop. He has added an exclusive new service called RESTORFX. Dan will give us a tour and hands-on experience with paint less dent repair. He’ll also introduce his new service. We’ll get a group photo of our Porsches at the event. Coffee & donuts will be provided.",
-        "total_attending": "0"
+        "attending": "0"
     }
 ]
