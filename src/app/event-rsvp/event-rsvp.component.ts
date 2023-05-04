@@ -57,7 +57,7 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
   } 
 
   ngOnInit(){ 
-    this.getListData(); //gets data from the service
+    this.getListData(); //gets data from the service, all the other stuff was experimental
     this.setListeners();
   }
 

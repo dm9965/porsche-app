@@ -1,6 +1,8 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
+import { GlobalConstants } from './globalconstants';
+import { environment } from './environments/environment';
 
 interface Events {
   id: string;
@@ -10,7 +12,8 @@ interface Events {
   attending: string;
 }
 
-const myURL = "http://localhost:4200/assets/listdata.json";
+//const myURL = "http://localhost:4200/assets/listdata.json";
+const myURL = "/assets/listdata.json";
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +26,14 @@ export class GetlistdataService {
   events: Events[] = [];
  
   public getEventList(): Observable<Events[]> {
+    var myFullURL: string;
+
+    if (environment.production) {
+      myFullURL = GlobalConstants.apiProdURL + myURL 
+    }
+    else {
+      myFullURL = GlobalConstants.apiDevURL + myURL 
+    }
 
     this.http.get(myURL, { responseType: 'json' }).subscribe((response) => {
       console.log("in service");
