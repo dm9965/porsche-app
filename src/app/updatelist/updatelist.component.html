@@ -4,13 +4,53 @@
     </div>
 </div>
 
+<div id="errorloading-popup-box-div">
+<app-loaderror></app-loaderror>
+</div>
+
+<!-- <ng-template id="errorPopup" #errorTemplate let-modal> -->
+<div class="modal fade" tabindex="-1" id="errorloading-popup-boxXX">
+  <div class="modal-dialog">  
+    <div class="modal-content"> 
+      <div class="modal-header">
+        <h2 class="modal-title">Error Notification</h2>
+      </div>   
+      <div class="modal-body">
+          <p><strong>There has been an error loading data. Please try again later.</strong></p>
+      </div>
+      <div class="modal-footer" style="text-align:center;">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+  </div>
+</div>      
+<!-- </ng-template> -->
+
 <form id="updateForm" name="updateForm">
     <div class="modal fade" tabindex="-1" id="update-popup-box">
       <div class="modal-dialog">  
         <div class="modal-content">    
           <div class="modal-body">
             <p><strong>Event: </strong><textarea id="event-name"  name="event-name"></textarea></p>
-            <p><strong>Date: </strong><input id="event-date"  name="event-date" length="100" maxlength="100"></p>
+            <p><strong>Location: </strong><textarea id="event-location"  name="event-location"></textarea></p>
+
+            <p><strong>StartDate: </strong>
+            <mat-form-field appearance="outline" style="background-color:#fff;">
+              <input matInput [ngxMatDatetimePicker]="start_picker" placeholder="Choose start date/time"
+              [(ngModel)]="myStartDate" name="event_startdate" #event_startdate>
+              <ngx-mat-datetime-picker #start_picker [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true" [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false"
+              name="event_start_date"></ngx-mat-datetime-picker>
+            </mat-form-field>
+            </p>
+            <p><strong>EndDate: </strong>
+            <mat-form-field appearance="outline" style="background-color:#fff;">
+              <input matInput [ngxMatDatetimePicker]="end_picker" placeholder="Choose end date/time" [(ngModel)]="myEndDate" 
+               name="event_enddate" #event_enddate [min]="myStartDate">                            
+              <ngx-mat-datetime-picker #end_picker [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true" [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false"
+               name="event_end_date"></ngx-mat-datetime-picker>
+            </mat-form-field>
+            </p>
             <p><strong>Details: </strong><textarea id="event-details" name="event-details"></textarea></p>
                 <input type="hidden" value="" name="uid" id="uid">
           </div>
@@ -45,9 +85,10 @@
           <div class="modal-content">    
             <div class="modal-body">
                 <p><strong>Event: </strong><textarea id="event-name-delete"  name="event-name"></textarea></p>
+                <p><strong>Location: </strong><textarea id="event-location-delete"  name="event-location"></textarea></p>
                 <p><strong>Date: </strong><input id="event-date-delete"  name="event-date" length="100" maxlength="100"></p>
                     <input type="hidden" value="" name="uid" id="uid-delete">
-                <p>Are you sure you wish to delete this event?</p>    
+                <p><strong>Are you sure you wish to delete this event?</strong></p>    
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button mat-raised-button color="warn" type="submit">Yes, Delete</button>
@@ -63,14 +104,23 @@
 <div class="container app-container">
     <h2>Click button to update or delete an event</h2>
 
-<!-- <div [innerHTML]=listTableHtml>  </div> -->
-
 <div id="dummyNot">
 <table class="table table-striped table-hover">
+    <tr>
+      <th>Start</th>
+      <th>End</th>
+      <th>Event</th>
+      <th>Location</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
     <tbody>
        <tr *ngFor = 'let events of events'>
-        <td>{{ events.datetime }}</td>
+        <td>{{ events.startdatetime }} </td>
+        <td>{{ events.enddatetime }} </td>
         <td>{{ events.descr }}</td>
+        <td>{{ events.location }}</td>
         <td>
             <div style="display:none;">{{ events.detail }}</div>
             <button class="btn btn-secondary btn-sm" (click)="showDetailsPopup($event)"  id="d{{ events.id }}">Show Details</button>
