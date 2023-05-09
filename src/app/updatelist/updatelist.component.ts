@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewEncapsulation, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { FormsModule, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GeteventdetailsService } from '../geteventdetails.service';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import * as _moment from 'moment';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -51,16 +51,15 @@ export class UpdatelistComponent {
   constructor(private geteventdetailsService: GeteventdetailsService, private modalService: NgbModal) {}
   
   events: Events[] = [];
-
+  eventId = "";
+  eventName = "";
+  eventLocation = "";
   myStartDate = moment();
   myEndDate = moment();
-  //@ViewChild('errorTemplate', { read: TemplateRef }) errorTemplate:TemplateRef<any>;
-  //@ViewChild('errorTemplate') errorTemplate: ElementRef;
+  eventDetails = "";
 
   ngOnInit() {
     
-    var s:any;
-
     this.geteventdetailsService.getEventListDetails();
     this.geteventdetailsService.newListEvent
       .subscribe( 
@@ -69,10 +68,10 @@ export class UpdatelistComponent {
           console.log("in list component");
           console.log(this.events);
           if (this.events[0].id === undefined) {
+            // error in loading data!!
             console.log("Error loading data");
             jQuery('#err-msg').text(this.events[0]);
             jQuery('#errorloading-popup-box').modal("toggle");
-            //jQuery('#errorloading-popup-box-div').modal("show");
             //this.modalService.open("", { centered: true });
           }
         }
@@ -102,31 +101,29 @@ export class UpdatelistComponent {
     eTblRowText = this.decodeHtml(eTblRowData.html());
     eTblRowText = eTblRowText.replace(" @", ",")
     //populate field with start date
-    jQuery("#event_startdate").val();
     this.myStartDate = moment(this.decodeHtml(eTblRowText));
     //populate field with end date
     eTblRowData = eTblRow.find('td:eq(1)');
     eTblRowText = this.decodeHtml(eTblRowData.html());
     eTblRowText = eTblRowText.replace(" @", ",")
-    jQuery("#event_enddate").val(eTblRowText);
-    this.myEndDate = moment(this.decodeHtml(eTblRowData.html()));
+    this.myEndDate = moment(this.decodeHtml(eTblRowText));
 
     eTblRowData = eTblRow.find('td:eq(2)');
     //populate field with description
-    jQuery("#event-name").val(this.decodeHtml(eTblRowData.html()));
+    this.eventName = this.decodeHtml(eTblRowData.html())
 
     eTblRowData = eTblRow.find('td:eq(3)');
-    //populate field with description
-    jQuery("#event-location").val(this.decodeHtml(eTblRowData.html()));
+    //populate field with location
+    this.eventLocation = this.decodeHtml(eTblRowData.html())
 
     eTblRowData = eTblRow.find('td:eq(4)');
     eTblRowData = eTblRowData.find("div").text();
     //console.log (eTblRowData);
-    jQuery("#event-details").val(this.decodeHtml(eTblRowData));
+    this.eventDetails = this.decodeHtml(eTblRowData);
+
 
     //populate field with event unique identifier
-    jQuery("#uid").val(eventNum);
-
+    this.eventId = eventNum;
 
     // show the pop-up
     jQuery('#update-popup-box').modal('toggle');
@@ -194,13 +191,29 @@ export class UpdatelistComponent {
     jQuery("#event-location-delete").val(this.decodeHtml(eTblRowData.html()));
 
     //populate field with event unique identifier
-    jQuery("#uid-delete").val(eventNum);
+    this.eventId = eventNum;
 
 
     // show the pop-up
     jQuery('#delete-popup-box').modal('toggle');
   }
 
+  submitUpdate() {
+
+    console.log(this.eventId);
+    console.log(this.eventName);
+    console.log(this.eventLocation);
+    console.log(this.myStartDate);
+    console.log(this.myEndDate);
+    console.log(this.eventDetails);
+
+  }
+
+  submitDelete() {
+
+    console.log(this.eventId);
+
+  }
 
 
   decodeHtml(html:string):string {

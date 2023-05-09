@@ -8,32 +8,13 @@
 <app-loaderror></app-loaderror>
 </div>
 
-<!-- <ng-template id="errorPopup" #errorTemplate let-modal> -->
-<div class="modal fade" tabindex="-1" id="errorloading-popup-boxXX">
-  <div class="modal-dialog">  
-    <div class="modal-content"> 
-      <div class="modal-header">
-        <h2 class="modal-title">Error Notification</h2>
-      </div>   
-      <div class="modal-body">
-          <p><strong>There has been an error loading data. Please try again later.</strong></p>
-      </div>
-      <div class="modal-footer" style="text-align:center;">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-
-      </div>
-  </div>
-</div>      
-<!-- </ng-template> -->
-
-<form id="updateForm" name="updateForm">
-    <div class="modal fade" tabindex="-1" id="update-popup-box">
-      <div class="modal-dialog">  
-        <div class="modal-content">    
+  <div class="modal fade" tabindex="-1" id="update-popup-box">
+    <div class="modal-dialog">
+      <div class="modal-content">    
+        <form #updateForm="ngForm" name="updateForm">  
           <div class="modal-body">
-            <p><strong>Event: </strong><textarea id="event-name"  name="event-name"></textarea></p>
-            <p><strong>Location: </strong><textarea id="event-location"  name="event-location"></textarea></p>
+            <p><strong>Event: </strong><textarea [(ngModel)]="eventName" id="event-name"  name="event-name">name</textarea></p>
+            <p><strong>Location: </strong><textarea [(ngModel)]="eventLocation" id="event-location"  name="event-location">location</textarea></p>
 
             <p><strong>StartDate: </strong>
             <mat-form-field appearance="outline" style="background-color:#fff;">
@@ -51,18 +32,18 @@
                name="event_end_date"></ngx-mat-datetime-picker>
             </mat-form-field>
             </p>
-            <p><strong>Details: </strong><textarea id="event-details" name="event-details"></textarea></p>
-                <input type="hidden" value="" name="uid" id="uid">
+            <p><strong>Details: </strong><textarea [(ngModel)]="eventDetails" id="event-details" name="event-details">details</textarea></p>
+                <input type="hidden" [(ngModel)]="eventId" value="" name="uid" id="uid">
           </div>
           <div class="modal-footer" style="text-align:center;">
-            <button mat-raised-button color="warn" type="submit">Update</button>
+            <button mat-raised-button color="warn" class="btn btn-success" type="submit" (click)="submitUpdate()">Update</button>
             &nbsp;&nbsp;
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
-    </form>
+  </div>
 
     
     <div class="modal fade" tabindex="-1" id="details-popup-box">
@@ -87,11 +68,11 @@
                 <p><strong>Event: </strong><textarea id="event-name-delete"  name="event-name"></textarea></p>
                 <p><strong>Location: </strong><textarea id="event-location-delete"  name="event-location"></textarea></p>
                 <p><strong>Date: </strong><input id="event-date-delete"  name="event-date" length="100" maxlength="100"></p>
-                    <input type="hidden" value="" name="uid" id="uid-delete">
+                    <input type="hidden" [(ngModel)]="eventId" name="uid" id="uid-delete">
                 <p><strong>Are you sure you wish to delete this event?</strong></p>    
             </div>
             <div class="modal-footer" style="text-align:center;">
-                <button mat-raised-button color="warn" type="submit">Yes, Delete</button>
+                <button mat-raised-button color="warn" type="submit" (click)="submitDelete()">Yes, Delete</button>
                 &nbsp;&nbsp;
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
             </div>

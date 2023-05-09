@@ -38,6 +38,9 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
   lt: any;
   data = 'initial value';
   anchors = [];
+  eventId = "";
+  eventRadio = "1";
+  eventCount = "";
 
   constructor(private http: HttpClient, private getlist:GetlistComponent, private getlistdataService: GetlistdataService,
     private elementRef:ElementRef, private sanitizer: DomSanitizer){
@@ -89,7 +92,23 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
     jQuery("#event-date").text(eTblRowData.html());
 
     //populate field with event unique identifier
-    jQuery("#uid").val(eventNum);
+    this.eventId = eventNum;
+    this.eventCount = "1";
+    this.eventRadio = "1";
+  }
+
+  submitRSVP() {
+
+    console.log(this.eventId);
+    console.log(this.eventRadio);
+    console.log(this.eventCount);
+
+    if (this.eventRadio == "1" ) {
+      console.log("Add " + this.eventCount + " to event id=" + this.eventId)
+      // submit to backend
+      
+    }
+
   }
 
   public hidePopup() {

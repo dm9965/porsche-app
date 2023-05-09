@@ -12,16 +12,16 @@
         <p><strong>Event: </strong><span id="event-name"></span>
         </p>
         <p><strong>Date: </strong><span id="event-date"></span></p>
-            <input type="hidden" value="" name="uid" id="uid">
+            <input type="hidden" [(ngModel)]="eventId" name="uid" id="uid">
         <p><strong>Attending?</strong>  
-            <mat-radio-group aria-label="Select an option">
-                <mat-radio-button value="1" checked="checked" color="primary">Yes</mat-radio-button>
-                <mat-radio-button value="0" color="primary">No</mat-radio-button>
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="eventRadio" id="attendingRadio" name="attendingRadio">
+                <mat-radio-button name="type1" value="1" [checked]="true" color="primary">Yes</mat-radio-button>
+                <mat-radio-button name="type0" value="0" color="primary">No</mat-radio-button>
             </mat-radio-group>
         </p>
         <p><strong><label for="numAttending">How many attending?</label></strong>&nbsp;
-            <select name="numAttending" id="numAttending" matNativeControl required>
-                <option value="1">1</option>
+            <select [(ngModel)]="eventCount" name="numAttending" id="numAttending" matNativeControl required>
+                <option value="1" selected>1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
@@ -33,7 +33,7 @@
         </p>
       </div>
       <div class="modal-footer" style="text-align:center;">
-        <button mat-raised-button color="warn" type="submit">Save</button>
+        <button mat-raised-button color="warn" type="submit" (click)="submitRSVP()">Save</button>
         &nbsp;&nbsp;
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
