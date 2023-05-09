@@ -1,6 +1,7 @@
 import { Injectable, Output, EventEmitter } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, retry, tap } from 'rxjs/operators';
 import { GlobalConstants } from './globalconstants';
 import { environment } from './environments/environment';
 
@@ -35,13 +36,25 @@ export class GetlistdataService {
       myFullURL = GlobalConstants.apiDevURL + myURL 
     }
 
-    this.http.get(myURL, { responseType: 'json' }).subscribe((response) => {
-      console.log("in service");
-      console.log(response);
-      this.newListEvent.emit(response as Events[]); // subscribing to this makes parent wait for data
-      // just pass raw JSON to calling component
-      return of(response);  
-    });
+    this.http.get(myURL, { responseType: 'json' })
+    .pipe(
+      catchError(
+        err => of([err.message])
+        )
+    )
+    .subscribe(
+      response => 
+        {
+          console.log("in service");
+          console.log(response);
+          this.newListEvent.emit(response as Events[]); // subscribing to this makes parent wait for data
+          // just pass raw JSON to calling component
+          return of(response);
+        },
+        err => console.log('HTTP Error', err),
+        () => console.log('HTTP request completed.')
+    );
+
     return of([])
   
   }

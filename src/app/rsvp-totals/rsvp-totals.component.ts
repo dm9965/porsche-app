@@ -10,6 +10,7 @@ interface Events {
   attending: string;
 }
 
+declare var jQuery: any;
 
 @Component({
   selector: 'app-rsvp-totals',
@@ -30,6 +31,12 @@ export class RsvpTotalsComponent {
           this.events = events;
           console.log("in list component");
           console.log(this.events);
+          if (this.events[0].id === undefined) {
+            // error in loading data!!
+            console.log("Error loading data");
+            jQuery('#err-msg').text(this.events[0]);
+            jQuery('#errorloading-popup-box').modal("toggle");
+          }
         }
     )
   }

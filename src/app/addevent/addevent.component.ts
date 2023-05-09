@@ -37,13 +37,6 @@ class eventData {
   ) {}
 }
 
-var myStartDate:any;
-var myStartTime:any;
-
-var selDate: string;
-var selDay: string;
-var selMonth: string;
-var selYear: string;
 
 @Component({
   selector: 'app-addevent',
@@ -55,12 +48,6 @@ var selYear: string;
     {provide: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
   ]  
 })
-
-// providers: [ 
-//  {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
-//  { provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS } ]  
-//  {provide: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
-//]
 
 
 export class AddeventComponent {
@@ -81,20 +68,16 @@ export class AddeventComponent {
 
   date = moment();
 
-  addEvent(type: string, event: MatDatepickerInputEvent<Date>) {
-    this.date = moment(event.value);
-    console.log(this.date.format("YYYY-MM-DD HH:mm:ss"))
-  }
   
   onSubmit() { 
 
     this.date = moment(this.myStartDate);
     this.model.event_datetime = this.date.format("YYYY-MM-DD HH:mm:ss") //database insert format for sorting, etc.
-    this.model.event_start_date = this.date.format("MM D")              //for presentation, ex: Jun 3
+    this.model.event_start_date = this.date.format("MMM D")             //for presentation, ex: Jun 3
     this.model.event_start_time = this.date.format("LT")                //for presentation, ex: 8:00 PM
 
     this.date = moment(this.myEndDate);
-    this.model.event_end_date = this.date.format("MM D")
+    this.model.event_end_date = this.date.format("MMM D")
     this.model.event_end_time = this.date.format("LT")
 
     console.log(this.model.event_descr);

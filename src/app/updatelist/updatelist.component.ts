@@ -200,7 +200,7 @@ export class UpdatelistComponent {
 
   submitUpdate() {
 
-    console.log(this.eventId);
+    console.log("Update event where id=" + this.eventId);
     console.log(this.eventName);
     console.log(this.eventLocation);
     console.log(this.myStartDate);
@@ -211,7 +211,7 @@ export class UpdatelistComponent {
 
   submitDelete() {
 
-    console.log(this.eventId);
+    console.log("Delete event where id=" + this.eventId);
 
   }
 

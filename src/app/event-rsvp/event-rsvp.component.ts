@@ -106,6 +106,11 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
     if (this.eventRadio == "1" ) {
       console.log("Add " + this.eventCount + " to event id=" + this.eventId)
       // submit to backend
+
+    } else {  
+      // Question: ignore this situation or consider it a cancellation????
+      console.log("Cancel " + this.eventCount + " for event id=" + this.eventId)
+      // submit to backend, maybe???
       
     }
 
@@ -152,8 +157,16 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
         events => {
           this.events = events;
           console.log("in getListData in event-list component");
-          console.log(this.events);   
-          this.setListeners();
+          console.log(this.events);
+          if (this.events[0].id === undefined) {
+            // error in loading data!!
+            console.log("Error loading data");
+            jQuery('#err-msg').text(this.events[0]);
+            jQuery('#errorloading-popup-box').modal("toggle");
+            //this.modalService.open("", { centered: true });
+          } else {
+            this.setListeners();
+          }
         } 
     )
   }

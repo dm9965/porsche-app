@@ -29,8 +29,16 @@ export class EventScheduleComponent {
           this.events = events;
           console.log("in list component");
           console.log(this.events);
+          if (this.events[0].id === undefined) {
+            // error in loading data!!
+            console.log("Error loading data");
+            jQuery('#err-msg').text(this.events[0]);
+            jQuery('#errorloading-popup-box').modal("toggle");
+            //this.modalService.open("", { centered: true });
+          }
         }
     )
+
   }
 
   public showPopup(event: Event): void {
