@@ -12,7 +12,7 @@ body {
 
 @font-face {
   font-family: PorscheFont;
-  src: url('/assets/911porscha/911porschav3.ttf') format('truetype');
+  src: url('/Porsche-App-UI/src/assets/911porscha/911porschav3.ttf') format('truetype');
 }
 
 /* use for holding elements on every page */
@@ -36,15 +36,15 @@ body {
 .primary-color-dark {
   background-color: #455A64;
   color: white;
-}  
+}
 .primary-color-light {
   background-color: #CFD8DC;
   color: black;
-}  
+}
 .accent-color {
   background-color: #9E9E9E;
   color: white;
-}  
+}
 .divider-color {
   background-color: #BDBDBD;
   color: black;

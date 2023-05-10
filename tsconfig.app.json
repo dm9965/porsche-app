@@ -8,10 +8,10 @@
     ]
   },
   "files": [
-    "src/main.ts"
+    "Porsche-App-UI/src/main.ts"
   ],
   "include": [
-    "src/**/*.d.ts",
-    "src/polyfills.ts"
+    "Porsche-App-UI/src/**/*.d.ts",
+    "Porsche-App-UI/src/polyfills.ts"
   ]
 }
