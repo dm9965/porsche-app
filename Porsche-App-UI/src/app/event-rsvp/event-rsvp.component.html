@@ -4,12 +4,15 @@
   </div>
 </div>
 
+
 <app-loaderror></app-loaderror>
+
 
 <form id="rsvpForm" name="rsvpForm">
 <div class="modal fade" tabindex="-1" id="popup-box">
   <div class="modal-dialog">  
-    <div class="modal-content">    
+    <div class="modal-content">
+      <div class="modal-header"><h2>RSVP or Cancel</h2></div>    
       <div class="modal-body">
         <p><strong>Event: </strong><span id="event-name"></span>
         </p>
@@ -17,8 +20,8 @@
             <input type="hidden" [(ngModel)]="eventId" name="uid" id="uid">
         <p><strong>Attending?</strong>  
             <mat-radio-group aria-label="Select an option" [(ngModel)]="eventRadio" id="attendingRadio" name="attendingRadio">
-                <mat-radio-button name="type1" value="1" [checked]="true" color="primary">Yes</mat-radio-button>
-                <mat-radio-button name="type0" value="0" color="primary">No</mat-radio-button>
+                <mat-radio-button name="type1" value="1" [checked]="true" color="primary">Yes, I plan to attend</mat-radio-button>
+                <mat-radio-button name="type0" value="0" color="primary">No, I need to cancel</mat-radio-button>
             </mat-radio-group>
         </p>
         <p><strong><label for="numAttending">How many attending?</label></strong>&nbsp;

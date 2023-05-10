@@ -7,28 +7,28 @@
       "projectType": "application",
       "schematics": {},
       "root": "",
-      "sourceRoot": "src",
+      "sourceRoot": "Porsche-App-UI/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/porsche-app",
-            "index": "src/index.html",
-            "main": "src/main.ts",
+            "index": "Porsche-App-UI/src/index.html",
+            "main": "Porsche-App-UI/src/main.ts",
             "polyfills": [
-              "src/polyfills.ts",
+              "Porsche-App-UI/src/polyfills.ts",
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "Porsche-App-UI/src/favicon.ico",
+              "Porsche-App-UI/src/assets"
             ],
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.css",
+              "Porsche-App-UI/src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
@@ -91,13 +91,13 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "Porsche-App-UI/src/favicon.ico",
+              "Porsche-App-UI/src/assets"
             ],
             "styles": [
               "node_modules/angular-calendar/css/angular-calendar.css",
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "src/styles.css",
+              "Porsche-App-UI/src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"            ],
             "scripts": []
           }
