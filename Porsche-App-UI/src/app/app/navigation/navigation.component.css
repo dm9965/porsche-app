@@ -72,6 +72,8 @@
 
 .nav-item:hover {
   background-color: lightgray;
+  color: #A20025;
+  border-radius: 10px;
 }
 
 /*#navbarSupportedContent {*/
@@ -99,4 +101,8 @@
 
 nav-item, nav, button, ul {
   color: #232323;
+}
+
+nav-item:focus {
+  color: #A20025;
 }
