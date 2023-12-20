@@ -18,9 +18,10 @@ body {
 
 /* use for holding elements on every page */
 .app-container {
-  background-color: antiquewhite;
-  color:black;
+  background-color: transparent;
+  color: black;
 }
+
 .app-container-transparent {
   background-color: transparent;
   color:black;

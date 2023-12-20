@@ -1,8 +1,8 @@
 .header-container {
-    color:antiquewhite;
+    color: transparent;
     padding:4px;
 }
-  
+
 .mycontainer {
   width: 90%;
   margin:auto;
@@ -27,4 +27,11 @@ table {
 
 td {
   vertical-align: top;
+}
+
+.header-style {
+  font-family: Poppins, sans-serif;
+  color: #232323;
+  font-weight: bold;
+  font-size: large;
 }
