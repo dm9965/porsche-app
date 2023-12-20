@@ -1,14 +1,14 @@
-/* You can add global styles to this file, and also import other style files */
-/* @import '@angular/material/prebuilt-themes/pink-bluegrey.css'; */
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 html, body {
   height: 100%;
+  width: 100vw;
 }
 
 body {
   margin: 0;
-  background: radial-gradient(circle at center, #ffffff, #e8e8e8, #bebdbd, #828282);
-  font-family: 'Poppins', sans-serif;
+  background: radial-gradient(circle at center, #ffffff, #ffffff, #e8e8e8, #c7c7c7);
+  font-family: Poppins, sans-serif !important;
 }
 
 @font-face {
@@ -52,8 +52,9 @@ body {
 }
 
 mat-calendar, mat-month-view, mat-calendar-header, table, thead, tbody, tr, td, th, button {
-  font-size: x-large !important;
+  font-size: large !important;
   font-weight: normal !important;
+  font-family: Poppins, sans-serif !important;
 }
 
 

@@ -1,4 +1,6 @@
 .header-container {
-    color:antiquewhite;
+    font-family: Poppins, sans-serif;
+    color: #171717;
     padding:4px;
+    font-weight: bold !important;
 }

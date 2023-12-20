@@ -3,7 +3,7 @@
 .header-container {
     width: 90%;
     margin:auto;
-    color:antiquewhite;
+    color: #ededed;
     padding:4px;
     text-align:left;
 }
@@ -13,9 +13,8 @@
     margin:auto;
     padding: 10px;
     opacity: 1.0;
-    min-width: 100%;
+    width: 85%;
     font-weight: bolder !important;
-
 }
 
 mat-calendar {
