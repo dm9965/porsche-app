@@ -7,7 +7,8 @@ html, body {
 
 body {
   margin: 0;
-  background: radial-gradient(circle at center, #686868, #000000);
+  background: radial-gradient(circle at center, #ffffff, #e8e8e8, #bebdbd, #828282);
+  font-family: 'Poppins', sans-serif;
 }
 
 @font-face {
@@ -50,3 +51,12 @@ body {
   color: black;
 }
 
+mat-calendar, mat-month-view, mat-calendar-header, table, thead, tbody, tr, td, th, button {
+  font-size: x-large !important;
+  font-weight: normal !important;
+}
+
+
+table {
+  color: white !important;
+}

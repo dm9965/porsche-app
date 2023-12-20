@@ -1,3 +1,5 @@
+
+
 .header-container {
     width: 90%;
     margin:auto;
@@ -7,8 +9,42 @@
 }
 
 .calendar_style {
-    background-color: antiquewhite;
+    background-color: transparent;
     margin:auto;
     padding: 10px;
     opacity: 1.0;
+    min-width: 100%;
+    font-weight: bolder !important;
+
+}
+
+mat-calendar {
+  color: white !important;
+  font-weight: bolder !important;
+  font-size: x-large !important;
+}
+
+.mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: white !important;
+}
+
+.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: white !important;;
+}
+
+.mat-form-field-label {
+  /*change color of label*/
+  color: white !important;
+}
+
+
+mat-datepicker-toggle {
+  color: white !important;
 }
