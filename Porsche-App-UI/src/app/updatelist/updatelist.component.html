@@ -1,6 +1,6 @@
 <div class="container">
     <div class="header-container">
-    <h1>Event List Update/Delete</h1>
+      <h1>Event List Update/Delete</h1>
     </div>
 </div>
 
@@ -8,8 +8,8 @@
 
   <div class="modal fade" tabindex="-1" id="update-popup-box">
     <div class="modal-dialog">
-      <div class="modal-content">    
-        <form #updateForm="ngForm" name="updateForm">  
+      <div class="modal-content">
+        <form #updateForm="ngForm" name="updateForm">
           <div class="modal-body">
             <p><strong>Event: </strong><textarea [(ngModel)]="eventName" id="event-name"  name="event-name">name</textarea></p>
             <p><strong>Location: </strong><textarea [(ngModel)]="eventLocation" id="event-location"  name="event-location">location</textarea></p>
@@ -24,8 +24,8 @@
             </p>
             <p><strong>EndDate: </strong>
             <mat-form-field appearance="outline" style="background-color:#fff;">
-              <input matInput [ngxMatDatetimePicker]="end_picker" placeholder="Choose end date/time" [(ngModel)]="myEndDate" 
-               name="event_enddate" #event_enddate [min]="myStartDate">                            
+              <input matInput [ngxMatDatetimePicker]="end_picker" placeholder="Choose end date/time" [(ngModel)]="myEndDate"
+               name="event_enddate" #event_enddate [min]="myStartDate">
               <ngx-mat-datetime-picker #end_picker [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true" [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false"
                name="event_end_date"></ngx-mat-datetime-picker>
             </mat-form-field>
@@ -43,48 +43,48 @@
     </div>
   </div>
 
-    
+
     <div class="modal fade" tabindex="-1" id="details-popup-box">
-        <div class="modal-dialog">  
-          <div class="modal-content">    
+        <div class="modal-dialog">
+          <div class="modal-content">
             <div class="modal-body">
                 <p><strong>Details: </strong><textarea id="event-details-show" name="event-details"></textarea></p>
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
               </div>
-    
+
             </div>
         </div>
-    </div>      
-  
+    </div>
+
 
     <div class="modal fade" tabindex="-1" id="delete-popup-box">
-        <div class="modal-dialog">  
-          <div class="modal-content">    
+        <div class="modal-dialog">
+          <div class="modal-content">
             <div class="modal-body">
                 <p><strong>Event: </strong><textarea id="event-name-delete"  name="event-name"></textarea></p>
                 <p><strong>Location: </strong><textarea id="event-location-delete"  name="event-location"></textarea></p>
                 <p><strong>Date: </strong><input id="event-date-delete"  name="event-date" length="100" maxlength="100"></p>
                     <input type="hidden" [(ngModel)]="eventId" name="uid" id="uid-delete">
-                <p><strong>Are you sure you wish to delete this event?</strong></p>    
+                <p><strong>Are you sure you wish to delete this event?</strong></p>
             </div>
             <div class="modal-footer" style="text-align:center;">
                 <button mat-raised-button color="warn" type="submit" (click)="submitDelete()">Yes, Delete</button>
                 &nbsp;&nbsp;
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Cancel</button>
             </div>
-    
+
           </div>
         </div>
-    </div>      
-   
+    </div>
 
-<div class="container app-container">
+
+<div class="container app-container mb-5">
     <h2>Click button to update or delete an event</h2>
 
-<div id="dummyNot">
-<table class="table table-striped table-hover">
+<div id="dummyNot" class="mb-5">
+<table class="table table-striped mb-5">
     <tr>
       <th>Start</th>
       <th>End</th>
@@ -102,7 +102,7 @@
         <td>{{ events.location }}</td>
         <td>
             <div style="display:none;">{{ events.detail }}</div>
-            <button class="btn btn-secondary btn-sm" (click)="showDetailsPopup($event)"  id="d{{ events.id }}">Show Details</button>
+            <button class="btn btn-secondary btn-sm" (click)="showDetailsPopup($event)"  id="d{{ events.id }}">Details</button>
         </td>
         <td><button class="btn btn-warning btn-sm" (click)="showUpdatePopup($event)" id="edit{{ events.id }}">Update</button></td>
         <td><button class="btn btn-danger btn-sm" (click)="showDeletePopup($event)" id="delete{{ events.id }}">Delete</button></td>

@@ -1,8 +1,26 @@
 .header-container {
-    color:antiquewhite;
-    padding:4px;
+    color: black;
+    margin-top: 1rem;
   }
-  
-  textarea, input {
-    width:100%;
-  }
+
+h1 {
+  font-weight: bolder;
+  font-family: Poppins, sans-serif;
+}
+
+textarea, input {
+  width:100%;
+}
+
+table {
+  border-spacing: 0 15px;
+  color: black !important;
+}
+
+td {
+  vertical-align: middle;
+}
+
+tr, tbody {
+  height: 100px;
+}

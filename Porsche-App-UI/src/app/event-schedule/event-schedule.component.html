@@ -9,8 +9,8 @@
 
 <div class="container app-container">
 
-    <div class="modal fade" tabindex="-1" id="detail-popup">
-      <div class="modal-dialog">
+    <div class="modal fade"  tabindex="-1" id="detail-popup">
+      <div class="modal-dialog" style="box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !important;">
         <div class="modal-content">
           <div class="modal-body">
             <p><strong>Event: </strong><span id="event-name"></span></p>
@@ -26,9 +26,9 @@
 
     <h2 class="header-style">Click on event title for details</h2>
 
-    <table class="table table-hover ">
+    <table class="table table-striped">
         <tbody style="color: black;">
-        <tr *ngFor = 'let events of events' style="margin-bottom: 10px;">
+        <tr *ngFor = 'let events of events'>
             <td>
               {{ events.datetime }}
             </td>

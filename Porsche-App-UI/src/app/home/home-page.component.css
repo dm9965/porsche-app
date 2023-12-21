@@ -3,4 +3,13 @@
     color: #171717;
     padding:4px;
     font-weight: bold !important;
+    margin-top: 1rem;
+}
+
+h1, h3 {
+  font-family: Poppins, sans-serif;
+}
+
+h1 {
+  font-weight: 700 !important;
 }

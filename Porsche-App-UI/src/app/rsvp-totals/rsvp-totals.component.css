@@ -1,14 +1,22 @@
 .header-container {
-    color:antiquewhite;
-    padding:4px;
+    color: #000000;
+    margin-top: 1rem;
+    font-family: Poppins, sans-serif;
+    font-weight: bold;
+}
+table {
+  border-spacing: 0 15px;
+  margin-bottom: 50px;
 }
 
-table {
-    border-collapse: separate;
-    border-spacing: 0 15px;
-}
-  
 td {
-    vertical-align: top
+  vertical-align: middle;
+  margin: 0;
+}
+
+tr, tbody {
+  height: 80px;
+  color: black;
+  margin: 0;
 }
 

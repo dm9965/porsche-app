@@ -10,15 +10,15 @@
 
 <form id="rsvpForm" name="rsvpForm">
 <div class="modal fade" tabindex="-1" id="popup-box">
-  <div class="modal-dialog">  
+  <div class="modal-dialog" style="box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !important;">
     <div class="modal-content">
-      <div class="modal-header"><h2>RSVP or Cancel</h2></div>    
+      <div class="modal-header"><h2>RSVP or Cancel</h2></div>
       <div class="modal-body">
         <p><strong>Event: </strong><span id="event-name"></span>
         </p>
         <p><strong>Date: </strong><span id="event-date"></span></p>
             <input type="hidden" [(ngModel)]="eventId" name="uid" id="uid">
-        <p><strong>Attending?</strong>  
+        <p><strong>Attending?</strong>
             <mat-radio-group aria-label="Select an option" [(ngModel)]="eventRadio" id="attendingRadio" name="attendingRadio">
                 <mat-radio-button name="type1" value="1" [checked]="true" color="primary">Yes, I plan to attend</mat-radio-button>
                 <mat-radio-button name="type0" value="0" color="primary">No, I need to cancel</mat-radio-button>
@@ -34,7 +34,7 @@
                 <option value="6">6</option>
                 <option value="7">7</option>
                 <option value="8">8</option>
-            </select> 
+            </select>
         </p>
       </div>
       <div class="modal-footer" style="text-align:center;">
@@ -55,9 +55,13 @@
 <div id="dummyNot">
 <table class="table table-striped table-hover">
     <tbody>
-       <tr *ngFor = 'let events of events'>
+       <tr *ngFor = 'let events of events' >
         <td>{{ events.datetime }}</td>
-        <td><a (click)="showPopup($event)" id="e{{ events.id }}">{{ events.descr }}</a></td>
+        <td>
+          <a (click)="showPopup($event)" id="e{{ events.id }}">
+            {{ events.descr }}
+          </a>
+        </td>
        </tr>
     </tbody>
 </table>

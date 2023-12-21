@@ -13,18 +13,18 @@ declare var jQuery: any;
 @Component({
   selector: 'app-event-schedule',
   templateUrl: './event-schedule.component.html',
-  styleUrls: ['./event-schedule.component.css']
+  styleUrls: ['./event-schedule.component.scss']
 })
 export class EventScheduleComponent {
 
   constructor(private getlistdataService: GetlistdataService) {}
-  
+
   events: Events[] = [];
 
   ngOnInit() {
     this.getlistdataService.getEventList();
     this.getlistdataService.newListEvent
-      .subscribe( 
+      .subscribe(
         events => {
           this.events = events;
           console.log("in list component");
@@ -46,20 +46,20 @@ export class EventScheduleComponent {
     var eTblRow: any;
     var eTblRowData: any;
     var str: string;
-    
+
     let elementId: string = (event.target as Element).id;
     console.log (elementId);
-    
+
     str = elementId;
     //do this if the id is of the form "e123"
     eventNum = str.substring(1);
     //populate field with event description
-    jQuery("#event-name").text(jQuery("#e"+eventNum).text());   
+    jQuery("#event-name").text(jQuery("#e"+eventNum).text());
     //populate field with event detail
-    jQuery("#event-detail").text(jQuery("#d"+eventNum).text());   
-    
+    jQuery("#event-detail").text(jQuery("#d"+eventNum).text());
+
     //get row which is parent to <td> which is parent to <a>
-    eTblRow = jQuery("#"+str).parent().parent();  
+    eTblRow = jQuery("#"+str).parent().parent();
     console.log (eTblRow.text());
     //get first table cell in the row
     eTblRowData = eTblRow.find('td');
