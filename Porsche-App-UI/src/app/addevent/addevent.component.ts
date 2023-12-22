@@ -27,7 +27,8 @@ const moment = _moment;
 class eventData {
   constructor(
     public event_descr: string,
-    public event_datetime: string,
+    public event_start_datetime: string,
+    public event_end_datetime: string,
     public event_start_date: string,
     public event_end_date: string,
     public event_start_time: string,
@@ -46,7 +47,7 @@ class eventData {
     {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
     { provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
     {provide: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}}
-  ]  
+  ]
 })
 
 
@@ -54,56 +55,75 @@ export class AddeventComponent {
 
   constructor() {  }
 
-  model = new eventData("","","","","","","","")
-  
-  submitted = false;
+  model = new eventData("","","","","","","","", "")
 
-	start_time = { hour: 13, minute: 30, second: 0 };
-	end_time = { hour: 13, minute: 30, second: 0 };
+  submitted = false;
 	myStartDate = "";
   myStartTime = "";
   myEndDate = "";
   myEndTime = "";
   public touchUi = true;
 
-  date = moment();
+  start_date = moment();
+  end_date = moment()
 
-  
-  onSubmit() { 
 
-    this.date = moment(this.myStartDate);
-    this.model.event_datetime = this.date.format("YYYY-MM-DD HH:mm:ss") //database insert format for sorting, etc.
-    this.model.event_start_date = this.date.format("MMM D")             //for presentation, ex: Jun 3
-    this.model.event_start_time = this.date.format("LT")                //for presentation, ex: 8:00 PM
+  onSubmit() {
+    this.start_date = moment(this.myStartDate);
+    this.model.event_start_datetime = this.start_date.format("YYYY-MM-DD HH:mm:ss") //database insert format for sorting, etc.
+    this.model.event_start_date = this.start_date.format("MMM D")             //for presentation, ex: Jun 3
+    this.model.event_start_time = this.start_date.format("LT")                //for presentation, ex: 8:00 PM
 
-    this.date = moment(this.myEndDate);
-    this.model.event_end_date = this.date.format("MMM D")
-    this.model.event_end_time = this.date.format("LT")
+    this.end_date = moment(this.myEndDate);
+    this.model.event_end_datetime = this.end_date.format("YYYY-MM-DD HH:mm:ss")
+    this.model.event_end_date = this.end_date.format("MMM D")
+    this.model.event_end_time = this.end_date.format("LT")
 
     console.log(this.model.event_descr);
 
-    console.log(this.myStartDate);
-    console.log(this.model.event_datetime);
-    console.log(this.model.event_start_date);
-    console.log(this.model.event_start_time);
+    console.log(this.model.event_start_datetime);
 
-    console.log(this.myEndDate);
-    console.log(this.model.event_end_date);
-    console.log(this.model.event_end_time);
+    console.log(this.model.event_end_datetime);
+
     console.log(this.model.event_location);
 
     console.log(this.model.event_details);
-    
-    this.submitted = true; 
+
+    this.submitted = true;
+    this.createEvent(this.model.event_start_datetime, this.model.event_end_datetime, this.model.event_descr, this.model.event_location, this.model.event_details)
   }
 
 
   NgOnInit() {
-  
+
   }
 
-  save_data(){
+  createEvent = (event_start_datetime: string, event_end_datetime: string, event_descr: string, event_location: string, event_details: string) => {
 
-  
+
+    fetch('http://localhost:3001/event/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        startdatetime: event_start_datetime,
+        enddatetime: event_end_datetime,
+        eventname: event_descr,
+        location: event_location,
+        details: event_details,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        // Optionally, you can handle success here
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(event_start_datetime)
+        console.log(event_end_datetime)
+        // Optionally, you can handle errors here
+      });
   }
 }

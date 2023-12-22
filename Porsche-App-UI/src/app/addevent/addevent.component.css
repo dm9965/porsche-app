@@ -32,3 +32,7 @@ h1 {
     flex-direction: row;
     margin:0px 10px;
 }
+
+::ng-deep .custom-datepicker {
+  color: black !important;
+}

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d958b99f-7fa1-45aa-8d89-209c3c1c4b53" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Porsche-App-UI/src/app/addevent/addevent.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Porsche-App-UI/src/app/addevent/addevent.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Porsche-App-UI/src/app/addevent/addevent.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Porsche-App-UI/src/app/addevent/addevent.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Porsche-App-UI/src/app/addevent/addevent.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Porsche-App-UI/src/app/addevent/addevent.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/porsche-app-api/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/porsche-app-api/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/porsche-app-api/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/porsche-app-api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/porsche-app-api/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/porsche-app-api/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/porsche-app-api/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/porsche-app-api/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/porsche-app-api/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/porsche-app-api/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/porsche-app-api/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/porsche-app-api/queries.js" beforeDir="false" afterPath="$PROJECT_DIR$/porsche-app-api/queries.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectId" id="2NR1JUUW9O4mzn1BwnsAVHWMsm4" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/domenicmangano/porsche-app/src/fonts&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MTConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/domenicmangano/porsche-app/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/fonts" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src" />
+      <recent name="$PROJECT_DIR$/src/assets" />
+      <recent name="$PROJECT_DIR$/src/app/app" />
+      <recent name="$PROJECT_DIR$/src/app" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Node.js.app.js">
+    <configuration name="Angular Application" type="JavascriptDebugType" uri="http://localhost:4200">
+      <method v="2" />
+    </configuration>
+    <configuration name="app.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/porsche-app-api/app.js" working-dir="$PROJECT_DIR$/porsche-app-api">
+      <method v="2" />
+    </configuration>
+    <configuration name="Angular CLI Server" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.app.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d958b99f-7fa1-45aa-8d89-209c3c1c4b53" name="Changes" comment="" />
+      <created>1679612009067</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1679612009067</updated>
+      <workItem from="1679612010148" duration="2903000" />
+      <workItem from="1679616996230" duration="11010000" />
+      <workItem from="1679788147071" duration="629000" />
+      <workItem from="1679845975058" duration="793000" />
+      <workItem from="1680618612666" duration="728000" />
+      <workItem from="1702484156523" duration="691000" />
+      <workItem from="1703102777865" duration="783000" />
+      <workItem from="1703103867257" duration="47960000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/Porsche-App-UI/src/app/addevent/addevent.component.ts</url>
+          <line>122</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
