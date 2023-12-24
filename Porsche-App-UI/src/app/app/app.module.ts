@@ -12,7 +12,6 @@ import { AddeventComponent } from '../addevent/addevent.component';
 import { GetlistComponent } from '../getlist/getlist.component';
 import { UpdatelistComponent } from '../updatelist/updatelist.component';
 import { MerchandiseComponent } from '../shop/merchandise.component';
-import { InventoryComponent } from '../inventory/inventory.component';
 import { LoaderrorComponent } from '../loaderror/loaderror.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
@@ -46,7 +45,6 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     GetlistComponent,
     UpdatelistComponent,
     MerchandiseComponent,
-    InventoryComponent,
     LoaderrorComponent,
     CartComponent,
     CheckoutComponent,

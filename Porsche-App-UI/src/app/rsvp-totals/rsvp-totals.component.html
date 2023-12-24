@@ -13,10 +13,17 @@
     <table class="table table-striped table-hover">
         <tr><th>Date</th><th>Event</th><th>Count</th></tr>
         <tbody>
-        <tr *ngFor = 'let events of events'>
-            <td>{{ events.datetime }}</td>
-            <td>{{ events.descr }}</td>
-            <td>{{ events.attending }}</td>
+        <tr *ngFor = 'let event of events'>
+          <td>
+            {{ event.startdatetime | date:'MMM d'}}
+          <td>
+            <a id="e{{ event.id }}"  class="d-flex flex-row justify-content-start text-black">
+              {{ event.eventname }} @ {{ event.location }}
+            </a>
+          </td>
+          <td>
+            {{ event.attending }}
+          </td>
         </tr>
         </tbody>
     </table>

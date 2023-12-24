@@ -7,6 +7,7 @@ import * as _moment from 'moment';
 import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/material-moment-adapter";
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
+import { MatSnackBar} from "@angular/material/snack-bar";
 
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
   parse: {
@@ -29,13 +30,11 @@ class eventData {
     public event_descr: string,
     public event_start_datetime: string,
     public event_end_datetime: string,
-    public event_start_date: string,
-    public event_end_date: string,
-    public event_start_time: string,
-    public event_end_time: string,
     public event_location: string,
     public event_details: string
   ) {}
+  [key: string]: string;
+
 }
 
 
@@ -53,9 +52,9 @@ class eventData {
 
 export class AddeventComponent {
 
-  constructor() {  }
+  constructor(private _snackbar: MatSnackBar) {  }
 
-  model = new eventData("","","","","","","","", "")
+  model = new eventData("","","","","")
 
   submitted = false;
 	myStartDate = "";
@@ -67,32 +66,52 @@ export class AddeventComponent {
   start_date = moment();
   end_date = moment()
 
+  errorMessage = false;
 
   onSubmit() {
     this.start_date = moment(this.myStartDate);
-    this.model.event_start_datetime = this.start_date.format("YYYY-MM-DD HH:mm:ss") //database insert format for sorting, etc.
-    this.model.event_start_date = this.start_date.format("MMM D")             //for presentation, ex: Jun 3
-    this.model.event_start_time = this.start_date.format("LT")                //for presentation, ex: 8:00 PM
+    this.model.event_start_datetime = this.start_date.format("YYYY-MM-DD HH:mm:ss")
 
     this.end_date = moment(this.myEndDate);
     this.model.event_end_datetime = this.end_date.format("YYYY-MM-DD HH:mm:ss")
-    this.model.event_end_date = this.end_date.format("MMM D")
-    this.model.event_end_time = this.end_date.format("LT")
 
-    console.log(this.model.event_descr);
-
-    console.log(this.model.event_start_datetime);
-
-    console.log(this.model.event_end_datetime);
-
-    console.log(this.model.event_location);
-
-    console.log(this.model.event_details);
-
-    this.submitted = true;
-    this.createEvent(this.model.event_start_datetime, this.model.event_end_datetime, this.model.event_descr, this.model.event_location, this.model.event_details)
+    let formValid = true;
+    for (const key in this.model) {
+      if (!this.model[key]) {
+        this.submitted = false;
+        formValid= false;
+        console.log('Form input invalid. Please try again.')
+        this.errorMessage = true;
+        this._snackbar.open('Invalid form input. Please try again.',
+          'Dismiss', {
+            duration: 5000,
+            panelClass: ['error_snackbar']
+        })
+        console.log(this.model)
+        break;
+      }
+    }
+    if (formValid) {
+      this.submitted = true;
+      this.createEvent(this.model.event_start_datetime, this.model.event_end_datetime, this.model.event_descr, this.model.event_location, this.model.event_details)
+      this.resetForm()
+      this._snackbar.open('Event successfully added!',
+        'Dismiss', {
+          duration: 5000,
+          panelClass: ['success_snackbar']
+        })
+    }
   }
 
+  resetForm = () => {
+    this.model = new eventData("","","","", "");
+    this.myStartDate = "";
+    this.myStartTime = "";
+    this.myEndDate = "";
+    this.myEndTime = "";
+    this.start_date = moment();
+    this.end_date = moment();
+  }
 
   NgOnInit() {
 

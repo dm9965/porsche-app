@@ -24,7 +24,7 @@
             </p>
             <p><strong>EndDate: </strong>
             <mat-form-field appearance="outline" style="background-color:#fff;">
-              <input matInput [ngxMatDatetimePicker]="end_picker" placeholder="Choose end date/time" [(ngModel)]="myEndDate"
+              <input matInput  placeholder="Choose end date/time" [(ngModel)]="myEndDate"
                name="event_enddate" #event_enddate [min]="myStartDate">
               <ngx-mat-datetime-picker #end_picker [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true" [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false"
                name="event_end_date"></ngx-mat-datetime-picker>

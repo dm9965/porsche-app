@@ -5,7 +5,7 @@ const pool = new Pool ({
   user: String(process.env.USER),
   host: process.env.HOST,
   database: process.env.DATABASE,
-  password: String(process.env.PASSWORD),
+  password: process.env.PASSWORD,
   port: process.env.PORT
 })
 
@@ -47,7 +47,21 @@ const createEvent = (request, response) => {
       if (error) {
         throw error;
       }
-      response.status(201).send(`Event created with event id: ${results.insertId}`)
+      response.status(201).send(results)
+    }
+  )
+}
+
+const rsvpEvent = (request, response) => {
+  const {id, attending} = request.body;
+  pool.query (
+    'UPDATE event_list SET attending = attending + $1 WHERE id = $2',
+    [attending, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).send(results)
     }
   )
 }
@@ -56,5 +70,6 @@ module.exports = {
   getUsers,
   getEvents,
   createUser,
-  createEvent
+  createEvent,
+  rsvpEvent
 }

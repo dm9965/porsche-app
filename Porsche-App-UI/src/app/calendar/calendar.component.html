@@ -5,7 +5,10 @@
       <div class="header-container">
       </div>
           <div class="calendar_style">
-          <mat-calendar></mat-calendar>
+          <mat-calendar (selectedChange)="getEvents()"></mat-calendar>
+            <div *ngFor="let event of events">
+              {{event.eventname}}
+            </div>
       </div>
     </div>
   </div>

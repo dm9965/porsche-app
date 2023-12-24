@@ -1,0 +1,14 @@
+.error_snackbar {
+  background: linear-gradient(to bottom, #ffb1b1, #ff8989, #ff5e5e) !important;
+  color: white !important;
+}
+
+.success_snackbar {
+  --mdc-snackbar-container-color: rgba(77, 255, 154, 0.93);
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+mat-calendar .mat-calendar-body-cell {
+  color: black;
+}
