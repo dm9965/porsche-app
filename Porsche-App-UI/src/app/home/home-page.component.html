@@ -1,17 +1,11 @@
 
 <div class="min-vw-100" style="margin: 0; padding: 0">
+  <div class="position-relative">
     <div class="row justify-content-md-center min-vw-100 m-0">
-
       <div id="carouselExampleAutoplaying" class="carousel slide m-0 p-0" style="width: 100vw; margin: 0" data-bs-ride="carousel">
         <div class="carousel-inner m-0 p-0">
-          <div class="carousel-item active">
-            <img src="https://niagarapca.org/wp-content/uploads/2019/12/Bruce-Smith2-720x300.jpg" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="https://niagarapca.org/wp-content/uploads/2019/12/resizes3-720x300.jpg" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="https://niagarapca.org/wp-content/uploads/2019/12/resized-for-website-720x300.jpg" class="d-block w-100" alt="...">
+          <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === 0">
+            <img [src]="image.imageurl" class="d-block w-100" alt="...">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
@@ -22,18 +16,51 @@
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
         </button>
+        <button mat-fab class="m-3 position-absolute bottom-0 end-0 red-button" style="z-index: 6;" data-bs-toggle="modal" data-bs-target="#modal">
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
-
+    </div>
       <div class="container">
         <div class="header-container p-5">
           <h1 style="font-weight: 1000 !important">Niagara Region Porsche Club of America</h1>
           <h3>
-            Here you will find all the information you need for future meets,
-            including date, location, and even those who are attending the event!
-            Click below to either login or sign up!
+            Welcome to the Porsche Club of the Niagara Region, where passion for precision meets a community that cares. Our club is not just about cars; it's about the people who share a common love for the iconic Porsche brand. As a tight-knit community, we value the camaraderie and friendships that blossom among our members.
+            <br>
+            <br>
+            At the heart of our philosophy is a genuine concern for the well-being of those who participate in our events and activities. We strive to create an inclusive and welcoming environment, fostering connections that extend beyond the roar of engines. Whether you're a seasoned Porsche enthusiast or a newcomer to the world of sports cars, you'll find a place among like-minded individuals who share your passion.
+            <br>
+            <br>
+            With the launch of our new scheduling website, we aim to enhance the overall experience for our members. We believe that efficient and accessible event scheduling is key to fostering a vibrant community. Our website is designed to streamline the process of planning and attending events, ensuring that every member can make the most of their Porsche Club journey.
+            <br>
+            <br>
+            Join us as we embark on this exciting new chapter, where the thrill of the drive is complemented by the warmth of a supportive community. Together, we look forward to creating memorable experiences, forging lasting friendships, and celebrating the spirit of Porsche ownership. Welcome to the Porsche Club of the Niagara Region – where the road is our canvas, and the people are our priority.
           </h3>
         </div>
     </div>
+
+
+    <div class="modal fade h-50" tabindex="-1" id="modal" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <form ngForm (ngSubmit)="addImage()">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2 class="mb-0">Add Your Own Event Photos </h2>
+            </div>
+            <div class="modal-body d-flex flex-row align-content-center align-items-center justify-content-start">
+              <label>Image URL: &nbsp;</label>
+              <input matInput placeholder="Insert image URL here" [(ngModel)]="imageURL" name="image_url" class="w-75 h-25" [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="modal-footer" style="text-align:center;">
+              <button mat-raised-button class="mat-yellow" type="submit" data-bs-dismiss="modal">Save</button>
+              <button mat-raised-button class="mat-red" type="button" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
 
     <div class="col-sm-2" style="margin:0;padding:0;"></div>
 

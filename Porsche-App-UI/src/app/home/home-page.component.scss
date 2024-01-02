@@ -1,0 +1,30 @@
+.header-container {
+    font-family: Poppins, sans-serif;
+    color: #171717;
+    padding:4px;
+    font-weight: bold !important;
+    margin-top: 1rem;
+}
+
+h1, h3 {
+  font-family: Poppins, sans-serif;
+}
+
+h1 {
+  font-weight: 700 !important;
+}
+
+.mat-mdc-fab.red-button {
+  background-color: #B12B28;
+  color: white;
+}
+
+.mat-mdc-raised-button.mat-red {
+  background-color: #B12B28 !important;
+  color: white !important;
+}
+
+.mat-mdc-raised-button.mat-yellow {
+  background-color: rgb(248,205,2)!important;
+  color: black;
+}

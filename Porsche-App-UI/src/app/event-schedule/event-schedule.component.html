@@ -18,16 +18,16 @@
             <p><span id="event-detail"></span></p>
           </div>
           <div class="modal-footer" style="text-align:center">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#rsvpModal"> RSVP </button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button mat-raised-button class="yellow-button" type="button" data-bs-toggle="modal" data-bs-target="#rsvpModal"> RSVP </button>
+            <button mat-raised-button class="red-button" type="button" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
     </div>
 
 
-  <form id="rsvpForm" name="rsvpForm" #rsvpForm="ngForm" (ngSubmit)="rsvpForEvent()">
-    <div class="modal fade" tabindex="-1" id="rsvpModal">
+  <form id="rsvpForm" name="rsvpForm" #rsvpForm="ngForm" (ngSubmit)="submitForm()">
+    <div class="modal fade h-50" tabindex="-1" id="rsvpModal">
       <div class="modal-dialog" style="box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !important;">
         <div class="modal-content">
           <div class="modal-header"><h2>RSVP or Cancel</h2></div>
@@ -36,20 +36,25 @@
             <p><strong>Date: </strong><span id="rsvp-date"></span></p>
             <input type="hidden" name="uid" id="uid">
             <p><strong>Attending?</strong>
-              <mat-radio-group aria-label="Select an option" id="attendingRadio" name="attendingRadio" >
-                <mat-radio-button name="type1" value="1" [checked]="true" color="primary">Yes, I plan to attend</mat-radio-button>
-                <mat-radio-button name="type0" value="0" color="primary">No, I need to cancel</mat-radio-button>
+              <mat-radio-group aria-label="Select an option" id="attendingRadio" name="attendingRadio" [(ngModel)]="selectedOption">
+                <mat-radio-button name="type1" value="1" [checked]="true" color="warn">Yes, I plan to attend</mat-radio-button>
+                <mat-radio-button name="type0" value="0" color="warn">No, I need to cancel</mat-radio-button>
               </mat-radio-group>
             </p>
-            <p><strong><label for="numAttending">How many attending?</label></strong>&nbsp;
+            <p>
+              <strong>
+                <label for="numAttending">
+                  {{ selectedOption > 0 ? 'How many attending?' : 'How many cancelling?' }}
+                </label>
+              </strong>&nbsp;
               <select name="numAttending" id="numAttending" matNativeControl required [(ngModel)]="selectedEvent.attending">
                 <option *ngFor="let option of [1, 2, 3, 4, 5]" [value]="option" [selected]="option === 1">{{ option }}</option>
               </select>
             </p>
           </div>
           <div class="modal-footer" style="text-align:center;">
-            <button mat-raised-button color="warn" type="submit" data-bs-dismiss="modal">Save</button>
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button mat-raised-button class="yellow-button" type="submit" data-bs-dismiss="modal">Save</button>
+            <button mat-raised-button class="red-button" type="button" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>

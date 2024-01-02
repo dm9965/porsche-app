@@ -13,6 +13,8 @@ interface Events {
   attending: string;
 }
 
+
+
 declare var jQuery: any;
 @Component({
   selector: 'app-event-schedule',
@@ -24,7 +26,10 @@ export class EventScheduleComponent {
   constructor(private _snackbar: MatSnackBar) {
   }
 
-  rsvpOpen = false;
+
+
+  selectedOption: number = 1;
+
   events: Events[] = [];
 
   selectedEvent: Events = {
@@ -34,7 +39,7 @@ export class EventScheduleComponent {
     eventname: '',
     location: '',
     details: '',
-    attending: '1',
+    attending: '',
   }
 
   ngOnInit() {
@@ -89,6 +94,41 @@ export class EventScheduleComponent {
     }).catch((error) => {
       console.log(error)
     })
+  }
+
+  cancel = () => {
+    fetch('http://localhost:3001/event/cancel', {
+      method: 'PUT',
+      body: JSON.stringify({
+        id: parseInt(this.selectedEvent.id),
+        attending: parseInt(this.selectedEvent.attending)
+      }),
+      headers: {
+        "Content-type":"application/json; charset=UTF-8"
+      }
+    }).then((response) => {
+      return response.json()
+    }).then((data) => {
+      console.log(data)
+    }).then(() => {
+      this.getEvents()
+      this._snackbar.open('You have successfully cancelled your attendance to this event!',
+        'Dismiss', {
+          duration: 5000,
+          panelClass: ['success_snackbar']
+        })
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
+
+  submitForm = () => {
+    if (this.selectedOption > 0) {
+      this.rsvpForEvent()
+    }
+    else {
+      this.cancel()
+    }
   }
 
   public showPopup(event: Event): void {

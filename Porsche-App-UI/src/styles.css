@@ -53,7 +53,7 @@ body {
 }
 
 mat-calendar, mat-month-view, mat-calendar-header, table, thead, tbody, tr, td, th, button {
-  font-size: large !important;
+  font-size: medium !important;
   font-weight: normal !important;
   font-family: Poppins, sans-serif !important;
 }
@@ -75,3 +75,36 @@ table {
   --mdc-snackbar-supporting-text-color: #fff;
 }
 
+.ngx-mat-timepicker-table .mat-form-field .mat-form-field-wrapper{
+  color: black !important;
+  font-size: medium !important;
+}
+
+.mat-calendar .mat-calendar-content {
+  font-size: medium !important;
+}
+
+.mat-mdc-raised-button.blue-button {
+  background-color: #346eed;
+  color: white;
+}
+
+.mat-mdc-raised-button.green-button {
+  background-color:  rgba(34, 164, 88, 0.93);
+  color: white;
+}
+
+.mat-mdc-raised-button.grey-button {
+  background-color: rgba(153, 153, 153, 0.93);
+  color: white;
+}
+
+.mat-mdc-raised-button.red-button {
+  background-color: rgba(255, 77, 77, 0.93);
+  color: white;
+}
+
+.mat-mdc-raised-button.yellow-button {
+  background-color: rgb(248,205,2);
+  color: white;
+}

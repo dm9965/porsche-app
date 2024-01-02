@@ -66,10 +66,84 @@ const rsvpEvent = (request, response) => {
   )
 }
 
+const cancel = (request, response) => {
+  const {id, attending} = request.body;
+  pool.query (
+    'UPDATE event_list SET attending = attending - $1 WHERE id = $2',
+    [attending, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).send(results)
+    }
+  )
+}
+
+const updateEvent = (request, response) => {
+  const {id, startdatetime, enddatetime, eventname, location, details} = request.body;
+  pool.query (
+    'UPDATE event_list SET startdatetime = $1, enddatetime = $2, eventname = $3, location = $4, details = $5 WHERE id = $6',
+    [startdatetime, enddatetime, eventname, location, details, id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).send(results)
+    }
+  )
+}
+
+
+const deleteEvent = (request, response) => {
+  const {id} = request.body;
+  pool.query (
+    'DELETE FROM event_list WHERE id = $1',
+    [id],
+    (error, result) => {
+      if (error) {
+        throw error;
+      }
+      response.status(201).send(result)
+    }
+  )
+}
+
+const getImages = (request, response) => {
+  pool.query (
+    'SELECT * FROM images',
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      return response.status(201).send(results)
+    }
+  )
+}
+
+const addImage = (request, response) => {
+  const {imageURL} = request.body;
+  pool.query (
+    'INSERT INTO images (imageURL) VALUES ($1)',
+    [imageURL],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      return response.status(201).send(results)
+    }
+  )
+}
+
 module.exports = {
   getUsers,
   getEvents,
   createUser,
   createEvent,
-  rsvpEvent
+  rsvpEvent,
+  updateEvent,
+  deleteEvent,
+  cancel,
+  getImages,
+  addImage
 }

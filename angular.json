@@ -26,6 +26,8 @@
               "Porsche-App-UI/src/assets"
             ],
             "styles": [
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/angular-calendar/css/angular-calendar.css",
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "Porsche-App-UI/src/styles.css",
@@ -98,7 +100,9 @@
               "node_modules/angular-calendar/css/angular-calendar.css",
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "Porsche-App-UI/src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"            ],
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "Porsche-App-UI/src/custom-theme.scss"
+            ],
             "scripts": []
           }
         }

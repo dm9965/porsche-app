@@ -1,6 +1,4 @@
 import { Component, OnInit, NgModule } from '@angular/core';
-import { FormsModule, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { JsonPipe } from '@angular/common';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import * as _moment from 'moment';
@@ -8,6 +6,7 @@ import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from "@angular/m
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
 import { MatSnackBar} from "@angular/material/snack-bar";
+import {ThemePalette} from "@angular/material/core";
 
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
   parse: {
@@ -23,8 +22,6 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
 
 const moment = _moment;
 
-
-
 class eventData {
   constructor(
     public event_descr: string,
@@ -37,11 +34,10 @@ class eventData {
 
 }
 
-
 @Component({
   selector: 'app-addevent',
   templateUrl: './addevent.component.html',
-  styleUrls: ['./addevent.component.css'],
+  styleUrls: ['./addevent.component.scss'],
   providers: [
     {provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true}},
     { provide: NGX_MAT_DATE_FORMATS, useValue: CUSTOM_DATE_FORMATS },
@@ -145,4 +141,7 @@ export class AddeventComponent {
         // Optionally, you can handle errors here
       });
   }
+  color: ThemePalette = 'warn';
 }
+
+

@@ -1,0 +1,46 @@
+@use '@angular/material' as mat;
+
+.header-container {
+    width: 90%;
+    color: #000000;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+h1 {
+  font-family: Poppins, sans-serif;
+  font-weight: bolder;
+}
+
+.app-container {
+    padding:12px;
+}
+
+#btn-div {
+    padding:12px;
+}
+
+#picker-div {
+    width:100%;
+    background-color: white;
+    text-align: left;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 8px;
+}
+
+.flex-div {
+    display: flex;
+    flex-direction: row;
+    margin:0px 10px;
+}
+
+.mat-mdc-raised-button.red-button {
+  background-color: #B12B28;
+  color: white;
+}
+
+.mat-mdc-raised-button.yellow-button {
+  background-color: rgb(248,205,2);
+  color: black;
+}

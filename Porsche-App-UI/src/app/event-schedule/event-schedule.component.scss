@@ -46,3 +46,31 @@ tr:hover {
   font-size: large;
 }
 
+.mat-mdc-raised-button.blue-button {
+  background-color: #346eed;
+  color: white;
+}
+
+.mat-mdc-raised-button.green-button {
+  background-color:  rgba(34, 164, 88, 0.93);
+  color: white;
+}
+
+.mat-mdc-raised-button.grey-button {
+  background-color: rgba(153, 153, 153, 0.93);
+  color: white;
+}
+
+.mat-mdc-raised-button.red-button {
+  background-color: #B12B28;
+  color: white;
+}
+
+.mat-mdc-raised-button.yellow-button {
+  background-color: rgb(248,205,2);
+  color: black;
+}
+
+.mat-radio-outer-circle.red-dot{
+  background-color: #B12B28 !important;
+}
