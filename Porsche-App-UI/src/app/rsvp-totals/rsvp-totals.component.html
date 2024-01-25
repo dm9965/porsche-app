@@ -2,6 +2,7 @@
     <div class="header-container">
         <h1>NRPCA Events - Total Attending</h1>
       <hr/>
+      <h2>Click event title to get RSVP link</h2>
     </div>
 </div>
 
@@ -11,14 +12,36 @@
 
 <div class="container app-container">
 
+  <div class="modal fade"  tabindex="-1" id="link-popup">
+    <div class="modal-dialog" style="box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !important;">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h3>RSVP Link</h3>
+          <p><strong>Event: </strong><span id="event-name"></span></p>
+          <p><strong>Date: </strong><span id="event-date"></span></p>
+          <strong>RSVP link to this event:</strong>
+          <p><textarea id="event-link" style="width:100%"></textarea>
+          </p>
+        </div>
+        <div class="modal-footer" style="text-align:center">
+          <button mat-raised-button class="red-button" type="button" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
     <table class="table table-striped table-hover">
         <tr class="fw-bolder"><th>Date</th><th>Event</th><th>Count</th></tr>
         <tbody>
         <tr *ngFor = 'let event of events'>
           <td>
-            {{ event.startdatetime | date:'MMM d'}}
+            {{ event.startdatetime | date:'MMM d'}} @ {{ event.startdatetime | date:'h:mm a'}} - 
+            {{ event.endday == event.startday  ? '' :  (event.enddatetime | date:'MMM d') + ' @ ' }}               
+            {{ event.enddatetime | date:'h:mm a' }}
+          </td>    
           <td>
-            <a id="e{{ event.id }}"  class="d-flex flex-row justify-content-start text-black">
+            <a id="e{{ event.id }}" (click)="getRsvpLink($event)"  class="d-flex flex-row justify-content-start text-black">
               {{ event.eventname }} @ {{ event.location }}
             </a>
           </td>

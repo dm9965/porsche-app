@@ -7,6 +7,7 @@ import { CalendarComponent } from '../calendar/calendar.component';
 import { SignUpComponent } from '../login/sign-up/sign-up.component';
 import { EventScheduleComponent } from '../event-schedule/event-schedule.component';
 import { EventRsvpComponent } from '../event-rsvp/event-rsvp.component';
+import { RsvpComponent } from '../rsvp/rsvp.component';
 import { RsvpTotalsComponent } from '../rsvp-totals/rsvp-totals.component';
 import { AddeventComponent } from '../addevent/addevent.component';
 import { GetlistComponent } from '../getlist/getlist.component';
@@ -40,6 +41,7 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     SignUpComponent,
     EventScheduleComponent,
     EventRsvpComponent,
+    RsvpComponent,
     RsvpTotalsComponent,
     AddeventComponent,
     GetlistComponent,

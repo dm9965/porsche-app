@@ -80,9 +80,11 @@
     </tr>
     <tbody>
        <tr *ngFor = 'let events of events'>
-         <td style="width: 10%"> {{events.startdatetime | date: 'MMM d' }}</td>
-         <td style="width: 15%">{{ events.startdatetime | date: 'h:mm a' }} </td>
-         <td style="width: 15%">{{ events.enddatetime | date: 'h:mm a'  }} </td>
+        <td>
+        {{ events.startdatetime | date:'MMM d'}} @ {{ events.startdatetime | date:'h:mm a'}} - 
+        {{ events.endday == events.startday  ? '' :  (events.enddatetime | date:'MMM d') + ' @ ' }} 
+        {{ events.enddatetime | date:'h:mm a' }}
+      </td>
          <td>{{ events.eventname }}</td>
          <td>{{ events.location }}</td>
 <!--         <td>-->

@@ -7,6 +7,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-components/moment-adapter';
 import { MatSnackBar} from "@angular/material/snack-bar";
 import {ThemePalette} from "@angular/material/core";
+import { environment } from '../environments/environment';
 
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
   parse: {
@@ -116,7 +117,7 @@ export class AddeventComponent {
   createEvent = (event_start_datetime: string, event_end_datetime: string, event_descr: string, event_location: string, event_details: string) => {
 
 
-    fetch('http://localhost:3001/event/create', {
+    fetch(environment.apiURL + 'create', {
       method: 'POST',
       body: JSON.stringify({
         startdatetime: event_start_datetime,

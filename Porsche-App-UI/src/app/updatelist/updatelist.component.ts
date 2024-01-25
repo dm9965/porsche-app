@@ -9,6 +9,8 @@ import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-component
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
+import { environment } from '../environments/environment';
+
 
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
   parse: {
@@ -32,6 +34,8 @@ interface Events {
   location: string;
   details: string;
   attending: string;
+  startday: string;
+  endday: string;
 }
 
 declare var jQuery: any;
@@ -68,6 +72,8 @@ export class UpdatelistComponent {
     location: '',
     details: '',
     attending: '',
+    startday: '',
+    endday: ''
   }
 
   ngOnInit() {
@@ -75,7 +81,7 @@ export class UpdatelistComponent {
   }
 
   getEvents = () => {
-    fetch('http://localhost:3001/events/all')
+    fetch(environment.apiURL + 'events/all')
       .then((response) => {
         return response.json();
       }).then((data) => {
@@ -86,6 +92,17 @@ export class UpdatelistComponent {
         return dateA - dateB;
       });
       console.log(data)
+      
+        //do this so we can differentiate between one day events and multiple day events
+        for (let event of this.events) {
+          const a = new Date(event.enddatetime);
+          event.endday = a.getDay().toString();
+          const b = new Date(event.startdatetime);
+          event.startday = b.getDay().toString();
+          //console.log('start',event.startday);
+          //console.log('end',event.endday);
+        }
+
       if (this.events[0].id === undefined) {
         // error in loading data!!
         console.log("Error loading data");
@@ -96,7 +113,7 @@ export class UpdatelistComponent {
   }
 
   deleteEvent = (id: string) => {
-    fetch('http://localhost:3001/event/delete', {
+    fetch(environment.apiURL + 'event/delete', {
       method: 'DELETE',
       body: JSON.stringify({
         id: id,
@@ -122,7 +139,7 @@ export class UpdatelistComponent {
 
   updateEvent = (id: string, startdatetime: string, enddatetime: string, eventname: string, location: string, details: string) => {
     console.log("Passed in data to update: ", id, startdatetime, enddatetime, eventname, location, details)
-    fetch('http://localhost:3001/event/update', {
+    fetch(environment.apiURL + 'event/update', {
       method: 'PUT',
       body: JSON.stringify({
         startdatetime: startdatetime,
@@ -159,18 +176,18 @@ export class UpdatelistComponent {
     var str: string;
 
     let elementId: string = (event.target as Element).id;
-    console.log (elementId);
+    console.log ('elementId=' + elementId);
 
     str = elementId;
-    //do this because the id is of the form "edit123"
+    //do this because in the HTML the id of the Update button is of the form "edit123"
     eventNum = parseInt(str.substring(4));
-    console.log(eventNum)
+    console.log('eventNum=' + eventNum)
 
     eTblRow = jQuery("#" + str).parent().parent();
-    console.log (eTblRow.text());
+    console.log ('Row text=' + eTblRow.text());
 
     // @ts-ignore
-    this.selectedEvent = this.events.find(event => event.id === eventNum)
+    this.selectedEvent = this.events.find(event => event.id == eventNum)
     console.log(this.selectedEvent)
     console.log("Start Date: ", moment(this.selectedEvent.startdatetime).format( 'MM Do YYYY, hh:mm a'))
     console.log("End Date: ", moment(this.selectedEvent.enddatetime).format( 'MM Do YYYY, hh:mm a'))

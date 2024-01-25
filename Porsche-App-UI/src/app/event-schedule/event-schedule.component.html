@@ -1,6 +1,6 @@
 <div class="container mt-3 fw-bolder">
   <div class="header-style">
-      <h1 class="fw-bolder">NRPCA Event List</h1>
+      <h1 class="fw-bolder">NRPCA {{ this.s == 'p' ? ' Past ' : ' Upcoming '}} Event List</h1>
   </div>
   <hr/>
 </div>
@@ -62,13 +62,17 @@
   </form>
 
 
-  <h2 class="header-style">Click on event title for details</h2>
+  <h2 class="header-style">Click on event title for details
+    {{ this.s == 'p' ? ' ' : ' and to RSVP '}}
+  </h2>
 
     <table class="table table-striped">
         <tbody style="color: black;">
         <tr *ngFor = 'let event of events' >
             <td>
-              {{ event.startdatetime | date:'MMM d'}} @ {{ event.startdatetime | date:'h:mm a'}} - {{ event.enddatetime | date:'h:mm a'}}
+              {{ event.startdatetime | date:'MMM d'}} @ {{ event.startdatetime | date:'h:mm a'}} - 
+              {{ event.endday == event.startday  ? '' :  (event.enddatetime | date:'MMM d') + ' @ ' }}               
+              {{ event.enddatetime | date:'h:mm a' }}
             </td>
             <td>
               <a id="e{{ event.id }}" (click)="showPopup($event)" class="d-flex flex-row justify-content-end text-black">

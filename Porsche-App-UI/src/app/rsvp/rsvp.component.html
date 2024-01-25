@@ -1,0 +1,59 @@
+<p></p>
+
+<div class="container text-left app-container-transparent">
+  <div class="row justify-content-md-center">
+
+
+<div class="col-sm-4">
+</div>
+<div class="col-sm-4">
+  <form id="rsvpForm" name="rsvpForm">
+    <div class="" tabindex="-1" id="popup-box">
+          <div class=""><h2>RSVP or Cancel</h2></div>
+          <table class="table">
+            <tbody style="color: black;">
+            <tr *ngFor = 'let event of events' >
+              <td>
+              <p><strong>Event: </strong><span id="event-name">
+                {{ event.eventname }}
+              </span>
+              </p>
+              <p><strong>Date: </strong><span id="event-date">
+                {{ event.startdatetime | date:'MMM d'}} @ {{ event.startdatetime | date:'h:mm a'}} - {{ event.enddatetime | date:'h:mm a'}}
+              </span></p>
+              <p><strong>Location: </strong><span id="event-location"></span>
+                {{ event.location }}
+              </p>
+                <input type="hidden" [(ngModel)]="eventId" name="uid" id="uid">
+                <p><strong>Attending?</strong><br>
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="eventRadio" id="attendingRadio" name="attendingRadio">
+                    <mat-radio-button name="type1" value="1" [checked]="true" color="primary">Yes, I plan to attend</mat-radio-button>
+                    <mat-radio-button name="type0" value="0" color="primary">No, I need to cancel</mat-radio-button>
+                </mat-radio-group>
+              </p>
+                <p><strong><label for="numAttending">
+                  {{ eventRadio == "1" ? 'How many attending?' : 'How many cancelling?' }}
+                </label></strong>&nbsp;
+                <select [(ngModel)]="eventCount" name="numAttending" id="numAttending" matNativeControl required>
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                </p>
+              </td></tr>
+              </tbody></table>
+          </div>
+          <div class="" style="text-align:center;">
+            <button mat-raised-button color="warn" type="submit" (click)="submitForm()">Save</button>
+            &nbsp;&nbsp;
+            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+          </div>
+    </form>
+</div>
+<div class="col-sm-4">
+</div>
+    
+</div>
+</div>

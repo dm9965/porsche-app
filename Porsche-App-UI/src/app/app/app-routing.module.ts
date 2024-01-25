@@ -5,6 +5,7 @@ import {LoginComponent} from "../login/login.component";
 import {CalendarComponent} from "../calendar/calendar.component";
 import {EventScheduleComponent} from "../event-schedule/event-schedule.component";
 import {EventRsvpComponent} from "../event-rsvp/event-rsvp.component";
+import {RsvpComponent} from "../rsvp/rsvp.component";
 import {RsvpTotalsComponent} from "../rsvp-totals/rsvp-totals.component";
 import {UpdatelistComponent} from "../updatelist/updatelist.component";
 import {AddeventComponent} from "../addevent/addevent.component";
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'calendar', component: CalendarComponent},
   {path: 'event-schedule', component: EventScheduleComponent},
   {path: 'event-rsvp', component: EventRsvpComponent},
+  {path: 'rsvp', component: RsvpComponent},
   {path: 'rsvp-totals', component: RsvpTotalsComponent},
   {path: 'update-list', component: UpdatelistComponent},
   {path: 'addevent', component: AddeventComponent},

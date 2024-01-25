@@ -1,7 +1,12 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { GetlistdataService } from '../getlistdata.service';
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {  Router, ActivatedRoute, ParamMap, Params  } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { now } from 'moment';
+import { NgFor } from '@angular/common';
+import { environment } from '../environments/environment';
 
 interface Events {
   id: string;
@@ -11,6 +16,8 @@ interface Events {
   location: string;
   details: string;
   attending: string;
+  startday: string;
+  endday: string;
 }
 
 
@@ -23,10 +30,11 @@ declare var jQuery: any;
 })
 export class EventScheduleComponent {
 
-  constructor(private _snackbar: MatSnackBar) {
+  s: any;   //query parameter
+  sUrl = '';
+
+  constructor(private route: ActivatedRoute, private _snackbar: MatSnackBar) {
   }
-
-
 
   selectedOption: number = 1;
 
@@ -40,24 +48,48 @@ export class EventScheduleComponent {
     location: '',
     details: '',
     attending: '',
+    startday: '',
+    endday: ''
   }
+  d: any;
 
   ngOnInit() {
-    this.getEvents()
+    this.route.queryParams.subscribe(queryParams => {
+      this.s = this.route.snapshot.queryParamMap.get('s');
+      this.getEvents();
+    });
   }
 
   getEvents = () => {
-    fetch('http://localhost:3001/events/all')
+    this.sUrl = environment.apiURL + 'events/future';
+    console.log(this.s);
+    if (this.s == 'p')
+    {
+      this.sUrl = environment.apiURL + 'events/past';
+    }
+    fetch(this.sUrl)
       .then((response) => {
         return response.json();
       }).then((data) => {
-      this.events = data.sort((a: any, b: any) => {
+        this.events = data.sort((a: any, b: any) => {
         const dateA = new Date(a.startdatetime);
         const dateB = new Date(b.startdatetime);
         // @ts-ignore
         return dateA - dateB;
       });
-        console.log(data)
+        //console.log('json',data);
+        console.log('events',this.events);
+
+        //do this so we can differentiate between one day events and multiple day events
+        for (let event of this.events) {
+          const a = new Date(event.enddatetime);
+          event.endday = a.getDay().toString();
+          const b = new Date(event.startdatetime);
+          event.startday = b.getDay().toString();
+          //console.log('start',event.startday);
+          //console.log('end',event.endday);
+        }
+
         if (this.events[0].id === undefined) {
           // error in loading data!!
           console.log("Error loading data");
@@ -97,7 +129,7 @@ export class EventScheduleComponent {
   }
 
   cancel = () => {
-    fetch('http://localhost:3001/event/cancel', {
+    fetch(environment.apiURL + 'event/cancel', {
       method: 'PUT',
       body: JSON.stringify({
         id: parseInt(this.selectedEvent.id),
@@ -180,3 +212,4 @@ export class EventScheduleComponent {
     jQuery("#detail-popup").css('display', 'none');
   }
 }
+

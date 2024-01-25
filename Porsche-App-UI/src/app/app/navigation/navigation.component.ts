@@ -1,5 +1,5 @@
 import {Component, ElementRef, ViewChild} from '@angular/core';
-import { createPopper } from '@popperjs/core';
+//import { createPopper } from '@popperjs/core';
 
 @Component({
   selector: 'app-navigation',
@@ -7,7 +7,7 @@ import { createPopper } from '@popperjs/core';
   styleUrls: ['./navigation.component.css']
 })
 export class NavigationComponent {
-  @ViewChild('dropdownMenu', { static: false }) dropdownMenu: ElementRef | undefined;
+  //@ViewChild('dropdownMenu', { static: false }) dropdownMenu: ElementRef | undefined;
   dropdownOpen = false;
 
   toggleDropdown() {

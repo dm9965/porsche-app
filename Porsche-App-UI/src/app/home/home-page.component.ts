@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {NgForm} from "@angular/forms";
 import {OnInit} from "@angular/core";
-
+import { environment } from '../environments/environment';
 
 interface Image {
   id: string,
@@ -25,7 +25,7 @@ export class HomePageComponent {
     console.log("Images: ", this.images)
   }
   getImages = () => {
-    fetch('http://localhost:3001/images/all').then((response) => {
+    fetch(environment.apiURL + 'images/all').then((response) => {
       return response.json()
     }).then((data) => {
       this.images = data.rows.map((image: Image) => ({ id: image.id, imageurl: image.imageurl }));
@@ -43,7 +43,7 @@ export class HomePageComponent {
           panelClass: ['error_snackbar']
         });
     } else {
-      fetch('http://localhost:3001/images/add', {
+      fetch(environment.apiURL + 'images/add', {
         method: "POST",
         body: JSON.stringify({
           imageURL: this.imageURL

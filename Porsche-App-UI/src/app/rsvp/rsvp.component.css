@@ -1,0 +1,10 @@
+.app-container {
+    padding:12px;
+}
+
+#popup-box {   
+    padding: 8px;
+    /* background-color:white; */
+    border: 0px solid black;
+    color:black;
+}

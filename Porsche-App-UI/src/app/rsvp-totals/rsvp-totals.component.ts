@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { GetlistdataService } from '../getlistdata.service';
-
+import { environment } from '../environments/environment';
 
 interface Events {
   id: string;
@@ -10,6 +10,8 @@ interface Events {
   location: string;
   details: string;
   attending: string;
+  startday: string;
+  endday: string;
 }
 
 declare var jQuery: any;
@@ -27,7 +29,7 @@ export class RsvpTotalsComponent {
   public events: Events[] = [];
 
   getEvents = () => {
-    fetch('http://localhost:3001/events/all')
+    fetch(environment.apiURL + 'events/all')
       .then((response) => {
         return response.json();
       }).then((data) => {
@@ -39,6 +41,17 @@ export class RsvpTotalsComponent {
         return dateA - dateB;
       });
       console.log(data)
+
+        //do this so we can differentiate between one day events and multiple day events
+        for (let event of this.events) {
+          const a = new Date(event.enddatetime);
+          event.endday = a.getDay().toString();
+          const b = new Date(event.startdatetime);
+          event.startday = b.getDay().toString();
+          //console.log('start',event.startday);
+          //console.log('end',event.endday);
+        }
+
       if (this.events[0].id === undefined) {
         // error in loading data!!
         console.log("Error loading data");
@@ -49,6 +62,35 @@ export class RsvpTotalsComponent {
     })
   }
 
+  getRsvpLink(event: Event) {
+    let eventNum: any;
+    let eTblRow: any;
+    let eTblRowData: any;
+    let str: string;
+
+    let elementId: string = (event.target as Element).id;
+
+    console.log (elementId);
+
+
+    str = elementId;
+    //do this if the id is of the form "e123"
+    eventNum = str.substring(1);
+    //populate field with event description
+    jQuery("#event-name").text(jQuery("#e"+eventNum).text());
+
+    //get row which is parent to <td> which is parent to <a>
+    eTblRow = jQuery("#"+str).parent().parent();
+    console.log (eTblRow.text());
+    //get first table cell in the row
+    eTblRowData = eTblRow.find('td');
+    //populate field with date
+    jQuery("#event-date").text(eTblRowData.html());
+
+    jQuery("#event-link").val("Click <a " + environment.uiURL + "rsvp?id=" + eventNum + ">HERE</a> to RSVP");
+
+    jQuery('#link-popup').modal("toggle");
+  }
 
   ngOnInit() {
     this.getEvents()
