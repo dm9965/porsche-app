@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 //import 'rxjs/add/operator/filter';
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { environment } from '../environments/environment';
 
 
 import { GetlistComponent } from '../getlist/getlist.component';
@@ -89,7 +90,7 @@ export class RsvpComponent implements OnInit, AfterViewInit {
   }
 
   getSelectedEvent = () => {
-    fetch('http://localhost:3001/event/select?' + new URLSearchParams("id=" + this.id).toString()
+    fetch(environment.apiURL + 'event/select?' + new URLSearchParams("id=" + this.id).toString()
     ).then((response) => {
       console.log("in response");
         //console.log(response.json());
@@ -116,7 +117,7 @@ export class RsvpComponent implements OnInit, AfterViewInit {
     console.log(this.selectedEvent.id)
     console.log(this.selectedEvent.attending)
 
-    fetch('http://localhost:3001/event/attend', {
+    fetch(environment.apiURL + 'event/attend', {
       method: 'PUT',
       body: JSON.stringify({
           id: parseInt(this.eventId),
@@ -142,7 +143,7 @@ export class RsvpComponent implements OnInit, AfterViewInit {
   }
 
   cancel = () => {
-    fetch('http://localhost:3001/event/cancel', {
+    fetch(environment.apiURL + 'event/cancel', {
       method: 'PUT',
       body: JSON.stringify({
         id: parseInt(this.eventId),
