@@ -117,7 +117,7 @@ export class AddeventComponent {
   createEvent = (event_start_datetime: string, event_end_datetime: string, event_descr: string, event_location: string, event_details: string) => {
 
 
-    fetch(environment.apiURL + 'create', {
+    fetch(environment.apiURL + 'event/create', {
       method: 'POST',
       body: JSON.stringify({
         startdatetime: event_start_datetime,
