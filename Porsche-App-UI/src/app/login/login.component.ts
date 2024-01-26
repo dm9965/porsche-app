@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { environment } from '../environments/environment';
+//import { SessionStorage, SessionStorageService } from 'ngx-webstorage';
+import {NgxWebstorageModule, SessionStorageService} from 'ngx-webstorage';
 
 interface Users {
   email: string;
@@ -23,7 +25,7 @@ declare var jQuery: any;
 
 export class LoginComponent {
 
-  constructor (private route: ActivatedRoute, private _snackbar: MatSnackBar) {}
+  constructor (private route: ActivatedRoute, private _snackbar: MatSnackBar, private session: SessionStorageService) {}
 
   email = "";
   pwd = "";
@@ -52,7 +54,6 @@ export class LoginComponent {
     }
     }).then((response) => {
       console.log('response',response);
-      //console.log('r=',response.json());
       return response.json()
     }).then((data) => {
       this.thisUser = data[0];
@@ -61,12 +62,14 @@ export class LoginComponent {
       
       console.log('thisUser',this.thisUser)
       if (this.thisUser === undefined) {
+        this.session.store('logged_in', 'N');
         this._snackbar.open('Login Failed!',
         'Dismiss', {
           duration: 5000,
           panelClass: ['error_snackbar']
         })
       } else {
+        this.session.store('logged_in', 'Y');
         this._snackbar.open('Login Successful!',
         'Dismiss', {
           duration: 5000,

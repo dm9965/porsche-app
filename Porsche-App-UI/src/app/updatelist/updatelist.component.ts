@@ -10,6 +10,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import { environment } from '../environments/environment';
+import { SessionStorageService } from 'ngx-webstorage';
 
 
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
@@ -54,7 +55,9 @@ declare var jQuery: any;
 })
 export class UpdatelistComponent {
 
-  constructor(private _snackbar: MatSnackBar) {}
+  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService) {}
+
+  isLoggedIn = '';
 
   events: Events[] = [];
   eventId = "";
@@ -77,7 +80,16 @@ export class UpdatelistComponent {
   }
 
   ngOnInit() {
-    this.getEvents()
+    this.isLoggedIn = this.session.retrieve('logged_in');
+    if (this.isLoggedIn == 'Y') {
+      this.getEvents()
+    } else {
+      this._snackbar.open('You must be logged in as an Admin to access this functionality',
+      'Dismiss', {
+        duration: 5000,
+        panelClass: ['error_snackbar']
+      })
+    }
   }
 
   getEvents = () => {

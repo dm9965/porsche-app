@@ -81,7 +81,7 @@
     <tbody>
        <tr *ngFor = 'let events of events'>
         <td>
-        {{ events.startdatetime | date:'MMM d'}} @ {{ events.startdatetime | date:'h:mm a'}} - 
+        {{ events.startdatetime | date:'MMM d'}} &#64; {{ events.startdatetime | date:'h:mm a'}} - 
         {{ events.endday == events.startday  ? '' :  (events.enddatetime | date:'MMM d') + ' @ ' }} 
         {{ events.enddatetime | date:'h:mm a' }}
       </td>

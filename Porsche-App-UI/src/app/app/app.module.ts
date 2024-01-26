@@ -31,7 +31,9 @@ import {
   NgxMatNativeDateModule,
   NgxMatTimepickerModule,
 } from '@angular-material-components/datetime-picker';
-import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+//import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
+import {NgxWebstorageModule} from 'ngx-webstorage';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -67,7 +69,8 @@ import { NgxMatMomentModule } from '@angular-material-components/moment-adapter'
     NgxMatTimepickerModule,
     MatInputModule,
     MatDatepickerModule,
-    NgxMatMomentModule
+    NgxWebstorageModule.forRoot(),
+    //NgxMatMomentModule
     ],
   providers: [],
   bootstrap: [AppComponent]

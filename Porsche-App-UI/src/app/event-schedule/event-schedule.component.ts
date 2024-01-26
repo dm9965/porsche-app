@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { GetlistdataService } from '../getlistdata.service';
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {  Router, ActivatedRoute, ParamMap, Params  } from '@angular/router';
+import {  ActivatedRoute  } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
 import { now } from 'moment';
 import { NgFor } from '@angular/common';
@@ -21,8 +21,8 @@ interface Events {
 }
 
 
-
 declare var jQuery: any;
+
 @Component({
   selector: 'app-event-schedule',
   templateUrl: './event-schedule.component.html',

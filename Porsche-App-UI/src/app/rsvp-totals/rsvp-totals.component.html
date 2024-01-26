@@ -36,13 +36,13 @@
         <tbody>
         <tr *ngFor = 'let event of events'>
           <td>
-            {{ event.startdatetime | date:'MMM d'}} @ {{ event.startdatetime | date:'h:mm a'}} - 
+            {{ event.startdatetime | date:'MMM d'}} &#64; {{ event.startdatetime | date:'h:mm a'}} - 
             {{ event.endday == event.startday  ? '' :  (event.enddatetime | date:'MMM d') + ' @ ' }}               
             {{ event.enddatetime | date:'h:mm a' }}
           </td>    
           <td>
             <a id="e{{ event.id }}" (click)="getRsvpLink($event)"  class="d-flex flex-row justify-content-start text-black">
-              {{ event.eventname }} @ {{ event.location }}
+              {{ event.eventname }} &#64; {{ event.location }}
             </a>
           </td>
           <td>

@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core';
+import { Component, OnInit, AfterViewInit, NgModule } from '@angular/core';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import * as _moment from 'moment';
@@ -8,6 +8,7 @@ import { NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular-material-component
 import { MatSnackBar} from "@angular/material/snack-bar";
 import {ThemePalette} from "@angular/material/core";
 import { environment } from '../environments/environment';
+import { SessionStorageService } from 'ngx-webstorage';
 
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
   parse: {
@@ -49,7 +50,7 @@ class eventData {
 
 export class AddeventComponent {
 
-  constructor(private _snackbar: MatSnackBar) {  }
+  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService) {  }
 
   model = new eventData("","","","","")
 
@@ -65,7 +66,20 @@ export class AddeventComponent {
 
   errorMessage = false;
 
+  isLoggedIn = '';
+
   onSubmit() {
+
+    console.log('logged in=', this.isLoggedIn);
+    if (this.isLoggedIn != 'Y') {
+      this._snackbar.open('You must be logged as an Admin to access this functionality',
+      'Dismiss', {
+        duration: 5000,
+        panelClass: ['error_snackbar']
+      })
+      return;
+    }
+
     this.start_date = moment(this.myStartDate);
     this.model.event_start_datetime = this.start_date.format("YYYY-MM-DD HH:mm:ss")
 
@@ -111,11 +125,26 @@ export class AddeventComponent {
   }
 
   NgOnInit() {
+  }
+
+  ngAfterViewInit() {
+
+    this.isLoggedIn = this.session.retrieve('logged_in');
+    console.log('logged in=', this.isLoggedIn);
+
+    if (this.isLoggedIn == 'Y') {
+
+    } else {
+      this._snackbar.open('You must be logged in as an Admin to access this functionality',
+      'Dismiss', {
+        duration: 5000,
+        panelClass: ['error_snackbar']
+      })
+    }
 
   }
 
   createEvent = (event_start_datetime: string, event_end_datetime: string, event_descr: string, event_location: string, event_details: string) => {
-
 
     fetch(environment.apiURL + 'event/create', {
       method: 'POST',

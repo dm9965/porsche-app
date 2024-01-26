@@ -9,13 +9,12 @@
   <div class="col-sm-4">
     <p><h1>Login</h1>
   
-    <form id="loginForm" name="loginForm">
-    <div class="modal-body">
-      <p><strong>Email: </strong><input type = "text" id="email"  name="email"></p>
-      <p><strong>Password: </strong><input type = "text" id="pwd"  name="pwd"></p>
-
-      <button mat-raised-button class="mat-yellow " type="submit"  (click)="this.getLogin()">OK</button>
-    </div>  
+    <form id="loginForm" name="loginForm" #loginForm="ngForm">
+      <div class="form-group">
+      <p><label for="email">Email: </label><input type="text" class="form-control" id="email"  name="email"></p>
+      <p><label for="pwd">Password: </label><input type="password" class="form-control" id="pwd"  name="pwd"></p>
+      </div>
+      <button mat-raised-button type="submit" class="btn yellow-button" (click)="this.getLogin()">OK</button> 
     </form>
 
 
