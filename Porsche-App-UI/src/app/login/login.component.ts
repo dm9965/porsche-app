@@ -74,7 +74,7 @@ export class LoginComponent {
         })
         // now set session variables
 
-        
+
       }
  
   }).catch((error) => {
@@ -82,3 +82,4 @@ export class LoginComponent {
   })
 }
 }
+
