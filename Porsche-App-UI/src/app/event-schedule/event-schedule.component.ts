@@ -36,7 +36,8 @@ export class EventScheduleComponent {
   constructor(private route: ActivatedRoute, private _snackbar: MatSnackBar) {
   }
 
-  selectedOption: number = 1;
+  selectedOption: string = "1";
+  
 
   events: Events[] = [];
 
@@ -56,13 +57,15 @@ export class EventScheduleComponent {
   ngOnInit() {
     this.route.queryParams.subscribe(queryParams => {
       this.s = this.route.snapshot.queryParamMap.get('s');
+      //console.log(this.route.snapshot.queryParamMap)
+      //console.log(this.route.snapshot.queryParams)
       this.getEvents();
     });
   }
 
   getEvents = () => {
     this.sUrl = environment.apiURL + 'events/future';
-    console.log(this.s);
+    //console.log(this.s);
     if (this.s == 'p')
     {
       this.sUrl = environment.apiURL + 'events/past';
@@ -71,12 +74,14 @@ export class EventScheduleComponent {
       .then((response) => {
         return response.json();
       }).then((data) => {
-        this.events = data.sort((a: any, b: any) => {
-        const dateA = new Date(a.startdatetime);
-        const dateB = new Date(b.startdatetime);
-        // @ts-ignore
-        return dateA - dateB;
-      });
+          // sorting being done in the SQL queries, not here
+          //this.events = data.sort((a: any, b: any) => {
+          //const dateA = new Date(a.startdatetime);
+          //const dateB = new Date(b.startdatetime);
+          // @ts-ignore
+          //return dateA - dateB;
+          //});
+        this.events = JSON.parse(JSON.stringify(data)); 
         //console.log('json',data);
         console.log('events',this.events);
 
@@ -155,11 +160,21 @@ export class EventScheduleComponent {
   }
 
   submitForm = () => {
-    if (this.selectedOption > 0) {
-      this.rsvpForEvent()
+    if (this.s == 'u') { 
+      if (this.selectedOption == "1") {
+        this.rsvpForEvent()
+      }
+     else {
+        this.cancel()
+      }
     }
-    else {
-      this.cancel()
+    else
+    {
+      this._snackbar.open("Can't RSVP to past events",
+        'Dismiss', {
+          duration: 5000,
+          panelClass: ['error_snackbar']
+        })
     }
   }
 
@@ -180,7 +195,7 @@ export class EventScheduleComponent {
     //populate field with event description
     jQuery("#event-name").text(jQuery("#e"+eventNum).text());
     //populate field with event detail
-    jQuery("#event-detail").text(jQuery("#d"+eventNum).text());
+    jQuery("#event-detail").html(jQuery("#d"+eventNum).html());
 
     const eventIndex = parseInt(eventNum) - 1;
 
@@ -203,13 +218,12 @@ export class EventScheduleComponent {
     str = jQuery("#d"+eventNum).text();
     if (str.length > 2) {
       jQuery('#detail-popup').modal('toggle');
-      //jQuery("#detail-popup").css('display', 'block');
     }
   }
 
 
   public hidePopup() {
-    jQuery("#detail-popup").css('display', 'none');
+    jQuery('#detail-popup').modal('toggle');  
   }
 }
 

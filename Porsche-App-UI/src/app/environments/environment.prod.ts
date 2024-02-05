@@ -2,7 +2,7 @@
 export const environment = {
     production: true,
 
-    uiURL: "",
+    uiURL: "http://localhost/nrpcaevents/",
 
-    apiURL: ""
+    apiURL: "http://localhost:3001/"
 };

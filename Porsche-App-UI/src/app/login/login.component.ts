@@ -41,7 +41,7 @@ export class LoginComponent {
   getLogin  = () => {
     this.email = jQuery("#email").val();
     this.pwd = jQuery("#pwd").val();
-    console.log('email='+this.email)
+    //console.log('email='+this.email)
 
     fetch(environment.apiURL + 'users/login', {
     method: 'POST',
@@ -53,16 +53,16 @@ export class LoginComponent {
       "Content-type":"application/json; charset=UTF-8"
     }
     }).then((response) => {
-      console.log('response',response);
+      //console.log('response',response);
       return response.json()
     }).then((data) => {
       this.thisUser = data[0];
-      console.log('data',this.thisUser)
+      //console.log('data',this.thisUser)
     }).then(() => {
       
-      console.log('thisUser',this.thisUser)
+      //console.log('thisUser',this.thisUser)
       if (this.thisUser === undefined) {
-        this.session.store('logged_in', 'N');
+        this.session.clear('logged_in');
         this._snackbar.open('Login Failed!',
         'Dismiss', {
           duration: 5000,

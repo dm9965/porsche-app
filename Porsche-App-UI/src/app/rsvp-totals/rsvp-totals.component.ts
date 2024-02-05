@@ -29,16 +29,17 @@ export class RsvpTotalsComponent {
   public events: Events[] = [];
 
   getEvents = () => {
-    fetch(environment.apiURL + 'events/all')
+    fetch(environment.apiURL + 'events/totals')
       .then((response) => {
         return response.json();
       }).then((data) => {
         this.error = false;
-      this.events = data.sort((a: any, b: any) => {
+        // use descending sort
+        this.events = data.sort((a: any, b: any) => {
         const dateA = new Date(a.startdatetime);
         const dateB = new Date(b.startdatetime);
         // @ts-ignore
-        return dateA - dateB;
+        return dateB - dateA;
       });
       console.log(data)
 
@@ -87,7 +88,8 @@ export class RsvpTotalsComponent {
     //populate field with date
     jQuery("#event-date").text(eTblRowData.html());
 
-    jQuery("#event-link").val("Click <a " + environment.uiURL + "rsvp?id=" + eventNum + ">HERE</a> to RSVP");
+    jQuery("#event-link").val("Click <a href='" + environment.uiURL + "#/rsvp?id=" + eventNum + "' style='font-weight:bold;color:red;text-decoration:underline;'>HERE</a> to RSVP");
+    jQuery("#event-link-url").val(environment.uiURL + "#/rsvp?id=" + eventNum );
 
     jQuery('#link-popup').modal("toggle");
   }

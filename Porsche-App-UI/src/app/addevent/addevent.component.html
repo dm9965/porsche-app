@@ -11,61 +11,68 @@
             <div class="form-group">
                 <label for="event_descr">Event Name</label>
                 <input type="text" class="form-control" id="event_descr" required
-                    [(ngModel)] = "model.event_descr" name="event_descr">
+                    [(ngModel)] = "model.event_descr" name="event_descr" maxlength="1024">
                 <br>
             </div>
-            <div class="form-group">
+            <div>
                 <!-- <label for="event_date">Date (YYYY-MM-DD format)</label>
                 <input type="text" class="form-control"  id="event_date" required
                     [(ngModel)] = "model.event_date" name="event_date"> -->
+
                 <div id="picker-div" class="container text-left app-container-transparent">
                   <div class="row justify-content-md-center">
-                    <div class="col">
+                    <div class="col" style="height: 90px">
                         <!-- <label for="event_start">Start Date/Time</label><br> -->
-                        Event Start Date/Time<br>
+                        Click to enter Event Start Date/Time<br>
                         <mat-form-field appearance="outline" style="background-color:#fff; color: black;">
-                            <input matInput [ngxMatDatetimePicker]="start_picker" placeholder="Choose start date/time"
-                            [(ngModel)]="myStartDate" name="event_start">
-                            <mat-datepicker-toggle matSuffix [for]="$any(start_picker)"></mat-datepicker-toggle>
-                            <!-- <ngx-mat-timepicker [(ngModel)]="myTimePicker" name="event_start_time"></ngx-mat-timepicker> -->
-                            <ngx-mat-datetime-picker color="warn" style="color: black !important;" #start_picker [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true" [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false"
-                            name="event_start_date"></ngx-mat-datetime-picker>
-                        </mat-form-field>
+                          <input matInput [ngxMatDatetimePicker]="start_picker" placeholder="Choose start date/time"
+                          [(ngModel)]=this.myStartDate name="event_start" id="event_start" [disabled]="true"
+                          (dateInput)="onStartDateChange($event)">
+                          
+                          <mat-datepicker-toggle matSuffix [for]="$any(start_picker)" [disabled]="false"></mat-datepicker-toggle>
+
+                          <ngx-mat-datetime-picker color="warn" style="color: black !important;" #start_picker  
+                            [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true"
+                            [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false" [hideTime]="false"                         
+                            [disabled]="false" name="event_start_date"></ngx-mat-datetime-picker>
+                      </mat-form-field>
+                      <div id="start-div" class="date-display-div"></div>
                     </div>
-                    <div class="col" style="color: black !important;">
+                    <div class="col" style="color: black !important; height: 90px">
                         <!-- <label for="event_end">End Date/Time</label><br> -->
                         <!-- <input type="text" class="form-control" id="event_end" required [(ngModel)] = "model.event_end" name="event_end"> -->
-                        Event End Date/Time<br>
+                        Click to enter Event End Date/Time<br>
                       <mat-form-field appearance="outline" color="primary" style="background-color:#fff; color: black;">
-                        <input matInput [ngxMatDatetimePicker]="$any(end_picker)" placeholder="Choose end date/time"
-                               [(ngModel)]="myEndDate" name="event_end"  [min]="myStartDate">
-                        <mat-datepicker-toggle matSuffix [for]="$any(end_picker)"></mat-datepicker-toggle>
+                        <input matInput [ngxMatDatetimePicker]="$any(end_picker)" placeholder="Choose end date/time" [disabled]="true"
+                              [(ngModel)]="myEndDate" name="event_end"  [min]="this.myStartDate" (dateInput)="onEndDateChange($event)">
+                        <mat-datepicker-toggle matSuffix [for]="$any(end_picker)" [disabled]="false"></mat-datepicker-toggle>
                         <ngx-mat-datetime-picker #end_picker [color]="color" [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true"
-                                                 [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false"
-                                                 name="event_end_date" style="color: black !important"></ngx-mat-datetime-picker>
+                              [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false" [hideTime]="false" [disabled]="false"
+                              name="event_end_date" style="color: black !important"></ngx-mat-datetime-picker>
                       </mat-form-field>
+                      <div id="end-div" class="date-display-div"></div>
                     </div>
                     <br>
+                  </div>
                 </div>
-                </div>
-            </div>
-
-            <div class="form-group">
+              </div>
+            
+            <div class="form-group" style="margin-top:10px;">
                 <label for="event_location">Location</label>
                 <input type="text" class="form-control"  id="event_location" required
-                    [(ngModel)] = "model.event_location" name = "event_location">
+                    [(ngModel)] = "model.event_location" name = "event_location" maxlength="1024">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" style="margin-top:10px;">
                 <label for="event_details">Details</label>
                 <textarea type="text" class="form-control"  id="event_details" required
-                    [(ngModel)] = "model.event_details" name = "event_details"></textarea>
+                    [(ngModel)] = "model.event_details" name = "event_details" maxlength="2048"></textarea>
             </div>
 
             <div class="mt-3">
             <!-- <button type="submit" class="btn btn-success" [disabled]="!addEventForm.form.valid">Submit</button> -->
               <button mat-raised-button type="submit" class="btn mw-0 me-3 yellow-button">Submit</button>
-              <button mat-raised-button type="button" class="btn btn-danger red-button" (click)="addEventForm.reset()">Cancel</button>
+              <button mat-raised-button type="button" class="btn btn-danger red-button" (click)="this.resetForm()">Cancel</button>
             </div>
         </form>
         </div>

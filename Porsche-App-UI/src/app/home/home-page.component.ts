@@ -3,10 +3,11 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {NgForm} from "@angular/forms";
 import {OnInit} from "@angular/core";
 import { environment } from '../environments/environment';
+import { NgFor } from '@angular/common';
 
 interface Image {
   id: string,
-  imageurl: string
+  imageURL: string
 }
 @Component({
   selector: 'app-home',
@@ -28,7 +29,8 @@ export class HomePageComponent {
     fetch(environment.apiURL + 'images/all').then((response) => {
       return response.json()
     }).then((data) => {
-      this.images = data.rows.map((image: Image) => ({ id: image.id, imageurl: image.imageurl }));
+      //this.images = data.rows.map((image: Image) => ({ id: image.id, imageUrl: image.imageURL }));
+      this.images = data;
       console.log("Images: ", this.images)
     }).catch((error) => {
       console.log(error)

@@ -7,14 +7,16 @@
   <div class="col-sm-4">
   </div>
   <div class="col-sm-4">
-    <p><h1>Login</h1>
+    <p><h1>Admin Login</h1>
   
     <form id="loginForm" name="loginForm" #loginForm="ngForm">
       <div class="form-group">
-      <p><label for="email">Email: </label><input type="text" class="form-control" id="email"  name="email"></p>
-      <p><label for="pwd">Password: </label><input type="password" class="form-control" id="pwd"  name="pwd"></p>
+      <p><label for="email"><strong>Email:</strong></label>
+        <input type="text" class="form-control" id="email"  name="email" maxlength="120"></p>
+      <p><label for="pwd"><strong>Password:</strong></label>
+        <input type="password" class="form-control" id="pwd"  name="pwd" maxlength="20"></p>
       </div>
-      <button mat-raised-button type="submit" class="btn yellow-button" (click)="this.getLogin()">OK</button> 
+      <button type="submit" class="btn yellow-button" (click)="this.getLogin()">OK</button> 
     </form>
 
 

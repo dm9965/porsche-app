@@ -1,17 +1,12 @@
 import { Component, OnInit, ElementRef, Directive, AfterViewInit} from '@angular/core'
-import { ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
-//import 'rxjs/add/operator/filter';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { environment } from '../environments/environment';
 
 
 import { GetlistComponent } from '../getlist/getlist.component';
 import { GetlistdataService } from '../getlistdata.service';
-
-import { waitForAsync } from '@angular/core/testing';
-import { SafeValue, SafeHtml, SafeUrl, SafeStyle, SafeScript, SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 @Directive({selector: 'child'})
 class ChildDirective {

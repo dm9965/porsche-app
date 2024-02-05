@@ -1,27 +1,11 @@
 const {response} = require("express");
 
-const Pool = require('pg').Pool
-//const pool = new Pool ({
- // user: String(process.env.USER),
- // host: process.env.HOST,
- // database: process.env.DATABASE,
- // password: process.env.PASSWORD,
- // port: process.env.PORT
-//})
-const pool = new Pool ({
-  user: "nrpca",
-  host: "localhost",
-  database: "nrpcadb",
-  password: "porsche911",
-  port: 5432
-})
-
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users', (error, results) => {
     if (error) {
       throw error;
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 }
 
@@ -31,28 +15,38 @@ const getEvents = (request, response) => {
     if (error) {
       throw error;
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 }
 
 const getFutureEvents = (request, response) => {
-  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list WHERE startdatetime >= NOW() ORDER BY startdatetime", 
+  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list WHERE date(startdatetime) >= date(NOW()) ORDER BY startdatetime", 
   (error, results) => {
     if (error) {
       throw error;
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
+  })
+}
+
+const getPastEvents = (request, response) => {
+  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list WHERE date(startdatetime) < date(NOW()) ORDER BY startdatetime DESC", 
+  (error, results) => {
+    if (error) {
+      throw error;
+    }
+    response.status(200).json(results)
   })
 }
 
 
-const getPastEvents = (request, response) => {
-  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list WHERE startdatetime < NOW() ORDER BY startdatetime DESC", 
+const getEventTotals = (request, response) => {
+  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list ORDER BY startdatetime DESC", 
   (error, results) => {
     if (error) {
       throw error;
     }
-    response.status(200).json(results.rows)
+    response.status(200).json(results)
   })
 }
 
@@ -60,7 +54,7 @@ const getPastEvents = (request, response) => {
 const createUser = (request, response) => {
   const {email, username, password} = request.body
 
-  pool.query('INSERT INTO users (email, username, password) VALUES($1, $2, $3)',
+  pool.query('INSERT INTO users (email, username, password) VALUES(?, ?, ?)',
     [email, username, password], (error, results) => {
     if (error) {
       throw error;
@@ -72,13 +66,13 @@ const createUser = (request, response) => {
 const loginUser = (request, response) => {
   const {email, password} = request.body
   pool.query (
-    "SELECT * FROM users WHERE email = $1 AND password = $2" ,
+    "SELECT * FROM users WHERE email = (?) AND password = (?)" ,
     [email, password],
     (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(200).json(results.rows)
+      response.status(200).json(results)
     }
   )
 }
@@ -87,7 +81,7 @@ const createEvent = (request, response) => {
   const {startdatetime, enddatetime, eventname, location, details} = request.body;
 
   pool.query(
-    'INSERT INTO event_list (startdatetime, enddatetime, eventname, location, details) VALUES ($1, $2, $3, $4, $5)',
+    'INSERT INTO event_list (startdatetime, enddatetime, eventname, location, details) VALUES (?,?,?,?,?)',
     [startdatetime, enddatetime, eventname, location, details], 
     (error, results) => {
       if (error) {
@@ -101,13 +95,13 @@ const createEvent = (request, response) => {
 const selectEvent = (request, response) => {
   eventid = request.query.id;
   pool.query (
-    'SELECT * FROM event_list WHERE id = $1' ,
+    'SELECT * FROM event_list WHERE id = (?)' ,
     [eventid],
     (error, results) => {
       if (error) {
         throw error;
       }
-      response.status(201).json(results.rows)
+      response.status(201).json(results)
     }
   )
 }
@@ -116,7 +110,7 @@ const selectEvent = (request, response) => {
 const rsvpEvent = (request, response) => {
   const {id, attending} = request.body;
   pool.query (
-    'UPDATE event_list SET attending = attending + $1 WHERE id = $2',
+    'UPDATE event_list SET attending = attending + (?) WHERE id = (?)',
     [attending, id],
     (error, results) => {
       if (error) {
@@ -130,7 +124,7 @@ const rsvpEvent = (request, response) => {
 const cancel = (request, response) => {
   const {id, attending} = request.body;
   pool.query (
-    'UPDATE event_list SET attending = attending - $1 WHERE id = $2',
+    'UPDATE event_list SET attending = attending - (?) WHERE id = (?)',
     [attending, id],
     (error, results) => {
       if (error) {
@@ -144,7 +138,7 @@ const cancel = (request, response) => {
 const updateEvent = (request, response) => {
   const {id, startdatetime, enddatetime, eventname, location, details} = request.body;
   pool.query (
-    'UPDATE event_list SET startdatetime = $1, enddatetime = $2, eventname = $3, location = $4, details = $5 WHERE id = $6',
+    'UPDATE event_list SET startdatetime = (?), enddatetime = (?), eventname = (?), location = (?), details = (?) WHERE id = (?)',
     [startdatetime, enddatetime, eventname, location, details, id],
     (error, results) => {
       if (error) {
@@ -159,7 +153,7 @@ const updateEvent = (request, response) => {
 const deleteEvent = (request, response) => {
   const {id} = request.body;
   pool.query (
-    'DELETE FROM event_list WHERE id = $1',
+    'DELETE FROM event_list WHERE id = (?)',
     [id],
     (error, result) => {
       if (error) {
@@ -177,7 +171,7 @@ const getImages = (request, response) => {
       if (error) {
         throw error
       }
-      return response.status(201).send(results)
+      return response.status(201).json(results)
     }
   )
 }
@@ -185,7 +179,7 @@ const getImages = (request, response) => {
 const addImage = (request, response) => {
   const {imageURL} = request.body;
   pool.query (
-    'INSERT INTO images (imageURL) VALUES ($1)',
+    'INSERT INTO images (imageURL) VALUES (?)',
     [imageURL],
     (error, results) => {
       if (error) {
@@ -201,6 +195,7 @@ module.exports = {
   getEvents,
   getFutureEvents,
   getPastEvents,
+  getEventTotals,
   createUser,
   loginUser,
   createEvent,

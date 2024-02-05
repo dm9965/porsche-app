@@ -8,6 +8,12 @@ import { GetlistdataService } from '../getlistdata.service';
 import { waitForAsync } from '@angular/core/testing';
 import { SafeValue, SafeHtml, SafeUrl, SafeStyle, SafeScript, SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+
+
 @Directive({selector: 'child'})
 class ChildDirective {
 }
@@ -42,6 +48,13 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
   eventRadio = "1";
   eventCount = "";
 
+  public formGroup = new FormGroup({
+    date: new FormControl(null, [Validators.required]),
+    date2: new FormControl(null, [Validators.required])
+  })
+  public dateControl = new FormControl(new Date(2024,2,2,5,6,7));
+  public dateControlMinMax = new FormControl(new Date());
+
   constructor(private http: HttpClient, private getlist:GetlistComponent, private getlistdataService: GetlistdataService,
     private elementRef:ElementRef, private sanitizer: DomSanitizer){
       this.elementRef = elementRef; 
@@ -60,6 +73,7 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
   } 
 
   ngOnInit(){ 
+    //this.date = new Date(2021,9,4,5,6,7);
     this.getListData(); //gets data from the service, all the other stuff was experimental
     this.setListeners();
   }

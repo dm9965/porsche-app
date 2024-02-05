@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import {APP_BASE_HREF, LocationStrategy, HashLocationStrategy} from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from '../home/home-page.component';
@@ -12,14 +13,11 @@ import { RsvpTotalsComponent } from '../rsvp-totals/rsvp-totals.component';
 import { AddeventComponent } from '../addevent/addevent.component';
 import { GetlistComponent } from '../getlist/getlist.component';
 import { UpdatelistComponent } from '../updatelist/updatelist.component';
-import { MerchandiseComponent } from '../shop/merchandise.component';
 import { LoaderrorComponent } from '../loaderror/loaderror.component';
 import {AppRoutingModule} from "./app-routing.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import { CartComponent } from '../shop/cart/cart.component';
-import { CheckoutComponent } from '../shop/cart/checkout/checkout.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { MaterialModule } from './material/material.module';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -48,10 +46,7 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
     AddeventComponent,
     GetlistComponent,
     UpdatelistComponent,
-    MerchandiseComponent,
     LoaderrorComponent,
-    CartComponent,
-    CheckoutComponent,
     NavigationComponent
   ],
   imports: [
@@ -72,7 +67,12 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
     NgxWebstorageModule.forRoot(),
     //NgxMatMomentModule
     ],
-  providers: [],
+    // for simple dev environment:
+    //providers: [],
+    // to allow deep links from outside the app:
+    providers: [{provide:LocationStrategy, useClass:HashLocationStrategy}],
+    // for use in TEST on local Apache web server:
+    //providers: [{provide:LocationStrategy, useClass:HashLocationStrategy}, {provide: APP_BASE_HREF, useValue: '/nrpcaevents/'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

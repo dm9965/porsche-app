@@ -1,7 +1,8 @@
 <div class="container">
     <div class="header-container">
-      <h1>Event List Update/Delete</h1>
+      <h1 class="mt-3 header-h1-style">Event List Update/Delete</h1>
     </div>
+    <hr>
 </div>
 
 <app-loaderror></app-loaderror>
@@ -11,12 +12,14 @@
       <div class="modal-content">
         <form #updateForm="ngForm" name="updateForm">
           <div class="modal-body">
-            <p><strong>Event: </strong><textarea [(ngModel)]="eventName" id="event-name"  name="event-name">name</textarea></p>
-            <p><strong>Location: </strong><textarea [(ngModel)]="eventLocation" id="event-location"  name="event-location">location</textarea></p>
-
+            <p><strong>Event: </strong><textarea [(ngModel)]="eventName" id="event-name"  name="event-name" 
+              maxlength="1024">name</textarea></p>
+            <p><strong>Location: </strong><textarea [(ngModel)]="eventLocation" id="event-location"  name="event-location"
+              maxlength="1024">location</textarea></p>
             <p><strong>Start Date: </strong>
             <mat-form-field appearance="outline" style="background-color:#fff;">
-              <input matInput placeholder="Choose start date/time" [(ngModel)]="myStartDate" name="event_startdate" #event_startdate>
+              <input matInput placeholder="Choose start date/time" [(ngModel)]="myStartDate" 
+              name="event_startdate" #event_startdate>
               <ngx-mat-datetime-picker #start_picker [defaultTime]="[8,0,0]" [stepMinute]="15" [touchUi]="true" [enableMeridian]="true" [showSpinners]="true" [showSeconds]="false"
               name="event_start_date"></ngx-mat-datetime-picker>
             </mat-form-field>
@@ -28,9 +31,9 @@
                name="event_end_date"></ngx-mat-datetime-picker>
             </mat-form-field>
 
-
             </p>
-            <p><strong>Details: </strong><textarea [(ngModel)]="eventDetails" id="event-details" name="event-details">details</textarea></p>
+            <p><strong>Details: </strong><textarea [(ngModel)]="eventDetails" id="event-details" name="event-details"
+              maxlength="2048">details</textarea></p>
           </div>
           <div class="modal-footer" style="text-align:center;">
             <button mat-raised-button class="mat-yellow " type="submit" data-bs-dismiss="modal" (click)="this.submitUpdate()">Update</button>
@@ -70,8 +73,6 @@
 <table class="table table-striped mb-5">
     <tr>
       <th>Date</th>
-      <th>Start</th>
-      <th>End</th>
       <th>Event</th>
       <th>Location</th>
       <th></th>

@@ -1,6 +1,6 @@
 <div class="container mt-3 fw-bolder">
   <div class="header-style">
-      <h1 class="fw-bolder">NRPCA {{ this.s == 'p' ? ' Past ' : ' Upcoming '}} Event List</h1>
+      <h1>NRPCA {{ this.s == 'p' ? ' Past ' : ' Upcoming '}} Event List</h1>
   </div>
   <hr/>
 </div>
@@ -15,7 +15,7 @@
           <div class="modal-body">
             <p><strong>Event: </strong><span id="event-name"></span></p>
             <p><strong>Date: </strong><span id="event-date"></span></p>
-            <p><span id="event-detail"></span></p>
+            <p><strong>Details: </strong><br><span id="event-detail"></span></p>
           </div>
           <div class="modal-footer" style="text-align:center">
             <button mat-raised-button class="yellow-button" type="button" data-bs-toggle="modal" data-bs-target="#rsvpModal"> RSVP </button>
@@ -26,9 +26,9 @@
     </div>
 
 
-  <form id="rsvpForm" name="rsvpForm" #rsvpForm="ngForm" (ngSubmit)="submitForm()">
-    <div class="modal fade h-50" tabindex="-1" id="rsvpModal">
-      <div class="modal-dialog" style="box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !important;">
+    <div class="modal fade" tabindex="-1" id="rsvpModal">
+      <form id="rsvpForm" name="rsvpForm" #rsvpForm="ngForm" (ngSubmit)="submitForm()">
+        <div class="modal-dialog" style="box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22) !important;">
         <div class="modal-content">
           <div class="modal-header"><h2>RSVP or Cancel</h2></div>
           <div class="modal-body">
@@ -37,14 +37,14 @@
             <input type="hidden" name="uid" id="uid">
             <p><strong>Attending?</strong>
               <mat-radio-group aria-label="Select an option" id="attendingRadio" name="attendingRadio" [(ngModel)]="selectedOption">
-                <mat-radio-button name="type1" value="1" [checked]="true" color="warn">Yes, I plan to attend</mat-radio-button>
-                <mat-radio-button name="type0" value="0" color="warn">No, I need to cancel</mat-radio-button>
+                <mat-radio-button name="type1" id="type1" value="1" [checked]="true" color="warn">Yes, I plan to attend</mat-radio-button>
+                <mat-radio-button name="type0" id="type0" value="0" color="warn">No, I need to cancel</mat-radio-button>
               </mat-radio-group>
             </p>
             <p>
               <strong>
                 <label for="numAttending">
-                  {{ selectedOption > 0 ? 'How many attending?' : 'How many cancelling?' }}
+                  {{ selectedOption == "1" ? 'How many attending?' : 'How many cancelling?' }}
                 </label>
               </strong>&nbsp;
               <select name="numAttending" id="numAttending" matNativeControl required [(ngModel)]="selectedEvent.attending">
@@ -58,8 +58,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </form>
+    </form>
+  </div>
 
 
   <h2 class="header-style">Click on event title for details
@@ -79,7 +79,7 @@
                 {{ event.eventname }} &#64; {{ event.location }}
               </a>
               <div class="detail-div" id="d{{ event.id }}">
-                {{event.details}} "&#64;" {{ event.location }}
+                <p>{{event.details}}</p> <p><strong>Location: </strong> {{ event.location }} </p>
               </div>
             </td>
         </tr>

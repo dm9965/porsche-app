@@ -27,6 +27,7 @@ h1 {
     border-radius: 5px;
     border: 1px solid #ced4da;
     padding: 8px;
+    /* height: 110px */
 }
 
 .flex-div {
@@ -44,3 +45,20 @@ h1 {
   background-color: rgb(248,205,2);
   color: black;
 }
+
+.date-display-div {
+  margin-left: 16px;
+  margin-top: -60px;
+  width: 180px;
+  font-size: medium;
+  background-color: white;
+  opacity: 1;
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mdc-text-field__input {
+  color: rgba($color: #fff, $alpha: 0.0)
+}
+

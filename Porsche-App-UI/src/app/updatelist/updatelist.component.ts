@@ -181,28 +181,28 @@ export class UpdatelistComponent {
   }
 
   public showUpdatePopup(event: Event): void {
-    console.log('Button clicked Update')
+    //console.log('Button clicked Update')
     var eventNum: any;
     var eTblRow: any;
     var eTblRowData: any;
     var str: string;
 
     let elementId: string = (event.target as Element).id;
-    console.log ('elementId=' + elementId);
+    //console.log ('elementId=' + elementId);
 
     str = elementId;
     //do this because in the HTML the id of the Update button is of the form "edit123"
     eventNum = parseInt(str.substring(4));
-    console.log('eventNum=' + eventNum)
+    //console.log('eventNum=' + eventNum)
 
     eTblRow = jQuery("#" + str).parent().parent();
-    console.log ('Row text=' + eTblRow.text());
+    //console.log ('Row text=' + eTblRow.text());
 
     // @ts-ignore
     this.selectedEvent = this.events.find(event => event.id == eventNum)
-    console.log(this.selectedEvent)
-    console.log("Start Date: ", moment(this.selectedEvent.startdatetime).format( 'MM Do YYYY, hh:mm a'))
-    console.log("End Date: ", moment(this.selectedEvent.enddatetime).format( 'MM Do YYYY, hh:mm a'))
+    //console.log(this.selectedEvent)
+    //console.log("Start Date: ", moment(this.selectedEvent.startdatetime).format( 'MM Do YYYY, hh:mm a'))
+    //console.log("End Date: ", moment(this.selectedEvent.enddatetime).format( 'MM Do YYYY, hh:mm a'))
 
     this.myStartDate = moment(this.selectedEvent.startdatetime).format('MM/DD/YYYY, hh:mm A');
     this.myEndDate = moment(this.selectedEvent.enddatetime).format('MM/DD/YYYY, hh:mm A')
@@ -218,7 +218,6 @@ export class UpdatelistComponent {
     jQuery('#update-popup-box').modal('toggle');
   }
 
-
   public showDeletePopup(event: Event): void {
     var eventNum: any;
     var eTblRow: any;
@@ -227,32 +226,33 @@ export class UpdatelistComponent {
     var str: string;
 
     let elementId: string = (event.target as Element).id;
-    console.log (elementId);
+    //console.log (elementId);
 
     str = elementId;
     //do this because the id is of the form "delete123"
     eventNum = str.substring(6);
-    console.log(eventNum)
+    //console.log(eventNum)
 
     this.selectedEvent.id = eventNum
     //get row which is parent to <td> which is parent to <button>
     eTblRow = jQuery("#"+str).parent().parent();
-    console.log (eTblRow.text());
+    //console.log (eTblRow.text());
 
-    //get first table cell in the row
+    //get first table cell in the row: date
     eTblRowData = eTblRow.find('td:eq(0)') ;
+    //get second table cell in the row: event title
     eTblRowData1 = eTblRow.find('td:eq(1)') ;
 
 
     //populate field with date
-    jQuery("#event-date-delete").val(this.decodeHtml(eTblRowData.html()) + " to " + this.decodeHtml(eTblRowData1.html()));
+    jQuery("#event-date-delete").val(this.decodeHtml(eTblRowData.html()));
 
-    eTblRowData = eTblRow.find('td:eq(2)');
-    //populate field with description
+    eTblRowData = eTblRow.find('td:eq(1)');
+    //populate field with event title
     jQuery("#event-name-delete").val(this.decodeHtml(eTblRowData.html()));
 
-    eTblRowData = eTblRow.find('td:eq(3)');
-    //populate field with description
+    eTblRowData = eTblRow.find('td:eq(2)');
+    //populate field with location
     jQuery("#event-location-delete").val(this.decodeHtml(eTblRowData.html()));
 
     //populate field with event unique identifier
@@ -264,14 +264,25 @@ export class UpdatelistComponent {
 
   submitUpdate() {
     console.log(this.selectedEvent)
-    this.updateEvent(
-      this.selectedEvent.id,
-      this.myStartDate,
-      this.myEndDate,
-      this.eventName,
-      this.eventLocation,
-      this.eventDetails
-    );
+    if (moment(this.myStartDate).isValid() && moment(this.myEndDate).isValid())
+    {
+      this.updateEvent(
+        this.selectedEvent.id,
+        moment(this.myStartDate).format("YYYY-MM-DD HH:mm:ss"),
+        moment(this.myEndDate).format("YYYY-MM-DD HH:mm:ss"),
+        this.eventName,
+        this.eventLocation,
+        this.eventDetails
+      );
+    }
+    else
+    {
+      this._snackbar.open('Invalid date! Update not saved.',
+      'Dismiss', {
+        duration: 5000,
+        panelClass: ['error_snackbar']
+      })
+    }
   }
 
   decodeHtml(html:string):string {

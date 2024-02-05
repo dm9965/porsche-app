@@ -6,7 +6,25 @@ const port = 3001
 
 const db = require('./queries')
 
-require('dotenv').config()
+require('dotenv').config({ path: "./.env" })
+//console.log(process.env)
+
+//const Pool = require('pg').Pool
+//global.pool = new Pool ({
+  //user: process.env.PGUSER,
+  //host: process.env.PGHOST,
+  //database: process.env.PGDATABASE,
+  //password: String(process.env.PGPASSWORD),
+  //port: process.env.PGPORT
+//})
+const pool = require('mysql')
+global.pool = pool.createConnection ({
+  user: String(process.env.MYUSER),
+  host: process.env.MYHOST,
+  database: process.env.MYDATABASE,
+  password: String(process.env.MYPASSWORD),
+  port: process.env.MYPORT
+})
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -31,6 +49,7 @@ app.get('/users/all', db.getUsers)
 app.get('/events/all', db.getEvents)
 app.get('/events/future', db.getFutureEvents)
 app.get('/events/past', db.getPastEvents)
+app.get('/events/totals', db.getEventTotals)
 app.post('/users/create', db.createUser)
 app.post('/users/login', db.loginUser)
 app.post('/event/create', db.createEvent)

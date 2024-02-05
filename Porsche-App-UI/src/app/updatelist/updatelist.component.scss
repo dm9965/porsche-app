@@ -1,7 +1,15 @@
 .header-container {
     color: black;
     margin-top: 1rem;
+    font-weight: bolder;
   }
+
+.header-h1-style {
+    font-family: Poppins, sans-serif;
+    color: #232323;
+    font-weight: bolder;
+    font-size: large;
+}
 
 h1 {
   font-weight: bolder;
@@ -66,4 +74,8 @@ tr, tbody {
 .mat-mdc-raised-button.grey-button {
   background-color: rgba(153, 153, 153, 0.93) !important;
   color: white !important;
+}
+
+::ng-deep .cdk-overlay-container {
+  z-index: 1300 !important;
 }

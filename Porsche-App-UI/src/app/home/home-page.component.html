@@ -5,7 +5,7 @@
       <div id="carouselExampleAutoplaying" class="carousel slide m-0 p-0" style="width: 100vw; margin: 0" data-bs-ride="carousel">
         <div class="carousel-inner m-0 p-0">
           <div *ngFor="let image of images; let i = index" class="carousel-item" [class.active]="i === 0">
-            <img [src]="image.imageurl" class="d-block w-100" alt="...">
+            <img [src]="image.imageURL" class="d-block w-100" alt="...">
           </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">

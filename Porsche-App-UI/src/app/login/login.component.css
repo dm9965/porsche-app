@@ -1,4 +1,7 @@
-
+h1 {
+  font-family: Poppins, sans-serif;
+  font-weight: bolder;
+}
 
 .yellow-button {
     background-color: rgb(248,205,2);
