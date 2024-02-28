@@ -10,10 +10,14 @@ const req = new XMLHttpRequest();
 
 interface Events {
   id: string;
-  datetime: string;
-  descr: string;
-  detail: string;
+  startdatetime: string;
+  enddatetime: string;
+  eventname: string;
+  location: string;
+  details: string;
   attending: string;
+  startday: string;
+  endday: string;
 }
 
 @Component({
@@ -113,7 +117,7 @@ export class GetlistComponent implements OnInit {
 
   getListData(): Observable<Events[]> {
     // get raw JSON data and populate component template
-    this.getlistdataService.getEventList();
+    this.getlistdataService.getEventList('a');
     //wait for result from service
     this.getlistdataService.newListEvent
       .subscribe( 

@@ -1,18 +1,9 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { GetlistdataService } from '../getlistdata.service';
 import { environment } from '../environments/environment';
+import { FetchlistdataService } from '../fetchlistdata.service';
+import { Eventinterface } from '../eventinterface';
+import { transformMenu } from '@angular/material/menu';
 
-interface Events {
-  id: string;
-  startdatetime: string;
-  enddatetime: string;
-  eventname: string;
-  location: string;
-  details: string;
-  attending: string;
-  startday: string;
-  endday: string;
-}
 
 declare var jQuery: any;
 
@@ -23,45 +14,11 @@ declare var jQuery: any;
 })
 export class RsvpTotalsComponent {
 
-  constructor() {}
+  constructor(private fetchlistdataService: FetchlistdataService) {}
   error: boolean = false;
 
-  public events: Events[] = [];
+  public events: Eventinterface[] = [];
 
-  getEvents = () => {
-    fetch(environment.apiURL + 'events/totals')
-      .then((response) => {
-        return response.json();
-      }).then((data) => {
-        this.error = false;
-        // use descending sort
-        this.events = data.sort((a: any, b: any) => {
-        const dateA = new Date(a.startdatetime);
-        const dateB = new Date(b.startdatetime);
-        // @ts-ignore
-        return dateB - dateA;
-      });
-      console.log(data)
-
-        //do this so we can differentiate between one day events and multiple day events
-        for (let event of this.events) {
-          const a = new Date(event.enddatetime);
-          event.endday = a.getDay().toString();
-          const b = new Date(event.startdatetime);
-          event.startday = b.getDay().toString();
-          //console.log('start',event.startday);
-          //console.log('end',event.endday);
-        }
-
-      if (this.events[0].id === undefined) {
-        // error in loading data!!
-        console.log("Error loading data");
-      }
-    }).catch((error) => {
-      this.error = true;
-      console.log(error)
-    })
-  }
 
   getRsvpLink(event: Event) {
     let eventNum: any;
@@ -95,8 +52,30 @@ export class RsvpTotalsComponent {
   }
 
   ngOnInit() {
-    this.getEvents()
+    this.fetchlistdataService.fetchEventList('t'); //gets totals data from the service
+    //wait for result from service
+    this.fetchlistdataService.newListEvent
+      .subscribe( 
+        events => {
+          this.events = events;
+          console.log("from fetchlist service");
+          console.log(this.events);
+          if (events.length == 0) {
+            //successful call but no data available
+          } else {
+            if (this.events[0].errorflag == "ERROR") {
+              var errDet
+              errDet = JSON.parse(JSON.stringify(this.events[0].details));
+              if (this.events[0].id == "SQL") {
+                this.events[0].eventname = "Database ERROR: " + errDet.sqlMessage
+              }
+              this.error = true;
+            }
+          }
+        } 
+      )
     if (this.error) {
+      console.log('Error fetching data from database!')
       jQuery('#err-msg').text(this.events[0]);
       jQuery('#errorloading-popup-box').modal("toggle");
     }

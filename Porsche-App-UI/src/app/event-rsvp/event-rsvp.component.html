@@ -53,14 +53,20 @@
     
 <table class="table table-striped table-hover">
     <tbody>
-       <tr *ngFor = 'let events of events' >
-        <td>{{ events.datetime }}</td>
+      @for (event of events; track event.id) { 
+        <tr>
         <td>
-          <a (click)="showPopup($event)" id="e{{ events.id }}">
-            {{ events.descr }}
+          {{ event.startdatetime | date:'MMM d'}} &#64; {{ event.startdatetime | date:'h:mm a'}} - 
+          {{ event.endday === event.startday  ? '' :  (event.enddatetime | date:'MMM d') + ' @ ' }}               
+          {{ event.enddatetime | date:'h:mm a' }}
+        </td>
+        <td>
+          <a (click)="showPopup($event)" id="e{{ event.id }}">
+            {{ event.eventname }} &#64; {{ event.location }} 
           </a>
         </td>
-       </tr>
+        </tr>
+      }
     </tbody>
 </table>
 </div>

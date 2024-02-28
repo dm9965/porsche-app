@@ -37,7 +37,8 @@
     <table class="table table-striped table-hover">
         <tr class="fw-bolder"><th>Date</th><th>Event</th><th>Count</th></tr>
         <tbody>
-        <tr *ngFor = 'let event of events'>
+          @for (event of events; track event.id) { 
+          <tr>
           <td>
             {{ event.startdatetime | date:'MMM d'}} &#64; {{ event.startdatetime | date:'h:mm a'}} - 
             {{ event.endday == event.startday  ? '' :  (event.enddatetime | date:'MMM d') + ' @ ' }}               
@@ -52,6 +53,10 @@
             {{ event.attending }}
           </td>
         </tr>
+        }
+        @empty {
+          <tr><td align="center">No events to display</td></tr>
+        }
         </tbody>
     </table>
 

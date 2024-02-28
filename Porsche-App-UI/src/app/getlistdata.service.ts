@@ -4,42 +4,57 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, retry, tap } from 'rxjs/operators';
 import { GlobalConstants } from './globalconstants';
 import { environment } from './environments/environment';
+import { Eventinterface } from './eventinterface';
 
-interface Events {
-  id: string;
-  datetime: string;
-  descr: string;
-  detail: string;
-  attending: string;
-}
-
-//const myURL = "http://localhost:4200/assets/listdata.json";
-const myURL = "/assets/listdata.json";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GetlistdataService {
-  @Output() newListEvent = new EventEmitter<Events[]>();
+
+  @Output() newListEvent = new EventEmitter<Eventinterface[]>();
 
   constructor(private http: HttpClient) {  }
 
-  events: Events[] = [];
+  //const myURL = "http://localhost:4200/assets/listdata.json";
+  myURL = 'events/future' //"/assets/listdata.json";
+
+  events: Eventinterface[] = [];
  
-  public getEventList(): Observable<Events[]> {
+  public getEventList(listid:string): Observable<Eventinterface[]> {
     var myFullURL: string;
 
-    if (environment.production) {
-      myFullURL = GlobalConstants.apiProdURL + myURL 
-    }
-    else {
-      myFullURL = GlobalConstants.apiDevURL + myURL 
+    switch (listid) {
+      case 'f': {
+        this.myURL = 'events/future';
+        break;
+      }
+      case 'p': {
+        this.myURL = 'events/past';
+        break;
+      }
+      case 't': {
+        this.myURL = 'events/totals';
+        break;
+      }
+      default: {
+        this.myURL = 'events/all';
+      }
     }
 
-    this.http.get(myURL, { responseType: 'json' })
+    
+    if (environment.production) {
+      myFullURL = environment.apiURL + this.myURL 
+    }
+    else {
+      myFullURL = environment.apiURL + this.myURL 
+    }
+
+    this.http.get(myFullURL, { responseType: 'json' })
     .pipe(
       catchError(
-        err => of([err.message])
+        //err => of([err.message])
+        err => of(console.log('HTTP Error', err))
         )
     )
     .subscribe(
@@ -47,7 +62,7 @@ export class GetlistdataService {
         {
           console.log("in service");
           console.log(response);
-          this.newListEvent.emit(response as Events[]); // subscribing to this makes parent wait for data
+          this.newListEvent.emit(response as Eventinterface[]); // subscribing to this makes parent wait for data
           // just pass raw JSON to calling component
           return of(response);
         },

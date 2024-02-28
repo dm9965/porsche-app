@@ -3,8 +3,8 @@
 <table>
     <tbody>
        <tr *ngFor = 'let events of events'>
-        <td>{{ events.datetime }}</td>
-        <td><a id="{{ events.id }}">{{ events.descr }}</a></td>
+        <td>{{ events.startdatetime }}</td>
+        <td><a id="{{ events.id }}">{{ events.eventname }}</a></td>
        </tr>
     </tbody>
 </table>

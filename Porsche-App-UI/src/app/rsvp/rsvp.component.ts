@@ -1,32 +1,20 @@
-import { Component, OnInit, ElementRef, Directive, AfterViewInit} from '@angular/core'
+import { Component, OnInit, ElementRef, Directive} from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { environment } from '../environments/environment';
-
-
-import { GetlistComponent } from '../getlist/getlist.component';
-import { GetlistdataService } from '../getlistdata.service';
+import { FetchlistdataService } from '../fetchlistdata.service';
+import { Eventinterface } from '../eventinterface';
+import { UpdatelistdataService } from '../updatelistdata.service';
+import { Responseinterface } from '../responseinterface';
 
 @Directive({selector: 'child'})
 class ChildDirective {
 }
 
-interface Events {
-  id: string;
-  startdatetime: string;
-  enddatetime: string;
-  eventname: string;
-  location: string;
-  details: string;
-  attending: string;
-}
 
 declare var jQuery: any;
 declare var evt: Event;
-declare var http: HttpClient;
-const req = new XMLHttpRequest();
-declare var child: GetlistComponent;
 
 @Component({
   selector: 'app-rsvp',
@@ -34,7 +22,7 @@ declare var child: GetlistComponent;
   styleUrls: ['./rsvp.component.css']
 })
 
-export class RsvpComponent implements OnInit, AfterViewInit {
+export class RsvpComponent implements OnInit {
 
   id: any;
   lt: any;
@@ -42,23 +30,16 @@ export class RsvpComponent implements OnInit, AfterViewInit {
   //events = [];
   eventId = "";
   eventRadio = "1";
-  eventCount = "";  
+  eventCount = "1";  
   
-  constructor(private route: ActivatedRoute, private _snackbar: MatSnackBar) { }
+  constructor(private route: ActivatedRoute, private _snackbar: MatSnackBar, 
+    private fetchlistdataService: FetchlistdataService, private updatelistdataService: UpdatelistdataService) { }
 
-  selectedOption: number = 1;
+  selectedOption: string = "1";
 
-  events: Events[] = [];
+  events: Eventinterface[] = [];
 
-  selectedEvent: Events = {
-    id: '',
-    startdatetime: '',
-    enddatetime: '',
-    eventname: '',
-    location: '',
-    details: '',
-    attending: '',
-  }
+  responseOutput: Responseinterface[] = [];
 
   ngOnInit(){ 
     console.log("in RSVP");
@@ -72,8 +53,28 @@ export class RsvpComponent implements OnInit, AfterViewInit {
       if (!isNaN(this.id)) {
          console.log("id is a number");
          this.eventId = this.id;
-         this.getSelectedEvent(); 
-         console.log(this.events);
+         //this.getSelectedEvent(); 
+         this.fetchlistdataService.fetchEvent(this.id);
+         //wait for result from service
+         this.fetchlistdataService.newListEvent
+          .subscribe( 
+            events => {
+              this.events = events;
+              console.log("from fetchevent service");
+              console.log(this.events);
+              if (events.length == 0) {
+                //successful call but no data
+              } else {
+                  if (this.events[0].errorflag == "ERROR") {
+                  var errDet
+                  errDet = JSON.parse(JSON.stringify(this.events[0].details));
+                  if (this.events[0].id == "SQL") {
+                    this.events[0].eventname += errDet.sqlMessage
+                  }
+                }  
+              }  
+            } 
+          )
       } else {
          console.log("id is not a number");
       }
@@ -81,96 +82,36 @@ export class RsvpComponent implements OnInit, AfterViewInit {
     }
   }  
 
-  ngAfterViewInit() {
-  }
-
-  getSelectedEvent = () => {
-    fetch(environment.apiURL + 'event/select?' + new URLSearchParams("id=" + this.id).toString()
-    ).then((response) => {
-      console.log("in response");
-        //console.log(response.json());
-        return response.json();
-      }).then((data) => {
-        console.log("in data");
-        this.events = data.sort((a: any, b: any) => {
-          const dateA = new Date(a.startdatetime);
-          const dateB = new Date(b.startdatetime);
-          // @ts-ignore
-          return dateA - dateB;
-        });
-        console.log(data)
-        //if (this.events[0].id === undefined) {
-          // error in loading data!!
-          //console.log("Error loading data");
-        //}
-      }).catch((error) => {
-        console.log(error)
-    })
-  }
-
-  rsvpForEvent = () => {
-    console.log(this.selectedEvent.id)
-    console.log(this.selectedEvent.attending)
-
-    fetch(environment.apiURL + 'event/attend', {
-      method: 'PUT',
-      body: JSON.stringify({
-          id: parseInt(this.eventId),
-          attending: parseInt(this.eventCount)
-      }),
-      headers: {
-        "Content-type":"application/json; charset=UTF-8"
-      }
-    }).then((response) => {
-      return response.json()
-    }).then((data) => {
-      console.log(data)
-    }).then(() => {
-      //this.getEvents()
-      this._snackbar.open('You have successfully RSVPed to this event!',
-        'Dismiss', {
-          duration: 5000,
-          panelClass: ['success_snackbar']
-        })
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
-
-  cancel = () => {
-    fetch(environment.apiURL + 'event/cancel', {
-      method: 'PUT',
-      body: JSON.stringify({
-        id: parseInt(this.eventId),
-        attending: parseInt(this.eventCount)
-    }),
-      headers: {
-        "Content-type":"application/json; charset=UTF-8"
-      }
-    }).then((response) => {
-      return response.json()
-    }).then((data) => {
-      console.log(data)
-    }).then(() => {
-      //this.getEvents()
-      this._snackbar.open('You have successfully cancelled your attendance to this event!',
-        'Dismiss', {
-          duration: 5000,
-          panelClass: ['success_snackbar']
-        })
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
 
   submitForm = () => {
     console.log(this.eventRadio);
-    if (this.eventRadio == "1") {
-      this.rsvpForEvent()
-    }
-    else {
-      this.cancel()
-    }
+    //this.rsvpForEvent();
+    this.updatelistdataService.eventRSVP (
+      this.eventId, 
+      this.eventCount, 
+      this.eventRadio
+    )
+    this.updatelistdataService.newResponseEvent
+    .subscribe( 
+      responseOutput => {
+        this.responseOutput[0] = responseOutput;
+        console.log("from updatelist service");
+        console.log(this.responseOutput);
+        if (this.responseOutput[0].responseError) {
+         this._snackbar.open(this.responseOutput[0].responseErrorMsg + " : " + this.responseOutput[0].responseErrorMsgBody,
+          'Dismiss', {
+            duration: 15000,
+            panelClass: ['error_snackbar']
+          })
+          } else {
+            this._snackbar.open(this.responseOutput[0].responseErrorMsg,
+              'Dismiss', {
+              duration: 5000,
+              panelClass: ['success_snackbar']
+            })
+          }
+        }
+    )
   }
 
 }

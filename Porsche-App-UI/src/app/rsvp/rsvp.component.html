@@ -12,7 +12,8 @@
           <div class=""><h2>RSVP or Cancel</h2></div>
           <table class="table">
             <tbody style="color: black;">
-            <tr *ngFor = 'let event of events' >
+              @for (event of events; track event.id) { 
+              <tr>
               <td>
               <p><strong>Event: </strong><span id="event-name">
                 {{ event.eventname }}
@@ -42,8 +43,13 @@
                     <option value="5">5</option>
                 </select>
                 </p>
-              </td></tr>
-              </tbody></table>
+              </td>
+              </tr>
+            }
+            @empty {
+              <tr><td align="center">The selected event was not found</td></tr>
+            }
+            </tbody></table>
           </div>
           <div class="" style="text-align:center;">
             <button mat-raised-button color="warn" type="submit" (click)="submitForm()">Save</button>

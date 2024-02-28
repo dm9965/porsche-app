@@ -3,37 +3,45 @@ const {response} = require("express");
 const getUsers = (request, response) => {
   pool.query('SELECT * FROM users', (error, results) => {
     if (error) {
-      throw error;
+      console.log('error in query: ', error)  //logs to server, not browser console
+      //throw error;
+      response.status(500).json(error)
     }
     response.status(200).json(results)
   })
 }
 
 const getEvents = (request, response) => {
-  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list ORDER BY startdatetime", 
+  pool.query("SELECT *, '1' as startday, '2' as endday, '0' as errorflag FROM event_list WHERE startdatetime > DATE_SUB(CURDATE(), INTERVAL 18 MONTH) ORDER BY startdatetime", 
   (error, results) => {
     if (error) {
-      throw error;
+      console.log('error in query: ', error)  //logs to server, not browser console
+      //throw error;
+      response.status(500).json(error)
     }
     response.status(200).json(results)
   })
 }
 
 const getFutureEvents = (request, response) => {
-  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list WHERE date(startdatetime) >= date(NOW()) ORDER BY startdatetime", 
+  pool.query("SELECT *, '1' as startday, '2' as endday, '0' as errorflag FROM event_list WHERE date(startdatetime) >= date(NOW()) ORDER BY startdatetime", 
   (error, results) => {
     if (error) {
-      throw error;
+      console.log('error in query: ', error)  //logs to server, not browser console
+      //throw error;
+      response.status(500).json(error)
     }
     response.status(200).json(results)
   })
 }
 
 const getPastEvents = (request, response) => {
-  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list WHERE date(startdatetime) < date(NOW()) ORDER BY startdatetime DESC", 
+  pool.query("SELECT *, '1' as startday, '2' as endday, '0' as errorflag FROM event_list WHERE startdatetime between DATE_SUB(CURDATE(), INTERVAL 18 MONTH) AND NOW() ORDER BY startdatetime DESC", 
   (error, results) => {
     if (error) {
-      throw error;
+      console.log('error in query: ', error)  //logs to server, not browser console
+      //throw error;
+      response.status(500).json(error)
     }
     response.status(200).json(results)
   })
@@ -41,12 +49,16 @@ const getPastEvents = (request, response) => {
 
 
 const getEventTotals = (request, response) => {
-  pool.query("SELECT *, '1' as startday, '2' as endday FROM event_list ORDER BY startdatetime DESC", 
+  var status = 200
+  pool.query("SELECT *, '1' as startday, '2' as endday, '0' as errorflag FROM event_list WHERE startdatetime > DATE_SUB(CURDATE(), INTERVAL 18 MONTH) ORDER BY startdatetime DESC", 
   (error, results) => {
     if (error) {
-      throw error;
+      console.log('error in query: ', error)  //logs to server, not browser console
+      //throw error;
+      response.status(500).json(error)
+    } else {
+      response.status(200).json(results)
     }
-    response.status(200).json(results)
   })
 }
 
@@ -57,7 +69,9 @@ const createUser = (request, response) => {
   pool.query('INSERT INTO users (email, username, password) VALUES(?, ?, ?)',
     [email, username, password], (error, results) => {
     if (error) {
-      throw error;
+      console.log('error in query: ', error)  //logs to server, not browser console
+      //throw error;
+      response.status(500).json(error)
     }
     response.status(201).send(`User added with user id: ${results.insertId}`)
     })
@@ -70,23 +84,26 @@ const loginUser = (request, response) => {
     [email, password],
     (error, results) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       response.status(200).json(results)
     }
   )
 }
 
 const createEvent = (request, response) => {
-  const {startdatetime, enddatetime, eventname, location, details} = request.body;
-
+  const {startdatetime, enddatetime, eventname, location, details} = request.body
   pool.query(
     'INSERT INTO event_list (startdatetime, enddatetime, eventname, location, details) VALUES (?,?,?,?,?)',
     [startdatetime, enddatetime, eventname, location, details], 
     (error, results) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       response.status(201).send(results)
     }
   )
@@ -95,12 +112,14 @@ const createEvent = (request, response) => {
 const selectEvent = (request, response) => {
   eventid = request.query.id;
   pool.query (
-    'SELECT * FROM event_list WHERE id = (?)' ,
+    "SELECT *, '0' as errorflag FROM event_list WHERE id = (?)" ,
     [eventid],
     (error, results) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       response.status(201).json(results)
     }
   )
@@ -114,8 +133,10 @@ const rsvpEvent = (request, response) => {
     [attending, id],
     (error, results) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       response.status(201).send(results)
     }
   )
@@ -128,8 +149,10 @@ const cancel = (request, response) => {
     [attending, id],
     (error, results) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       response.status(201).send(results)
     }
   )
@@ -142,8 +165,10 @@ const updateEvent = (request, response) => {
     [startdatetime, enddatetime, eventname, location, details, id],
     (error, results) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       response.status(201).send(results)
     }
   )
@@ -157,8 +182,10 @@ const deleteEvent = (request, response) => {
     [id],
     (error, result) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       response.status(201).send(result)
     }
   )
@@ -169,8 +196,10 @@ const getImages = (request, response) => {
     'SELECT * FROM images',
     (error, results) => {
       if (error) {
-        throw error
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       return response.status(201).json(results)
     }
   )
@@ -183,8 +212,10 @@ const addImage = (request, response) => {
     [imageURL],
     (error, results) => {
       if (error) {
-        throw error;
-      }
+        console.log('error in query: ', error)  //logs to server, not browser console
+        //throw error;
+        response.status(500).json(error)
+        }
       return response.status(201).send(results)
     }
   )

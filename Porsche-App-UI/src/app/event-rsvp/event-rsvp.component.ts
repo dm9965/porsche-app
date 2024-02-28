@@ -2,16 +2,12 @@ import { Component, OnInit, ElementRef, Directive, AfterViewInit} from '@angular
 import { ViewChild, ViewChildren, QueryList, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
-import { GetlistComponent } from '../getlist/getlist.component';
 import { GetlistdataService } from '../getlistdata.service';
+import { FetchlistdataService } from '../fetchlistdata.service';
 
 import { waitForAsync } from '@angular/core/testing';
-import { SafeValue, SafeHtml, SafeUrl, SafeStyle, SafeScript, SafeResourceUrl, DomSanitizer } from '@angular/platform-browser';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import * as moment from 'moment';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
 
 
 @Directive({selector: 'child'})
@@ -20,17 +16,21 @@ class ChildDirective {
 
 interface Events {
   id: string;
-  datetime: string;
-  descr: string;
-  detail: string;
+  startdatetime: string;
+  enddatetime: string;
+  eventname: string;
+  location: string;
+  details: string;
   attending: string;
+  startday: string;
+  endday: string;
 }
+
 
 declare var jQuery: any;
 declare var evt: Event;
 declare var http: HttpClient;
 const req = new XMLHttpRequest();
-declare var child: GetlistComponent;
   
 @Component({
   selector: 'app-event-rsvp',
@@ -40,7 +40,6 @@ declare var child: GetlistComponent;
 
 export class EventRsvpComponent implements OnInit, AfterViewInit {
 
-  listTableHtml : SafeHtml | undefined  //string | undefined;
   lt: any;
   data = 'initial value';
   anchors = [];
@@ -48,36 +47,41 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
   eventRadio = "1";
   eventCount = "";
 
-  public formGroup = new FormGroup({
-    date: new FormControl(null, [Validators.required]),
-    date2: new FormControl(null, [Validators.required])
-  })
-  public dateControl = new FormControl(new Date(2024,2,2,5,6,7));
-  public dateControlMinMax = new FormControl(new Date());
-
-  constructor(private http: HttpClient, private getlist:GetlistComponent, private getlistdataService: GetlistdataService,
-    private elementRef:ElementRef, private sanitizer: DomSanitizer){
+  constructor(private http: HttpClient, private getlistdataService: GetlistdataService,
+    private fetchlistdataService: FetchlistdataService,
+    private elementRef:ElementRef){
       this.elementRef = elementRef; 
   }
 
   events: Events[] = [];
   
-  @ViewChild(GetlistComponent) child!: GetlistComponent;
-  @ViewChildren('dummyNot') myDiv!:QueryList<ElementRef>;
+  ngOnInit(){ 
+    // get raw JSON data and populate component template
+    //this.getlistdataService.getEventList('p'); //gets data from the service
+    this.fetchlistdataService.fetchEventList('p'); //gets data from the service
+    //wait for result from service
+    //this.getlistdataService.newListEvent
+    this.fetchlistdataService.newListEvent
+      .subscribe( 
+        events => {
+          this.events = events;
+          console.log("from fetchlist service");
+          console.log(this.events);
+        } 
+    )
+    this.setListeners();
+  }
+
 
   ngAfterViewInit() {
+    console.log('events', this.events)
     this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
     this.anchors.forEach((anchor: HTMLAnchorElement) => {
       anchor.addEventListener('click', this.showPopup);
     })
   } 
 
-  ngOnInit(){ 
-    //this.date = new Date(2021,9,4,5,6,7);
-    this.getListData(); //gets data from the service, all the other stuff was experimental
-    this.setListeners();
-  }
-
+  
   showPopup(event: Event): void {
     var eventNum: any;
     var eTblRow: any;
@@ -135,55 +139,6 @@ export class EventRsvpComponent implements OnInit, AfterViewInit {
     //jQuery("#popup-box").css('display', 'none');
   }
 
-  public getEventListX() {
-
-    req.addEventListener("load", this.transferComplete, false);
-    req.addEventListener("error", this.transferFailed);
-    req.addEventListener("abort", this.transferCanceled);
-
-    req.open("GET", "http://localhost:4200/assets/list.html" , false );
-    req.send();
-  }
-
-  transferCanceled(evt:Event) {
-    console.log("The transfer has been canceled by the user.");
-  }
-
-  transferComplete(evt:Event) {
-    console.log("The transfer is complete. ")
-    this.listTableHtml = this.sanitizer.bypassSecurityTrustHtml(req.response);
-    console.log(req.response);
-    this.anchors = this.elementRef.nativeElement.querySelectorAll('a');
-    this.anchors.forEach((anchor: HTMLAnchorElement) => {
-      anchor.addEventListener('click', this.showPopup);
-    })
-  }
-  
-  transferFailed(evt:Event) {
-    console.log("An error occurred while transferring the file.");
-    jQuery("#tbl").text("Error occurred");
-  }
-  
-  getListData() {
-    this.getlistdataService.getEventList();
-    this.getlistdataService.newListEvent
-      .subscribe( 
-        events => {
-          this.events = events;
-          console.log("in getListData in event-list component");
-          console.log(this.events);
-          if (this.events[0].id === undefined) {
-            // error in loading data!!
-            console.log("Error loading data");
-            jQuery('#err-msg').text(this.events[0]);
-            jQuery('#errorloading-popup-box').modal("toggle");
-            //this.modalService.open("", { centered: true });
-          } else {
-            this.setListeners();
-          }
-        } 
-    )
-  }
 
   setListeners() {
     console.log("setting listeners");

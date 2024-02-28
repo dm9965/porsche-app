@@ -17,6 +17,8 @@ import { MatSnackBar} from "@angular/material/snack-bar";
 import {ThemePalette} from "@angular/material/core";
 import { environment } from '../environments/environment';
 import { SessionStorageService } from 'ngx-webstorage';
+import { UpdatelistdataService } from '../updatelistdata.service';
+import { Responseinterface } from '../responseinterface';
 
 declare var jQuery: any;
 declare var evt: Event;
@@ -66,7 +68,7 @@ class eventData {
 
 export class AddeventComponent {
 
-  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService) {  }
+  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService, private updatelistdataService: UpdatelistdataService) {  }
 
   @ViewChild('start_picker') picker: any;
 
@@ -86,11 +88,16 @@ export class AddeventComponent {
 
   isLoggedIn = '';
 
+  responseOutput = { } as Responseinterface;
+
   public myFormGroup = new FormGroup({
     date1: new FormControl(null, [Validators.required]),
     date2: new FormControl(null, [Validators.required])
   })
   public dateControl = new FormControl(new Date());
+
+  //used in html template
+  color: ThemePalette = 'warn';
 
 
   NgOnInit() {
@@ -165,16 +172,41 @@ export class AddeventComponent {
     if (formValid) {
       this.submitted = true;
       this.createEvent(this.model.event_start_datetime, this.model.event_end_datetime, this.model.event_descr, this.model.event_location, this.model.event_details)
-      this.resetForm()
-      jQuery("#start-div").html(" ")
-      jQuery("#end-div").html(" ")
-      this._snackbar.open('Event successfully added!',
-        'Dismiss', {
-          duration: 5000,
-          panelClass: ['success_snackbar']
-        })
     }
   }
+
+
+  createEvent = (event_start_datetime: string, event_end_datetime: string, event_descr: string, event_location: string, event_details: string) => {
+    this.updatelistdataService.eventAddUpdateDelete (
+      '', event_start_datetime, event_end_datetime, event_descr, event_location, event_details, 'ADD'
+      )
+    this.updatelistdataService.newResponseEvent
+    .subscribe( 
+      responseOutput => {
+        this.responseOutput = responseOutput;
+        console.log("from updatelist service");
+        console.log(this.responseOutput);
+        if (this.responseOutput.responseError) {
+         this._snackbar.open(this.responseOutput.responseErrorMsg + " : " + this.responseOutput.responseErrorMsgBody,
+          'Dismiss', {
+            duration: 15000,
+            panelClass: ['error_snackbar']
+          })
+          } else {
+            //this.getEvents()
+            this._snackbar.open(this.responseOutput.responseErrorMsg,
+              'Dismiss', {
+              duration: 10000,
+              panelClass: ['success_snackbar']
+            })
+            this.resetForm()
+            jQuery("#start-div").html(" ")
+            jQuery("#end-div").html(" ")
+          }
+        }
+    )
+  }
+
 
   resetForm = () => {
     this.model = new eventData("","","","", "");
@@ -190,7 +222,6 @@ export class AddeventComponent {
 
   
 
-  //public onDateChange(event: MatDatepickerInputEvent<Date>): void {
   public onStartDateChange(event: any): void {
     console.log('StartEvent', event.value);
     //this.myStartDate = moment(event.value).format("M/D/YYYY h:mm A").toString()
@@ -204,34 +235,4 @@ export class AddeventComponent {
   }
 
 
-  createEvent = (event_start_datetime: string, event_end_datetime: string, event_descr: string, event_location: string, event_details: string) => {
-
-    fetch(environment.apiURL + 'event/create', {
-      method: 'POST',
-      body: JSON.stringify({
-        startdatetime: event_start_datetime,
-        enddatetime: event_end_datetime,
-        eventname: event_descr,
-        location: event_location,
-        details: event_details,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        // Optionally, you can handle success here
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log(event_start_datetime)
-        console.log(event_end_datetime)
-        // Optionally, you can handle errors here
-      });
-  }
-  color: ThemePalette = 'warn';
 }
-
-

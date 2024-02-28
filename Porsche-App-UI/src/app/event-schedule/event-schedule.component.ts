@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
-import { GetlistdataService } from '../getlistdata.service';
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {  ActivatedRoute  } from '@angular/router';
@@ -7,18 +6,10 @@ import { switchMap } from 'rxjs/operators';
 import { now } from 'moment';
 import { NgFor } from '@angular/common';
 import { environment } from '../environments/environment';
-
-interface Events {
-  id: string;
-  startdatetime: string;
-  enddatetime: string;
-  eventname: string;
-  location: string;
-  details: string;
-  attending: string;
-  startday: string;
-  endday: string;
-}
+import { FetchlistdataService } from '../fetchlistdata.service';
+import { Eventinterface } from '../eventinterface';
+import { UpdatelistdataService } from '../updatelistdata.service';
+import { Responseinterface } from '../responseinterface';
 
 
 declare var jQuery: any;
@@ -32,16 +23,16 @@ export class EventScheduleComponent {
 
   s: any;   //query parameter
   sUrl = '';
+  sAction = '';
 
-  constructor(private route: ActivatedRoute, private _snackbar: MatSnackBar) {
-  }
+  constructor(private route: ActivatedRoute, private _snackbar: MatSnackBar,
+    private fetchlistdataService: FetchlistdataService, private updatelistdataService: UpdatelistdataService) {  }
 
   selectedOption: string = "1";
   
+  events: Eventinterface[] = [];
 
-  events: Events[] = [];
-
-  selectedEvent: Events = {
+  selectedEvent: Eventinterface = {
     id: '',
     startdatetime: '',
     enddatetime: '',
@@ -50,123 +41,82 @@ export class EventScheduleComponent {
     details: '',
     attending: '',
     startday: '',
-    endday: ''
+    endday: '',
+    errorflag: ''
   }
+
   d: any;
+  responseError: any;
+  responseErrorMsg: any;
+  responseErrorMsgBody: any;
+
+  responseOutput: Responseinterface[] = [];
+  
 
   ngOnInit() {
     this.route.queryParams.subscribe(queryParams => {
       this.s = this.route.snapshot.queryParamMap.get('s');
       //console.log(this.route.snapshot.queryParamMap)
-      //console.log(this.route.snapshot.queryParams)
-      this.getEvents();
+      console.log(this.route.snapshot.queryParams)
+      this.getEvents(this.s);
     });
   }
 
-  getEvents = () => {
-    this.sUrl = environment.apiURL + 'events/future';
-    //console.log(this.s);
-    if (this.s == 'p')
-    {
-      this.sUrl = environment.apiURL + 'events/past';
-    }
-    fetch(this.sUrl)
-      .then((response) => {
-        return response.json();
-      }).then((data) => {
-          // sorting being done in the SQL queries, not here
-          //this.events = data.sort((a: any, b: any) => {
-          //const dateA = new Date(a.startdatetime);
-          //const dateB = new Date(b.startdatetime);
-          // @ts-ignore
-          //return dateA - dateB;
-          //});
-        this.events = JSON.parse(JSON.stringify(data)); 
-        //console.log('json',data);
-        console.log('events',this.events);
 
-        //do this so we can differentiate between one day events and multiple day events
-        for (let event of this.events) {
-          const a = new Date(event.enddatetime);
-          event.endday = a.getDay().toString();
-          const b = new Date(event.startdatetime);
-          event.startday = b.getDay().toString();
-          //console.log('start',event.startday);
-          //console.log('end',event.endday);
-        }
-
-        if (this.events[0].id === undefined) {
-          // error in loading data!!
-          console.log("Error loading data");
-        }
-      }).catch((error) => {
-        console.log(error)
-    })
+  getEvents(listid:string) {
+    this.fetchlistdataService.fetchEventList(listid); //gets data from the service
+    //wait for result from service
+    this.fetchlistdataService.newListEvent
+      .subscribe( 
+        events => {
+          this.events = events;
+          console.log("from fetchlist service");
+          console.log(this.events);
+          if (events.length == 0) {
+            //successful call but no data
+          } else {
+            if (this.events[0].errorflag == "ERROR") {
+              var errDet
+              errDet = JSON.parse(JSON.stringify(this.events[0].details));
+              if (this.events[0].id == "SQL") {
+                this.events[0].eventname += errDet.sqlMessage
+               }
+            }  
+          }
+        } 
+      )
   }
 
-  rsvpForEvent = () => {
-    console.log(this.selectedEvent.id)
-    console.log(this.selectedEvent.attending)
 
-    fetch('http://localhost:3001/event/attend', {
-      method: 'PUT',
-      body: JSON.stringify({
-          id: parseInt(this.selectedEvent.id),
-          attending: parseInt(this.selectedEvent.attending)
-      }),
-      headers: {
-        "Content-type":"application/json; charset=UTF-8"
-      }
-    }).then((response) => {
-      return response.json()
-    }).then((data) => {
-      console.log(data)
-    }).then(() => {
-      this.getEvents()
-      this._snackbar.open('You have successfully RSVPed to this event!',
-        'Dismiss', {
-          duration: 5000,
-          panelClass: ['success_snackbar']
-        })
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
-
-  cancel = () => {
-    fetch(environment.apiURL + 'event/cancel', {
-      method: 'PUT',
-      body: JSON.stringify({
-        id: parseInt(this.selectedEvent.id),
-        attending: parseInt(this.selectedEvent.attending)
-      }),
-      headers: {
-        "Content-type":"application/json; charset=UTF-8"
-      }
-    }).then((response) => {
-      return response.json()
-    }).then((data) => {
-      console.log(data)
-    }).then(() => {
-      this.getEvents()
-      this._snackbar.open('You have successfully cancelled your attendance to this event!',
-        'Dismiss', {
-          duration: 5000,
-          panelClass: ['success_snackbar']
-        })
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
 
   submitForm = () => {
     if (this.s == 'u') { 
-      if (this.selectedOption == "1") {
-        this.rsvpForEvent()
-      }
-     else {
-        this.cancel()
-      }
+      this.updatelistdataService.eventRSVP (
+        this.selectedEvent.id, 
+        this.selectedEvent.attending, 
+        this.selectedOption
+      )
+      this.updatelistdataService.newResponseEvent
+      .subscribe( 
+        responseOutput => {
+          this.responseOutput[0] = responseOutput;
+          console.log("from updatelist service");
+          console.log(this.responseOutput);
+          if (this.responseOutput[0].responseError) {
+           this._snackbar.open(this.responseOutput[0].responseErrorMsg + " : " + this.responseOutput[0].responseErrorMsgBody,
+            'Dismiss', {
+              duration: 15000,
+              panelClass: ['error_snackbar']
+            })
+            } else {
+              this._snackbar.open(this.responseOutput[0].responseErrorMsg,
+                'Dismiss', {
+                duration: 5000,
+                panelClass: ['success_snackbar']
+              })
+            }
+          }
+      )
     }
     else
     {
@@ -177,6 +127,7 @@ export class EventScheduleComponent {
         })
     }
   }
+
 
   public showPopup(event: Event): void {
     let eventNum: any;
@@ -215,6 +166,8 @@ export class EventScheduleComponent {
     jQuery("#rsvp-date").text(eTblRowData.html())
     jQuery('#currently-attending').text(jQuery('#g' + eventNum).text());
 
+    this.selectedEvent.attending = "1"
+
     str = jQuery("#d"+eventNum).text();
     if (str.length > 2) {
       jQuery('#detail-popup').modal('toggle');
@@ -225,5 +178,6 @@ export class EventScheduleComponent {
   public hidePopup() {
     jQuery('#detail-popup').modal('toggle');  
   }
+
 }
 

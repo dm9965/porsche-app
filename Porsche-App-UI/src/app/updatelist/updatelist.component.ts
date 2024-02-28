@@ -11,6 +11,10 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatButtonModule} from "@angular/material/button";
 import { environment } from '../environments/environment';
 import { SessionStorageService } from 'ngx-webstorage';
+import { FetchlistdataService } from '../fetchlistdata.service';
+import { Eventinterface } from '../eventinterface';
+import { UpdatelistdataService } from '../updatelistdata.service';
+import { Responseinterface } from '../responseinterface';
 
 
 const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
@@ -27,17 +31,6 @@ const CUSTOM_DATE_FORMATS: NgxMatDateFormats = {
 
 const moment = _moment;
 
-interface Events {
-  id: string;
-  startdatetime: string;
-  enddatetime: string;
-  eventname: string;
-  location: string;
-  details: string;
-  attending: string;
-  startday: string;
-  endday: string;
-}
 
 declare var jQuery: any;
 
@@ -55,11 +48,12 @@ declare var jQuery: any;
 })
 export class UpdatelistComponent {
 
-  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService) {}
+  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService,
+    private fetchlistdataService: FetchlistdataService, private updatelistdataService: UpdatelistdataService) {}
 
   isLoggedIn = '';
 
-  events: Events[] = [];
+  events: Eventinterface[] = [];
   eventId = "";
   eventName = "";
   eventLocation = "";
@@ -67,7 +61,7 @@ export class UpdatelistComponent {
   myEndDate: string = "";
   eventDetails = "";
 
-  selectedEvent: Events = {
+  selectedEvent: Eventinterface = {
     id: '',
     startdatetime: '',
     enddatetime: '',
@@ -76,9 +70,17 @@ export class UpdatelistComponent {
     details: '',
     attending: '',
     startday: '',
-    endday: ''
-  }
+    endday: '',
+    errorflag: ""
+    }
 
+    responseError: any;
+    responseErrorMsg: any;
+    responseErrorMsgBody: any;
+
+    responseOutput = { } as Responseinterface;
+
+    
   ngOnInit() {
     this.isLoggedIn = this.session.retrieve('logged_in');
     if (this.isLoggedIn == 'Y') {
@@ -92,93 +94,89 @@ export class UpdatelistComponent {
     }
   }
 
-  getEvents = () => {
-    fetch(environment.apiURL + 'events/all')
-      .then((response) => {
-        return response.json();
-      }).then((data) => {
-      this.events = data.sort((a: any, b: any) => {
-        const dateA = new Date(a.startdatetime);
-        const dateB = new Date(b.startdatetime);
-        // @ts-ignore
-        return dateA - dateB;
-      });
-      console.log(data)
-      
-        //do this so we can differentiate between one day events and multiple day events
-        for (let event of this.events) {
-          const a = new Date(event.enddatetime);
-          event.endday = a.getDay().toString();
-          const b = new Date(event.startdatetime);
-          event.startday = b.getDay().toString();
-          //console.log('start',event.startday);
-          //console.log('end',event.endday);
-        }
 
-      if (this.events[0].id === undefined) {
-        // error in loading data!!
-        console.log("Error loading data");
-      }
-    }).catch((error) => {
-      console.log(error)
-    })
+  getEvents() {
+    //get all available events data from the service
+    this.fetchlistdataService.fetchEventList('a'); 
+    //wait for result from service
+    this.fetchlistdataService.newListEvent
+      .subscribe( 
+        events => {
+          this.events = events;
+          console.log("from fetchlist service");
+          console.log(this.events);
+          if (events.length == 0) {
+            //successful call but no data
+          } else {
+            if (this.events[0].errorflag == "ERROR") {
+              var errDet
+              errDet = JSON.parse(JSON.stringify(this.events[0].details));
+              if (this.events[0].id == "SQL") {
+                this.events[0].eventname += errDet.sqlMessage
+               }
+            }  
+          }
+        } 
+      )
   }
+
 
   deleteEvent = (id: string) => {
-    fetch(environment.apiURL + 'event/delete', {
-      method: 'DELETE',
-      body: JSON.stringify({
-        id: id,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then((response) => {
-      return response.json()
-    }).then((data) => {
-      console.log(data)
-    }).then(() => {
-      this.getEvents()
-      this._snackbar.open('Event successfully deleted!',
-        'Dismiss', {
-          duration: 5000,
-          panelClass: ['success_snackbar']
-        })
-    }).catch((error) => {
-      console.log(error)
-    })
+    this.updatelistdataService.eventAddUpdateDelete (
+      id, '', '', '', '', '', 'DELETE'
+      )
+      this.updatelistdataService.newResponseEvent
+      .subscribe( 
+        responseOutput => {
+          this.responseOutput = responseOutput;
+          console.log("from updatelist service");
+          console.log(this.responseOutput);
+          if (this.responseOutput.responseError) {
+           this._snackbar.open(this.responseOutput.responseErrorMsg + " : " + this.responseOutput.responseErrorMsgBody,
+            'Dismiss', {
+              duration: 15000,
+              panelClass: ['error_snackbar']
+            })
+            } else {
+              this.getEvents()
+              this._snackbar.open(this.responseOutput.responseErrorMsg,
+                'Dismiss', {
+                duration: 10000,
+                panelClass: ['success_snackbar']
+              })
+            }
+          }
+      )   
   }
 
-  updateEvent = (id: string, startdatetime: string, enddatetime: string, eventname: string, location: string, details: string) => {
-    console.log("Passed in data to update: ", id, startdatetime, enddatetime, eventname, location, details)
-    fetch(environment.apiURL + 'event/update', {
-      method: 'PUT',
-      body: JSON.stringify({
-        startdatetime: startdatetime,
-        enddatetime: enddatetime,
-        eventname: eventname,
-        location: location,
-        details: details,
-        id: id,
-      }),
-      headers: {
-        "Content-type": "application/json; charset=UTF-8"
-      }
-    }).then((response) => {
-      return response.json();
-    }).then((data) => {
-      console.log(data)
-    }).then(() => {
-      this.getEvents()
-      this._snackbar.open('Event successfully updated!',
-        'Dismiss', {
-          duration: 5000,
-          panelClass: ['success_snackbar']
-        })
-    }).catch((error)=> {
-      console.log('Error updating event: ', error)
-    })
+  updateEvent = (id: string, startdatetime: string, enddatetime: string, eventname: string, location: string, details: string, action: string) => {
+    this.updatelistdataService.eventAddUpdateDelete (
+      id, startdatetime, enddatetime, eventname, location, details, 'UPDATE'
+      )
+    this.updatelistdataService.newResponseEvent
+    .subscribe( 
+      responseOutput => {
+        this.responseOutput = responseOutput;
+        console.log("from updatelist service");
+        console.log(this.responseOutput);
+        if (this.responseOutput.responseError) {
+         this._snackbar.open(this.responseOutput.responseErrorMsg + " : " + this.responseOutput.responseErrorMsgBody,
+          'Dismiss', {
+            duration: 15000,
+            panelClass: ['error_snackbar']
+          })
+          } else {
+            this.getEvents()
+            this._snackbar.open(this.responseOutput.responseErrorMsg,
+              'Dismiss', {
+              duration: 10000,
+              panelClass: ['success_snackbar']
+            })
+          }
+        }
+    )
   }
+
 
   public showUpdatePopup(event: Event): void {
     //console.log('Button clicked Update')
@@ -218,6 +216,7 @@ export class UpdatelistComponent {
     jQuery('#update-popup-box').modal('toggle');
   }
 
+  
   public showDeletePopup(event: Event): void {
     var eventNum: any;
     var eTblRow: any;
@@ -272,7 +271,8 @@ export class UpdatelistComponent {
         moment(this.myEndDate).format("YYYY-MM-DD HH:mm:ss"),
         this.eventName,
         this.eventLocation,
-        this.eventDetails
+        this.eventDetails,
+        'UPDATE'
       );
     }
     else

@@ -31,6 +31,7 @@ import {
 } from '@angular-material-components/datetime-picker';
 //import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import {NgxWebstorageModule} from 'ngx-webstorage';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -68,9 +69,9 @@ import {NgxWebstorageModule} from 'ngx-webstorage';
     //NgxMatMomentModule
     ],
     // for simple dev environment:
-    //providers: [],
+    //providers: [{provide: DatePipe}],
     // to allow deep links from outside the app:
-    providers: [{provide:LocationStrategy, useClass:HashLocationStrategy}],
+    providers: [{provide:LocationStrategy, useClass:HashLocationStrategy}, {provide: DatePipe}],
     // for use in TEST on local Apache web server:
     //providers: [{provide:LocationStrategy, useClass:HashLocationStrategy}, {provide: APP_BASE_HREF, useValue: '/nrpcaevents/'}],
   bootstrap: [AppComponent]
