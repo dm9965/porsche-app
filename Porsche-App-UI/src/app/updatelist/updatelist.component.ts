@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, TemplateRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, HostListener } from '@angular/core';
 import { FormsModule, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { GeteventdetailsService } from '../geteventdetails.service';
 import { NgxMatDateFormats, NGX_MAT_DATE_FORMATS } from '@angular-material-components/datetime-picker';
@@ -48,9 +48,14 @@ declare var jQuery: any;
 })
 export class UpdatelistComponent {
 
-  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService,
-    private fetchlistdataService: FetchlistdataService, private updatelistdataService: UpdatelistdataService) {}
 
+  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService,
+    private fetchlistdataService: FetchlistdataService, private updatelistdataService: UpdatelistdataService) {
+      this.checkMobile();
+      this.isMobile = false;
+    }
+
+  isMobile: boolean;
   isLoggedIn = '';
 
   events: Eventinterface[] = [];
@@ -79,8 +84,19 @@ export class UpdatelistComponent {
     responseErrorMsgBody: any;
 
     responseOutput = { } as Responseinterface;
-
     
+    @HostListener('window:resize', ['$event'])
+    onResize(event:any) {
+      this.checkMobile();
+    }
+  
+    
+    checkMobile() {
+      this.isMobile = window.innerWidth <= 768; // Example threshold for mobile viewport - tablet
+      this.isMobile = window.innerWidth <= 479; // Example threshold for mobile viewport - phone
+    }
+
+
   ngOnInit() {
     this.isLoggedIn = this.session.retrieve('logged_in');
     if (this.isLoggedIn == 'Y') {
@@ -92,6 +108,7 @@ export class UpdatelistComponent {
         panelClass: ['error_snackbar']
       })
     }
+    this.checkMobile();
   }
 
 
@@ -225,17 +242,17 @@ export class UpdatelistComponent {
     var str: string;
 
     let elementId: string = (event.target as Element).id;
-    //console.log (elementId);
+    console.log (elementId);
 
     str = elementId;
     //do this because the id is of the form "delete123"
     eventNum = str.substring(6);
-    //console.log(eventNum)
+    console.log(eventNum)
 
     this.selectedEvent.id = eventNum
     //get row which is parent to <td> which is parent to <button>
-    eTblRow = jQuery("#"+str).parent().parent();
-    //console.log (eTblRow.text());
+    eTblRow = jQuery("#"+str).parent().parent().parent();
+    console.log (eTblRow.text());
 
     //get first table cell in the row: date
     eTblRowData = eTblRow.find('td:eq(0)') ;
@@ -247,12 +264,21 @@ export class UpdatelistComponent {
     jQuery("#event-date-delete").val(this.decodeHtml(eTblRowData.html()));
 
     eTblRowData = eTblRow.find('td:eq(1)');
-    //populate field with event title
-    jQuery("#event-name-delete").val(this.decodeHtml(eTblRowData.html()));
-
-    eTblRowData = eTblRow.find('td:eq(2)');
-    //populate field with location
-    jQuery("#event-location-delete").val(this.decodeHtml(eTblRowData.html()));
+    console.log(eTblRowData);
+    if (!this.isMobile) {
+      //populate field with event title
+      jQuery("#event-name-delete").val(this.decodeHtml(eTblRowData.html()));
+      eTblRowData = eTblRow.find('td:eq(2)');
+      //populate field with location
+      jQuery("#event-location-delete").val(this.decodeHtml(eTblRowData.html()));
+    } else {
+      str = this.decodeHtml(eTblRowData.html())
+      //console.log(str);
+      const parts = str.split('<br>'); // Split the string by break
+      //console.log(parts);
+      jQuery("#event-name-delete").val(this.decodeHtml(parts[0]));
+      jQuery("#event-location-delete").val(this.decodeHtml(parts[1]));
+    }
 
     //populate field with event unique identifier
     this.eventId = eventNum;

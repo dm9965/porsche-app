@@ -73,8 +73,9 @@
 <table class="table table-striped mb-5">
     <tr>
       <th>Date</th>
-      <th>Event</th>
-      <th>Location</th>
+      <th *ngIf="isMobile">Event, Location</th>
+      <th *ngIf="!isMobile">Event</th>
+      <th *ngIf="!isMobile">Location</th>
       <th></th>
       <th></th>
       <th></th>
@@ -85,15 +86,25 @@
         {{ events.startdatetime | date:'MMM d'}} &#64; {{ events.startdatetime | date:'h:mm a'}} - 
         {{ events.endday == events.startday  ? '' :  (events.enddatetime | date:'MMM d') + ' @ ' }} 
         {{ events.enddatetime | date:'h:mm a' }}
-      </td>
-         <td>{{ events.eventname }}</td>
-         <td>{{ events.location }}</td>
-<!--         <td>-->
-<!--            <div style="display:none;">{{ events.detail }}</div>-->
-<!--            <button class="btn btn-secondary btn-sm" (click)="showDetailsPopup($event)"  id="d{{ events.id }}">Details</button>-->
-<!--        </td>-->
-        <td><button class="btn btn-sm yellow-button " (click)="showUpdatePopup($event)" id="edit{{ events.id }}">Update</button></td>
-        <td><button class="btn btn-sm red-button " (click)="showDeletePopup($event)" id="delete{{ events.id }}">Delete</button></td>
+        </td>
+        <td *ngIf="isMobile">
+          <!-- Content for mobile -->
+          {{ events.eventname }}<br>{{ events.location }}
+        </td>
+        <td *ngIf="!isMobile">
+          <!-- Content for desktop -->
+          {{ events.eventname }}
+        </td>
+        <td *ngIf="!isMobile">
+          {{ events.location }}
+        </td>
+        <td>
+          <div style="text-align:center;">
+          <button class="btn btn-sm yellow-button" style="margin-bottom:4px;" (click)="showUpdatePopup($event)" id="edit{{ events.id }}">Update</button>
+          <br>
+          <button class="btn btn-sm red-button" (click)="showDeletePopup($event)" id="delete{{ events.id }}">Delete</button>
+          </div>
+        </td>
        </tr>
     </tbody>
 </table>

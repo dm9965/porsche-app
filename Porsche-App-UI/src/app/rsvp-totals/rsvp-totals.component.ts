@@ -1,9 +1,8 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { FetchlistdataService } from '../fetchlistdata.service';
 import { Eventinterface } from '../eventinterface';
-import { transformMenu } from '@angular/material/menu';
-
+import { DOCUMENT } from '@angular/common';
 
 declare var jQuery: any;
 
@@ -14,10 +13,11 @@ declare var jQuery: any;
 })
 export class RsvpTotalsComponent {
 
-  constructor(private fetchlistdataService: FetchlistdataService) {}
+  constructor(private fetchlistdataService: FetchlistdataService, @Inject(DOCUMENT) private document: any) {}
   error: boolean = false;
 
   public events: Eventinterface[] = [];
+  domain = '';
 
 
   getRsvpLink(event: Event) {
@@ -44,9 +44,12 @@ export class RsvpTotalsComponent {
     eTblRowData = eTblRow.find('td');
     //populate field with date
     jQuery("#event-date").text(eTblRowData.html());
+    
+    this.domain = this.document.baseURI;
+    console.log('Domain=' + this.domain)
 
-    jQuery("#event-link").val("Click <a href='" + environment.uiURL + "#/rsvp?id=" + eventNum + "' style='font-weight:bold;color:red;text-decoration:underline;'>HERE</a> to RSVP");
-    jQuery("#event-link-url").val(environment.uiURL + "#/rsvp?id=" + eventNum );
+    jQuery("#event-link").val("Click <a href='" + this.domain + "#/rsvp?id=" + eventNum + "' style='font-weight:bold;color:red;text-decoration:underline;'>HERE</a> to RSVP");
+    jQuery("#event-link-url").val(this.domain + "#/rsvp?id=" + eventNum );
 
     jQuery('#link-popup').modal("toggle");
   }

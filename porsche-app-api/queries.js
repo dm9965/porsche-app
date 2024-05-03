@@ -4,6 +4,7 @@ const getUsers = (request, response) => {
   pool.query('SELECT * FROM users', (error, results) => {
     if (error) {
       console.log('error in query: ', error)  //logs to server, not browser console
+      console.log(request)
       //throw error;
       response.status(500).json(error)
     }
@@ -16,6 +17,7 @@ const getEvents = (request, response) => {
   (error, results) => {
     if (error) {
       console.log('error in query: ', error)  //logs to server, not browser console
+      console.log(request)
       //throw error;
       response.status(500).json(error)
     }
@@ -28,6 +30,7 @@ const getFutureEvents = (request, response) => {
   (error, results) => {
     if (error) {
       console.log('error in query: ', error)  //logs to server, not browser console
+      console.log(request)
       //throw error;
       response.status(500).json(error)
     }
@@ -40,6 +43,7 @@ const getPastEvents = (request, response) => {
   (error, results) => {
     if (error) {
       console.log('error in query: ', error)  //logs to server, not browser console
+      console.log(request)
       //throw error;
       response.status(500).json(error)
     }
@@ -54,6 +58,7 @@ const getEventTotals = (request, response) => {
   (error, results) => {
     if (error) {
       console.log('error in query: ', error)  //logs to server, not browser console
+      console.log(request)
       //throw error;
       response.status(500).json(error)
     } else {

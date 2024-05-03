@@ -19,6 +19,8 @@ import { environment } from '../environments/environment';
 import { SessionStorageService } from 'ngx-webstorage';
 import { UpdatelistdataService } from '../updatelistdata.service';
 import { Responseinterface } from '../responseinterface';
+import { DatePipe } from '@angular/common';
+import { DATE_PIPE_DEFAULT_OPTIONS } from "@angular/common";
 
 declare var jQuery: any;
 declare var evt: Event;
@@ -60,6 +62,7 @@ class eventData {
     { provide: NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: {useUtc: true} },
     { provide: MAT_DATE_FORMATS, useValue: MY_CUSTOM_DATE_FORMATS },
     //{ provide: NgxMatDateAdapter, useClass: customNgxDatetimeAdapter, deps: [MAT_DATE_LOCALE, NGX_MAT_MOMENT_DATE_ADAPTER_OPTIONS] },
+    { provide: DATE_PIPE_DEFAULT_OPTIONS, useValue: { dateFormat: "yyyy-MM-dd HH:mm:ss" } }
   ]
 })
 
@@ -68,7 +71,8 @@ class eventData {
 
 export class AddeventComponent {
 
-  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService, private updatelistdataService: UpdatelistdataService) {  }
+  constructor(private _snackbar: MatSnackBar, private session: SessionStorageService, 
+    private updatelistdataService: UpdatelistdataService, private datePipe: DatePipe) {  }
 
   @ViewChild('start_picker') picker: any;
 
