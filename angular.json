@@ -61,6 +61,14 @@
               ],
               "outputHashing": "all"
             },
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace": "Porsche-App-UI/src/app/environments/environment.ts",
+                  "with": "Porsche-App-UI/src/app/environments/environment.test.ts"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,

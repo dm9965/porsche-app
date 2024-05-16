@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from '../home/home-page.component';
 import { LoginComponent } from '../login/login.component';
+import { AddusersComponent } from '../addusers/addusers.component';
 import { CalendarComponent } from '../calendar/calendar.component';
 import { SignUpComponent } from '../login/sign-up/sign-up.component';
 import { EventScheduleComponent } from '../event-schedule/event-schedule.component';
@@ -38,6 +39,7 @@ import { DatePipe } from '@angular/common';
     AppComponent,
     HomePageComponent,
     LoginComponent,
+    AddusersComponent,
     CalendarComponent,
     SignUpComponent,
     EventScheduleComponent,

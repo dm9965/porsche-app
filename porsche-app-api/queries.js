@@ -69,16 +69,16 @@ const getEventTotals = (request, response) => {
 
 
 const createUser = (request, response) => {
-  const {email, username, password} = request.body
+  const {email, user_name, password} = request.body
 
-  pool.query('INSERT INTO users (email, username, password) VALUES(?, ?, ?)',
-    [email, username, password], (error, results) => {
+  pool.query('INSERT INTO users (email, user_name, password) VALUES(?, ?, ?)',
+    [email, user_name, password], (error, results) => {
     if (error) {
       console.log('error in query: ', error)  //logs to server, not browser console
       //throw error;
       response.status(500).json(error)
     }
-    response.status(201).send(`User added with user id: ${results.insertId}`)
+    response.status(201).send( results)
     })
 }
 

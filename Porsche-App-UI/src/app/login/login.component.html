@@ -19,6 +19,11 @@
       <button type="submit" class="btn yellow-button" (click)="this.getLogin()">OK</button> 
     </form>
 
+    <div id="success-div" *ngIf="isVisible">
+      <p>Welcome Admin!</p>
+      <p>You have successfully logged in.</p>
+      You may now access all the menu items under the Admin drop-down.
+    </div>
 
   </div>
   <div class="col-sm-4">

@@ -9,6 +9,7 @@ import {RsvpComponent} from "../rsvp/rsvp.component";
 import {RsvpTotalsComponent} from "../rsvp-totals/rsvp-totals.component";
 import {UpdatelistComponent} from "../updatelist/updatelist.component";
 import {AddeventComponent} from "../addevent/addevent.component";
+import {AddusersComponent} from "../addusers/addusers.component";
 import {SignUpComponent} from "../login/sign-up/sign-up.component";
 
 const routes: Routes = [
@@ -22,6 +23,7 @@ const routes: Routes = [
   {path: 'rsvp-totals', component: RsvpTotalsComponent},
   {path: 'update-list', component: UpdatelistComponent},
   {path: 'addevent', component: AddeventComponent},
+  {path: 'addusers', component: AddusersComponent},
   {path: 'login/signup', component: SignUpComponent}
 ];
 

@@ -27,6 +27,8 @@ export class LoginComponent {
 
   constructor (private route: ActivatedRoute, private _snackbar: MatSnackBar, private session: SessionStorageService) {}
 
+  isVisible: boolean = false;
+
   email = "";
   pwd = "";
 
@@ -70,6 +72,7 @@ export class LoginComponent {
         })
       } else {
         this.session.store('logged_in', 'Y');
+        this.isVisible = true;
         this._snackbar.open('Login Successful!',
         'Dismiss', {
           duration: 5000,
