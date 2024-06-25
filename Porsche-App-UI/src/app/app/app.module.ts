@@ -33,6 +33,9 @@ import {
 //import { NgxMatMomentModule } from '@angular-material-components/moment-adapter';
 import {NgxWebstorageModule} from 'ngx-webstorage';
 import { DatePipe } from '@angular/common';
+import { CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+
+
 
 @NgModule({
   declarations: [
@@ -70,6 +73,7 @@ import { DatePipe } from '@angular/common';
     NgxWebstorageModule.forRoot(),
     //NgxMatMomentModule
     ],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     // for simple dev environment:
     //providers: [{provide: DatePipe}],
     // to allow deep links from outside the app:

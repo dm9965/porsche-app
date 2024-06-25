@@ -8,6 +8,7 @@ import { Eventinterface } from '../eventinterface';
 import { UpdatelistdataService } from '../updatelistdata.service';
 import { Responseinterface } from '../responseinterface';
 
+
 @Directive({selector: 'child'})
 class ChildDirective {
 }
@@ -30,7 +31,8 @@ export class RsvpComponent implements OnInit {
   //events = [];
   eventId = "";
   eventRadio = "1";
-  eventCount = "1";  
+  eventCount = "1";
+  saving = false;
   
   constructor(private route: ActivatedRoute, private _snackbar: MatSnackBar, 
     private fetchlistdataService: FetchlistdataService, private updatelistdataService: UpdatelistdataService) { }
@@ -41,8 +43,13 @@ export class RsvpComponent implements OnInit {
 
   responseOutput: Responseinterface[] = [];
 
+  showSpinner() {
+  }
+
   ngOnInit(){ 
     console.log("in RSVP");
+    //this.spinner.show();
+    this.showSpinner();
     this.id = this.route.snapshot.queryParamMap.get('id');
     console.log("Param: id = " + this.id);
     if (!this.id)
@@ -64,6 +71,7 @@ export class RsvpComponent implements OnInit {
               console.log(this.events);
               if (events.length == 0) {
                 //successful call but no data
+                //this.spinner.hide();  
               } else {
                   if (this.events[0].errorflag == "ERROR") {
                   var errDet
@@ -71,7 +79,8 @@ export class RsvpComponent implements OnInit {
                   if (this.events[0].id == "SQL") {
                     this.events[0].eventname += errDet.sqlMessage
                   }
-                }  
+                }
+                //this.spinner.hide();  
               }  
             } 
           )
@@ -91,6 +100,7 @@ export class RsvpComponent implements OnInit {
       this.eventCount, 
       this.eventRadio
     )
+    this.saving = true;
     this.updatelistdataService.newResponseEvent
     .subscribe( 
       responseOutput => {
@@ -98,12 +108,14 @@ export class RsvpComponent implements OnInit {
         console.log("from updatelist service");
         console.log(this.responseOutput);
         if (this.responseOutput[0].responseError) {
-         this._snackbar.open(this.responseOutput[0].responseErrorMsg + " : " + this.responseOutput[0].responseErrorMsgBody,
-          'Dismiss', {
+          this.saving = false;
+          this._snackbar.open(this.responseOutput[0].responseErrorMsg + " : " + this.responseOutput[0].responseErrorMsgBody,
+            'Dismiss', {
             duration: 15000,
             panelClass: ['error_snackbar']
           })
-          } else {
+        } else {
+            this.saving = false;
             this._snackbar.open(this.responseOutput[0].responseErrorMsg,
               'Dismiss', {
               duration: 5000,

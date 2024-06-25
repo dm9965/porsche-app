@@ -94,6 +94,8 @@ export class AddeventComponent {
 
   responseOutput = { } as Responseinterface;
 
+  saving: boolean = false;
+
   public myFormGroup = new FormGroup({
     date1: new FormControl(null, [Validators.required]),
     date2: new FormControl(null, [Validators.required])
@@ -175,6 +177,7 @@ export class AddeventComponent {
     }
     if (formValid) {
       this.submitted = true;
+      this.saving = true;
       this.createEvent(this.model.event_start_datetime, this.model.event_end_datetime, this.model.event_descr, this.model.event_location, this.model.event_details)
     }
   }
@@ -191,23 +194,25 @@ export class AddeventComponent {
         console.log("from updatelist service");
         console.log(this.responseOutput);
         if (this.responseOutput.responseError) {
-         this._snackbar.open(this.responseOutput.responseErrorMsg + " : " + this.responseOutput.responseErrorMsgBody,
-          'Dismiss', {
+          this.saving = false;
+          this._snackbar.open(this.responseOutput.responseErrorMsg + " : " + this.responseOutput.responseErrorMsgBody,
+            'Dismiss', {
             duration: 15000,
             panelClass: ['error_snackbar']
           })
-          } else {
+        } else {
             //this.getEvents()
-            this._snackbar.open(this.responseOutput.responseErrorMsg,
+          this.saving = false;
+          this._snackbar.open(this.responseOutput.responseErrorMsg,
               'Dismiss', {
               duration: 10000,
               panelClass: ['success_snackbar']
-            })
-            this.resetForm()
-            jQuery("#start-div").html(" ")
-            jQuery("#end-div").html(" ")
-          }
+          })
+          this.resetForm()
+          jQuery("#start-div").html(" ")
+          jQuery("#end-div").html(" ")
         }
+      }
     )
   }
 

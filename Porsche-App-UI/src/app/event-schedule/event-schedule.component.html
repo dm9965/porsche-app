@@ -76,7 +76,7 @@
               {{ event.enddatetime | date:'h:mm a' }}
             </td>
             <td>
-              <a id="e{{ event.id }}" (click)="showPopup($event)" class="d-flex flex-row justify-content-end text-black">
+              <a id="e{{ event.id }}" (click)="showPopup($event)" class="d-flex flex-row justify-content-end text-black eventList">
                 {{ event.eventname }} &#64; {{ event.location }}
               </a>
               <div class="detail-div" id="d{{ event.id }}">
@@ -86,7 +86,12 @@
           </tr>
         }
         @empty {
-          <tr><td align="center">Waiting for data</td></tr>
+          <tr><td align="center">
+            <div class="loadingio-spinner-spinner-nq4q5u6dq7r"><div class="ldio-x2uulkbinbj">
+              <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+              </div></div>
+            <p>Waitng for data</p>
+          </td></tr>
         }
         </tbody>
     </table>

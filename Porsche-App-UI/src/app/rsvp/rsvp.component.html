@@ -47,7 +47,13 @@
               </tr>
             }
             @empty {
-              <tr><td align="center">Waiting for data or the selected event was not found</td></tr>
+              <tr><td align="center">
+                <!-- <img src="/assets/Spin-100px-100px.gif"> -->
+                <div class="loadingio-spinner-spinner-nq4q5u6dq7r"><div class="ldio-x2uulkbinbj">
+                  <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+                  </div></div>
+                <p>Waiting for data or the selected event was not found</p>
+              </td></tr>
             }
             </tbody></table>
           </div>
@@ -55,6 +61,12 @@
             <button mat-raised-button color="warn" type="submit" (click)="submitForm()">Save</button>
             &nbsp;&nbsp;
             <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+            <div *ngIf="saving">
+              <div class="loadingio-spinner-spinner-nq4q5u6dq7r"><div class="ldio-x2uulkbinbj">
+                <div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+              </div></div>
+              <p>Saving data...</p>          
+            </div>
           </div>
     </form>
 </div>

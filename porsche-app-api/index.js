@@ -16,22 +16,52 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+var os = require('os');
+var networkInterfaces = os.networkInterfaces();
+//console.log(networkInterfaces);
+Object.values(require("os").networkInterfaces())
+.flat()
+.filter(({ family, internal }) => family === "IPv4" && !internal)
+.map(({ address }) => address)
+//console.log(this.address);
+
+
 require('dotenv').config({ path: "./.env" })
 //console.log(process.env)
 
+//if (NODE_ENV === 'production') 
+//{
+//  host = '199.250.194.87' 
+//} else {
+//  host = process.env.MYHOST
+//}
+
+
 const pool = require('mysql')
-global.pool = pool.createConnection ({
+//global.pool = pool.createConnection ({
+global.pool = pool.createPool ({
   user: String(process.env.MYUSER),
-  host: process.env.MYHOST,
+  host: '199.250.194.87',
   database: process.env.MYDATABASE,
   password: String(process.env.MYPASSWORD),
   port: process.env.MYPORT,
   waitForConnections: true,
-  connectionLimit: 1,
+  connectionLimit: 10,
   queueLimit: 0
 })
 
+// IP address of database at InMotion
+// host: '199.250.194.87',
+// database on Dev PC
+// host: 'localhost',
+
+
+
 //console.log(global.pool)
+
+
+//console.log(global.pool)
+//console.log('host=', process.env.MYHOST)
 
 app.use(bodyParser.json())
 app.use(
@@ -42,7 +72,7 @@ app.use(
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error(err.stack);  
   res.status(500).send('Internal Server Error');
 });
 
